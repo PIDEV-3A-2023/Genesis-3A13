@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta
+		http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<!-- Primary Meta Tags -->
+		<title>MaktabtiDashboard -
+			{% block title %}{% endblock %}
+		</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="title" content="Maktabti Dashboard">
+		<meta
+		name="author" content="GenesisTeam">
+
+
+		<!-- Favicon -->
+
+		<link
+		rel="icon" type="image/png" sizes="32x32" href="{{asset('Back/img/brand/logo-maktabti.png')}}">
+
+
+		<!-- Sweet Alert -->
+		<link
+		type="text/css" href="{{asset('Back/librairies/sweetalert2/dist/sweetalert2.min.css')}}" rel="stylesheet">
+
+		<!-- Notyf -->
+		<link
+		type="text/css" href="{{asset('Back/librairies/notyf/notyf.min.css')}}" rel="stylesheet">
+
+		<!-- Volt CSS -->
+		<link
+		type="text/css" href="{{asset('Back/css/volt.css')}}" rel="stylesheet">
+
+	<!-- NOTICE: You can use the _analytics.html partial to include production code specific code & trackers -->
+
+	</head>
+
+	<body>
+
+		<!-- NOTICE: You can use the _analytics.html partial to include production code specific code & trackers -->
+
+
+		<nav class="navbar navbar-dark navbar-theme-primary px-4 col-12 d-lg-none">
+
+			<div class="d-flex align-items-center">
+				<button class="navbar-toggler d-lg-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+			</div>
+		</nav>
+
+		<nav id="sidebarMenu" class="sidebar d-lg-block bg-gray-800 text-white collapse" data-simplebar>
+			<div class="sidebar-inner px-4 pt-3">
+				<div class="user-card d-flex d-md-none align-items-center justify-content-between justify-content-md-center pb-4">
+
+					<div class="collapse-close d-md-none">
+						<a href="#sidebarMenu" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="true" aria-label="Toggle navigation"></a>
+					</div>
+				</div>
+				<ul class="nav flex-column pt-3 pt-md-0">
+					<li class="nav-item">
+						<a href="" class="nav-link d-flex align-items-center">
+							<span class="sidebar-icon">
+								<img src="{{asset('Back/img/brand/maktabti.png')}}" height="60" width="150" alt="Volt Logo">
+							</span>
+
+						</a>
+					</li>
+					<li class="nav-item  active ">
+						<a href="" class="nav-link">
+							<span class="sidebar-icon">
+								<img src="{{asset('Back/img/icons/home.png')}}" class="icon icon-xs me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
+							</span>
+							<span class="sidebar-text">Dashboard</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="" target="_blank" class="nav-link d-flex justify-content-between">
+							<span>
+								<span class="sidebar-icon">
+									<span class="sidebar-icon">
+
+										<img src="{{asset('Back/img/icons/open-book.png')}}" class="icon icon-xs me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
+
+									</span>
+								</span>
+								<span class="sidebar-text">Livres</span>
+							</span>
+
+						</a>
+					</li>
+					<li class="nav-item ">
+						<a href="" class="nav-link">
+							<span class="sidebar-icon">
+								<span class="sidebar-icon">
+
+									<img src="{{asset('Back/img/icons/types.png')}}" class="icon icon-xs me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
+
+								</span>
+							</span>
+							<span class="sidebar-text">Catégories</span>
+						</a>
+					</li>
+					<li class="nav-item ">
+						<a href="" class="nav-link">
+							<span class="sidebar-icon">
+								<span class="sidebar-icon">
+
+									<img src="{{asset('Back/img/icons/ideas.png')}}" class="icon icon-xs me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
+
+								</span>
+							</span>
+							<span class="sidebar-text">Quiz</span>
+						</a>
+					</li>
+					<li class="nav-item ">
+						<a href="" class="nav-link">
+							<span class="sidebar-icon">
+								<span class="sidebar-icon">
+
+									<img src="{{asset('Back/img/icons/promotions.png')}}" class="icon icon-xs me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
+
+								</span>
+							</span>
+							<span class="sidebar-text">Offre</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="" target="_blank" class="nav-link d-flex justify-content-between">
+							<span>
+								<span class="sidebar-icon">
+									<span class="sidebar-icon">
+
+										<img src="{{asset('Back/img/icons/event.png')}}" class="icon icon-xs me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
+
+									</span>
+								</span>
+								<span class="sidebar-text">Competitions</span>
+							</span>
+
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="" target="_blank" class="nav-link d-flex justify-content-between">
+							<span>
+								<span class="sidebar-icon">
+									<span class="sidebar-icon">
+
+										<img src="{{asset('Back/img/icons/Calendar.png')}}" class="icon icon-xs me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
+
+									</span>
+								</span>
+								<span class="sidebar-text">Evénements</span>
+							</span>
+
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="" target="_blank" class="nav-link d-flex justify-content-between">
+							<span>
+								<span class="sidebar-icon">
+									<span class="sidebar-icon">
+
+										<img src="{{asset('Back/img/icons/package.png')}}" class="icon icon-xs me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
+
+									</span>
+								</span>
+								<span class="sidebar-text">Commandes</span>
+							</span>
+
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="" target="_blank" class="nav-link d-flex justify-content-between">
+							<span>
+								<span class="sidebar-icon">
+									<span class="sidebar-icon">
+
+										<img src="{{asset('Back/img/icons/people.png')}}" class="icon icon-xs me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
+
+									</span>
+								</span>
+								<span class="sidebar-text">Utilisateurs</span>
+							</span>
+
+						</a>
+					</li>
+
+
+					<li role="separator" class="dropdown-divider mt-4 mb-3 border-gray-700"></li>
+					<li class="nav-item">
+						<a href="" target="_blank" class="nav-link d-flex align-items-center">
+							<span class="sidebar-icon">
+								<span class="sidebar-icon">
+
+									<img src="{{asset('Back/img/icons/message.png')}}" class="icon icon-xs me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
+
+								</span>
+							</span>
+							<span class="sidebar-text">Messages</span>
+
+						</a>
+					</li>
+
+					<li class="nav-item">
+						<a href="" target="_blank" class="nav-link d-flex align-items-center">
+							<span class="sidebar-icon">
+								<span class="sidebar-icon">
+
+									<img src="{{asset('Back/img/icons/user.png')}}" class="icon icon-xs me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
+
+								</span>
+							</span>
+							<span class="sidebar-text">Mon profile</span>
+
+						</a>
+					</li>
+
+					<li class="nav-item">
+						<a href="" target="_blank" class="nav-link d-flex align-items-center btn-upgrade-pro">
+							<span class="sidebar-icon">
+
+								<img src="{{asset('Back/img/icons/turn-off.png')}}" class="icon icon-xs me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
+
+							</span>
+							<span class="sidebar-text ">Déconnecter</span>
+
+						</a>
+					</li>
+
+
+				</ul>
+			</div>
+		</nav>
+
+		<main class="content"> {% block body %}{% endblock %}
+
+
+			<footer class="bg-white rounded shadow p-5 mb-4 mt-4">
+				<div class="row">
+					<div class="col-12 col-md-4 col-xl-6 mb-4 mb-md-0">
+						<p class="mb-0 text-center text-lg-start">©
+							<span class="current-year"></span>
+							<a class="text-primary fw-normal" href="" target="_blank">
+								<a class="text-primary fw-normal" href="" target="_blank">GenesisTeam-MaktabtiDashboard</a>
+							</p>
+						</p>
+					</div>
+					<div
+						class="col-12 col-md-8 col-xl-6 text-center text-lg-start">
+						<!-- List -->
+						<ul class="list-inline list-group-flush list-group-borderless text-md-end mb-0">
+							<li class="list-inline-item px-0 px-sm-2">
+
+								<a href="mailto:maktabti10@gmail.com">
+									<span class="sidebar-icon">
+
+										<img src="{{asset('Back/img/icons/gmail.png')}}" class="icon icon-xs me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
+
+									</span>
+
+									Maktabti Application</a>
+							</li>
+							<li class="list-inline-item px-0 px-sm-2">
+								<a href="tel:+21652329813">
+									<span class="sidebar-icon">
+
+										<img src="{{asset('Back/img/icons/phone-call.png')}}" class="icon icon-xs me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
+
+									</span>
+									WhatsApp</a>
+							</li>
+
+						</ul>
+					</div>
+				</div>
+			</footer>
+		</main>
+		<!-- Core -->
+		<script src="{{asset('Back/librairies/@popperjs/core/dist/umd/popper.min.js')}}"></script>
+		<script src="{{asset('Back/librairies/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+		<!-- Vendor JS -->
+		<script src="{{asset('Back/librairies/onscreen/dist/on-screen.umd.min.js')}}"></script>
+		<!-- Slider -->
+		<script src="{{asset('Back/librairies/nouislider/distribute/nouislider.min.js')}}"></script>
+		<!-- Smooth scroll -->
+		<script src="{{asset('Back/librairies/smooth-scroll/dist/smooth-scroll.polyfills.min.js')}}"></script>
+		<!-- Charts -->
+		<script src="{{asset('Back/librairies/chartist/dist/chartist.min.js')}}"></script>
+		<script src="{{asset('Back/librairies/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js')}}"></script>
+		<!-- Datepicker -->
+		<script src="{{asset('Back/librairies/vanillajs-datepicker/dist/js/datepicker.min.js')}}"></script>
+		<!-- Sweet Alerts 2 -->
+		<script src="{{asset('Back/librairies/sweetalert2/dist/sweetalert2.all.min.js')}}"></script>
+		<!-- Moment JS -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
+		<!-- Vanilla JS Datepicker -->
+		<script src="{{asset('Back/librairies/vanillajs-datepicker/dist/js/datepicker.min.js')}}"></script>
+		<!-- Notyf -->
+		<script src="{{asset('Back/librairies/notyf/notyf.min.js')}}"></script>
+		<!-- Simplebar -->
+		<script src="{{asset('Back/librairies/simplebar/dist/simplebar.min.js')}}"></script>
+		<!-- Github buttons -->
+		<script async defer src="https://buttons.github.io/buttons.js"></script>
+		<!-- Volt JS -->
+		<script src="{{asset('Back/js/volt.js')}}"></script>
+	</body>
+</html>
