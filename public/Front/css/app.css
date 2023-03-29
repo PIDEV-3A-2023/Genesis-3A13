@@ -1,0 +1,13 @@
+body {
+    padding-top: 70px;
+}
+
+.navbar {
+    transition: top 0.3s;
+}
+
+.navbar.scrolled {
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
