@@ -29,7 +29,7 @@ class Paiement
     private $montant;
 
     /**
-     * @var \Utilisateur
+     * @var int
      *
      * @ORM\ManyToOne(targetEntity="Utilisateur")
      * @ORM\JoinColumns({
@@ -37,6 +37,35 @@ class Paiement
      * })
      */
     private $idClient;
+
+    public function getIdPaiement(): ?int
+    {
+        return $this->idPaiement;
+    }
+
+    public function getMontant(): ?int
+    {
+        return $this->montant;
+    }
+
+    public function setMontant(int $montant): self
+    {
+        $this->montant = $montant;
+
+        return $this;
+    }
+
+    public function getIdClient(): ?int
+    {
+        return $this->idClient;
+    }
+
+    public function setIdClient(?int $idClient): self
+    {
+        $this->idClient = $idClient;
+
+        return $this;
+    }
 
 
 }

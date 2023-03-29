@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -78,7 +79,7 @@ class Livre
     private $image;
 
     /**
-     * @var \Categorie
+     * @var int
      *
      * @ORM\ManyToOne(targetEntity="Categorie")
      * @ORM\JoinColumns({
@@ -88,7 +89,7 @@ class Livre
     private $idCategorie;
 
     /**
-     * @var \Utilisateur
+     * @var int
      *
      * @ORM\ManyToOne(targetEntity="Utilisateur")
      * @ORM\JoinColumns({
@@ -96,6 +97,131 @@ class Livre
      * })
      */
     private $idAuteur;
+
+    public function getIdLivre(): ?int
+    {
+        return $this->idLivre;
+    }
+
+    public function getTitre(): ?string
+    {
+        return $this->titre;
+    }
+
+    public function setTitre(string $titre): self
+    {
+        $this->titre = $titre;
+
+        return $this;
+    }
+
+    public function getDatePub(): ?\DateTimeInterface
+    {
+        return $this->datePub;
+    }
+
+    public function setDatePub(\DateTimeInterface $datePub): self
+    {
+        $this->datePub = $datePub;
+
+        return $this;
+    }
+
+    public function getLangue(): ?string
+    {
+        return $this->langue;
+    }
+
+    public function setLangue(string $langue): self
+    {
+        $this->langue = $langue;
+
+        return $this;
+    }
+
+    public function getIsbn(): ?int
+    {
+        return $this->isbn;
+    }
+
+    public function setIsbn(int $isbn): self
+    {
+        $this->isbn = $isbn;
+
+        return $this;
+    }
+
+    public function getNbPages(): ?int
+    {
+        return $this->nbPages;
+    }
+
+    public function setNbPages(int $nbPages): self
+    {
+        $this->nbPages = $nbPages;
+
+        return $this;
+    }
+
+    public function getResume(): ?string
+    {
+        return $this->resume;
+    }
+
+    public function setResume(string $resume): self
+    {
+        $this->resume = $resume;
+
+        return $this;
+    }
+
+    public function getPrix(): ?float
+    {
+        return $this->prix;
+    }
+
+    public function setPrix(float $prix): self
+    {
+        $this->prix = $prix;
+
+        return $this;
+    }
+
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    public function setImage($image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getIdCategorie(): ?int
+    {
+        return $this->idCategorie;
+    }
+
+    public function setIdCategorie(?int $idCategorie): self
+    {
+        $this->idCategorie = $idCategorie;
+
+        return $this;
+    }
+
+    public function getIdAuteur(): ?int
+    {
+        return $this->idAuteur;
+    }
+
+    public function setIdAuteur(?int $idAuteur): self
+    {
+        $this->idAuteur = $idAuteur;
+
+        return $this;
+    }
 
 
 }

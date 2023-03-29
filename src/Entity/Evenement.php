@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -64,7 +65,7 @@ class Evenement
     private $nbTicket;
 
     /**
-     * @var \Utilisateur
+     * @var int
      *
      * @ORM\ManyToOne(targetEntity="Utilisateur")
      * @ORM\JoinColumns({
@@ -74,7 +75,7 @@ class Evenement
     private $idAuteur;
 
     /**
-     * @var \Livre
+     * @var int
      *
      * @ORM\ManyToOne(targetEntity="Livre")
      * @ORM\JoinColumns({
@@ -82,6 +83,107 @@ class Evenement
      * })
      */
     private $idLivre;
+
+    public function getIdEvenement(): ?int
+    {
+        return $this->idEvenement;
+    }
+
+    public function getNom(): ?string
+    {
+        return $this->nom;
+    }
+
+    public function setNom(string $nom): self
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    public function setDate(\DateTimeInterface $date): self
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    public function getHeure(): ?\DateTimeInterface
+    {
+        return $this->heure;
+    }
+
+    public function setHeure(\DateTimeInterface $heure): self
+    {
+        $this->heure = $heure;
+
+        return $this;
+    }
+
+    public function getLieu(): ?string
+    {
+        return $this->lieu;
+    }
+
+    public function setLieu(string $lieu): self
+    {
+        $this->lieu = $lieu;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getNbTicket(): ?int
+    {
+        return $this->nbTicket;
+    }
+
+    public function setNbTicket(int $nbTicket): self
+    {
+        $this->nbTicket = $nbTicket;
+
+        return $this;
+    }
+
+    public function getIdAuteur(): ?int
+    {
+        return $this->idAuteur;
+    }
+
+    public function setIdAuteur(?int $idAuteur): self
+    {
+        $this->idAuteur = $idAuteur;
+
+        return $this;
+    }
+
+    public function getIdLivre(): ?int
+    {
+        return $this->idLivre;
+    }
+
+    public function setIdLivre(?int $idLivre): self
+    {
+        $this->idLivre = $idLivre;
+
+        return $this;
+    }
 
 
 }

@@ -57,7 +57,7 @@ class Question
     private $reponseCorrect;
 
     /**
-     * @var \Quiz
+     * @var int
      *
      * @ORM\ManyToOne(targetEntity="Quiz")
      * @ORM\JoinColumns({
@@ -65,6 +65,83 @@ class Question
      * })
      */
     private $idQuiz;
+
+    public function getIdQuestion(): ?int
+    {
+        return $this->idQuestion;
+    }
+
+    public function getQuestion(): ?string
+    {
+        return $this->question;
+    }
+
+    public function setQuestion(string $question): self
+    {
+        $this->question = $question;
+
+        return $this;
+    }
+
+    public function getChoix1(): ?string
+    {
+        return $this->choix1;
+    }
+
+    public function setChoix1(string $choix1): self
+    {
+        $this->choix1 = $choix1;
+
+        return $this;
+    }
+
+    public function getChoix2(): ?string
+    {
+        return $this->choix2;
+    }
+
+    public function setChoix2(string $choix2): self
+    {
+        $this->choix2 = $choix2;
+
+        return $this;
+    }
+
+    public function getChoix3(): ?string
+    {
+        return $this->choix3;
+    }
+
+    public function setChoix3(string $choix3): self
+    {
+        $this->choix3 = $choix3;
+
+        return $this;
+    }
+
+    public function getReponseCorrect(): ?string
+    {
+        return $this->reponseCorrect;
+    }
+
+    public function setReponseCorrect(string $reponseCorrect): self
+    {
+        $this->reponseCorrect = $reponseCorrect;
+
+        return $this;
+    }
+
+    public function getIdQuiz(): ?int
+    {
+        return $this->idQuiz;
+    }
+
+    public function setIdQuiz(?int $idQuiz): self
+    {
+        $this->idQuiz = $idQuiz;
+
+        return $this;
+    }
 
 
 }

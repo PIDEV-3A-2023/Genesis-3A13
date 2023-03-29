@@ -28,5 +28,22 @@ class Ratings
      */
     private $value;
 
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getValue(): ?int
+    {
+        return $this->value;
+    }
+
+    public function setValue(int $value): self
+    {
+        $this->value = $value;
+
+        return $this;
+    }
+
 
 }
