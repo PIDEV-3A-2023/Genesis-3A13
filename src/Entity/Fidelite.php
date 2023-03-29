@@ -36,7 +36,7 @@ class Fidelite
     private $type;
 
     /**
-     * @var \Utilisateur
+     * @var int
      *
      * @ORM\ManyToOne(targetEntity="Utilisateur")
      * @ORM\JoinColumns({
@@ -44,6 +44,47 @@ class Fidelite
      * })
      */
     private $idClient;
+
+    public function getIdFidelite(): ?int
+    {
+        return $this->idFidelite;
+    }
+
+    public function getTotalAchat(): ?int
+    {
+        return $this->totalAchat;
+    }
+
+    public function setTotalAchat(int $totalAchat): self
+    {
+        $this->totalAchat = $totalAchat;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getIdClient(): ?int
+    {
+        return $this->idClient;
+    }
+
+    public function setIdClient(?int $idClient): self
+    {
+        $this->idClient = $idClient;
+
+        return $this;
+    }
 
 
 }

@@ -49,5 +49,58 @@ class CarteBancaire
      */
     private $cryptoGramme;
 
+    public function getIdCarte(): ?int
+    {
+        return $this->idCarte;
+    }
+
+    public function getNumCarte(): ?int
+    {
+        return $this->numCarte;
+    }
+
+    public function setNumCarte(int $numCarte): self
+    {
+        $this->numCarte = $numCarte;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getSolde(): ?float
+    {
+        return $this->solde;
+    }
+
+    public function setSolde(float $solde): self
+    {
+        $this->solde = $solde;
+
+        return $this;
+    }
+
+    public function getCryptoGramme(): ?int
+    {
+        return $this->cryptoGramme;
+    }
+
+    public function setCryptoGramme(int $cryptoGramme): self
+    {
+        $this->cryptoGramme = $cryptoGramme;
+
+        return $this;
+    }
+
 
 }

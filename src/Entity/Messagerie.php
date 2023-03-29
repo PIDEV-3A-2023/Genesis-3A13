@@ -45,5 +45,46 @@ class Messagerie
      */
     private $idDestinataire;
 
+    public function getIdMessagerie(): ?int
+    {
+        return $this->idMessagerie;
+    }
+
+    public function getMessage(): ?string
+    {
+        return $this->message;
+    }
+
+    public function setMessage(string $message): self
+    {
+        $this->message = $message;
+
+        return $this;
+    }
+
+    public function getDateHeure(): ?string
+    {
+        return $this->dateHeure;
+    }
+
+    public function setDateHeure(string $dateHeure): self
+    {
+        $this->dateHeure = $dateHeure;
+
+        return $this;
+    }
+
+    public function getIdDestinataire(): ?Utilisateur
+    {
+        return $this->idDestinataire;
+    }
+
+    public function setIdDestinataire(?Utilisateur $idDestinataire): self
+    {
+        $this->idDestinataire = $idDestinataire;
+
+        return $this;
+    }
+
 
 }

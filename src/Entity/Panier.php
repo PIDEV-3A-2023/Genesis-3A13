@@ -36,7 +36,7 @@ class Panier
     private $totalprix;
 
     /**
-     * @var \Livre
+     * @var int
      *
      * @ORM\ManyToOne(targetEntity="Livre")
      * @ORM\JoinColumns({
@@ -46,7 +46,7 @@ class Panier
     private $idLivre;
 
     /**
-     * @var \Utilisateur
+     * @var int
      *
      * @ORM\ManyToOne(targetEntity="Utilisateur")
      * @ORM\JoinColumns({
@@ -54,6 +54,59 @@ class Panier
      * })
      */
     private $idClient;
+
+    public function getIdPanier(): ?int
+    {
+        return $this->idPanier;
+    }
+
+    public function getQuantite(): ?int
+    {
+        return $this->quantite;
+    }
+
+    public function setQuantite(int $quantite): self
+    {
+        $this->quantite = $quantite;
+
+        return $this;
+    }
+
+    public function getTotalprix(): ?float
+    {
+        return $this->totalprix;
+    }
+
+    public function setTotalprix(float $totalprix): self
+    {
+        $this->totalprix = $totalprix;
+
+        return $this;
+    }
+
+    public function getIdLivre(): ?int
+    {
+        return $this->idLivre;
+    }
+
+    public function setIdLivre(?int $idLivre): self
+    {
+        $this->idLivre = $idLivre;
+
+        return $this;
+    }
+
+    public function getIdClient(): ?int
+    {
+        return $this->idClient;
+    }
+
+    public function setIdClient(?int $idClient): self
+    {
+        $this->idClient = $idClient;
+
+        return $this;
+    }
 
 
 }

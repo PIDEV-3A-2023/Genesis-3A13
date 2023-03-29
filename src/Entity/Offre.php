@@ -36,7 +36,7 @@ class Offre
     private $prixSoldé;
 
     /**
-     * @var \Livre
+     * @var int
      *
      * @ORM\ManyToOne(targetEntity="Livre")
      * @ORM\JoinColumns({
@@ -44,6 +44,47 @@ class Offre
      * })
      */
     private $idLivre;
+
+    public function getIdOffre(): ?int
+    {
+        return $this->idOffre;
+    }
+
+    public function getPourcentageSolde(): ?string
+    {
+        return $this->pourcentageSolde;
+    }
+
+    public function setPourcentageSolde(string $pourcentageSolde): self
+    {
+        $this->pourcentageSolde = $pourcentageSolde;
+
+        return $this;
+    }
+
+    public function getPrixSoldé(): ?float
+    {
+        return $this->prixSoldé;
+    }
+
+    public function setPrixSoldé(float $prixSoldé): self
+    {
+        $this->prixSoldé = $prixSoldé;
+
+        return $this;
+    }
+
+    public function getIdLivre(): ?int
+    {
+        return $this->idLivre;
+    }
+
+    public function setIdLivre(?int $idLivre): self
+    {
+        $this->idLivre = $idLivre;
+
+        return $this;
+    }
 
 
 }

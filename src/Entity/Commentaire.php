@@ -29,7 +29,7 @@ class Commentaire
     private $commentaire;
 
     /**
-     * @var \Utilisateur
+     * @var int
      *
      * @ORM\ManyToOne(targetEntity="Utilisateur")
      * @ORM\JoinColumns({
@@ -39,7 +39,7 @@ class Commentaire
     private $idClient;
 
     /**
-     * @var \Evenement
+     * @var int
      *
      * @ORM\ManyToOne(targetEntity="Evenement")
      * @ORM\JoinColumns({
@@ -47,6 +47,47 @@ class Commentaire
      * })
      */
     private $idEvenement;
+
+    public function getIdCommentaire(): ?int
+    {
+        return $this->idCommentaire;
+    }
+
+    public function getCommentaire(): ?string
+    {
+        return $this->commentaire;
+    }
+
+    public function setCommentaire(string $commentaire): self
+    {
+        $this->commentaire = $commentaire;
+
+        return $this;
+    }
+
+    public function getIdClient(): ?int
+    {
+        return $this->idClient;
+    }
+
+    public function setIdClient(?int $idClient): self
+    {
+        $this->idClient = $idClient;
+
+        return $this;
+    }
+
+    public function getIdEvenement(): ?int
+    {
+        return $this->idEvenement;
+    }
+
+    public function setIdEvenement(?int $idEvenement): self
+    {
+        $this->idEvenement = $idEvenement;
+
+        return $this;
+    }
 
 
 }

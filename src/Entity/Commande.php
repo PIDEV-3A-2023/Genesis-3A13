@@ -69,5 +69,82 @@ class Commande
      */
     private $idLivre;
 
+    public function getIdCommande(): ?int
+    {
+        return $this->idCommande;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getMode(): ?string
+    {
+        return $this->mode;
+    }
+
+    public function setMode(string $mode): self
+    {
+        $this->mode = $mode;
+
+        return $this;
+    }
+
+    public function getEtat(): ?string
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(string $etat): self
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    public function getMontant(): ?float
+    {
+        return $this->montant;
+    }
+
+    public function setMontant(float $montant): self
+    {
+        $this->montant = $montant;
+
+        return $this;
+    }
+
+    public function getIdClient(): ?Utilisateur
+    {
+        return $this->idClient;
+    }
+
+    public function setIdClient(?Utilisateur $idClient): self
+    {
+        $this->idClient = $idClient;
+
+        return $this;
+    }
+
+    public function getIdLivre(): ?Livre
+    {
+        return $this->idLivre;
+    }
+
+    public function setIdLivre(?Livre $idLivre): self
+    {
+        $this->idLivre = $idLivre;
+
+        return $this;
+    }
+
 
 }

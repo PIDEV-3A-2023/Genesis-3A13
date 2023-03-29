@@ -29,7 +29,7 @@ class Panierlivre
     private $quantite;
 
     /**
-     * @var \Livre
+     * @var int
      *
      * @ORM\ManyToOne(targetEntity="Livre")
      * @ORM\JoinColumns({
@@ -39,7 +39,7 @@ class Panierlivre
     private $idLivre;
 
     /**
-     * @var \Panier
+     * @var int
      *
      * @ORM\ManyToOne(targetEntity="Panier")
      * @ORM\JoinColumns({
@@ -47,6 +47,47 @@ class Panierlivre
      * })
      */
     private $idPanier;
+
+    public function getIdPanierLivre(): ?int
+    {
+        return $this->idPanierLivre;
+    }
+
+    public function getQuantite(): ?int
+    {
+        return $this->quantite;
+    }
+
+    public function setQuantite(int $quantite): self
+    {
+        $this->quantite = $quantite;
+
+        return $this;
+    }
+
+    public function getIdLivre(): ?int
+    {
+        return $this->idLivre;
+    }
+
+    public function setIdLivre(?int $idLivre): self
+    {
+        $this->idLivre = $idLivre;
+
+        return $this;
+    }
+
+    public function getIdPanier(): ?int
+    {
+        return $this->idPanier;
+    }
+
+    public function setIdPanier(?int $idPanier): self
+    {
+        $this->idPanier = $idPanier;
+
+        return $this;
+    }
 
 
 }

@@ -22,7 +22,7 @@ class Quiz
     private $idQuiz;
 
     /**
-     * @var \Competition
+     * @var int
      *
      * @ORM\ManyToOne(targetEntity="Competition")
      * @ORM\JoinColumns({
@@ -32,7 +32,7 @@ class Quiz
     private $idCompetition;
 
     /**
-     * @var \Livre
+     * @var int
      *
      * @ORM\ManyToOne(targetEntity="Livre")
      * @ORM\JoinColumns({
@@ -40,6 +40,35 @@ class Quiz
      * })
      */
     private $idLivre;
+
+    public function getIdQuiz(): ?int
+    {
+        return $this->idQuiz;
+    }
+
+    public function getIdCompetition(): ?int
+    {
+        return $this->idCompetition;
+    }
+
+    public function setIdCompetition(?int $idCompetition): self
+    {
+        $this->idCompetition = $idCompetition;
+
+        return $this;
+    }
+
+    public function getIdLivre(): ?int
+    {
+        return $this->idLivre;
+    }
+
+    public function setIdLivre(?int $idLivre): self
+    {
+        $this->idLivre = $idLivre;
+
+        return $this;
+    }
 
 
 }

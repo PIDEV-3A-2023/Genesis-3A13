@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -64,7 +65,7 @@ class Competition
     private $dateFin;
 
     /**
-     * @var \Livre
+     * @var int
      *
      * @ORM\ManyToOne(targetEntity="Livre")
      * @ORM\JoinColumns({
@@ -72,6 +73,95 @@ class Competition
      * })
      */
     private $idLivre;
+
+    public function getIdCompetition(): ?int
+    {
+        return $this->idCompetition;
+    }
+
+    public function getRecompense(): ?string
+    {
+        return $this->recompense;
+    }
+
+    public function setRecompense(string $recompense): self
+    {
+        $this->recompense = $recompense;
+
+        return $this;
+    }
+
+    public function getListePaticipants(): ?string
+    {
+        return $this->listePaticipants;
+    }
+
+    public function setListePaticipants(string $listePaticipants): self
+    {
+        $this->listePaticipants = $listePaticipants;
+
+        return $this;
+    }
+
+    public function getLienCompetition(): ?string
+    {
+        return $this->lienCompetition;
+    }
+
+    public function setLienCompetition(string $lienCompetition): self
+    {
+        $this->lienCompetition = $lienCompetition;
+
+        return $this;
+    }
+
+    public function getNom(): ?string
+    {
+        return $this->nom;
+    }
+
+    public function setNom(string $nom): self
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    public function getDateDebut(): ?\DateTimeInterface
+    {
+        return $this->dateDebut;
+    }
+
+    public function setDateDebut(\DateTimeInterface $dateDebut): self
+    {
+        $this->dateDebut = $dateDebut;
+
+        return $this;
+    }
+
+    public function getDateFin(): ?\DateTimeInterface
+    {
+        return $this->dateFin;
+    }
+
+    public function setDateFin(\DateTimeInterface $dateFin): self
+    {
+        $this->dateFin = $dateFin;
+
+        return $this;
+    }
+
+    public function getIdLivre(): ?int
+    {
+        return $this->idLivre;
+    }
+
+    public function setIdLivre(?int $idLivre): self
+    {
+        $this->idLivre = $idLivre;
+
+        return $this;
+    }
 
 
 }
