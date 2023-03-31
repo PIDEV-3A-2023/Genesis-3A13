@@ -108,7 +108,7 @@ section {
 }
 
 #status {
-    background-image: url("../solo-images/preloader/preloader.gif");
+    background-image: url("Front/images/preloader/preloader.gif");
     background-repeat: no-repeat;
     width: 70px;
     height: 70px;
@@ -253,7 +253,7 @@ section {
     -o-transform: rotate(-90deg);
     position: relative;
     top: 60px;
-    left: -53px;
+    left: -80px;
 }
 
 .vertical-heading h2 {
@@ -406,7 +406,7 @@ section {
 }
 
 .team-member-info h6 {
-    color: #f4c613;
+    color: #D4A373;
     font-size: 16px;
     margin: 0;
 }
@@ -476,7 +476,7 @@ ul.social-list li:nth-child(3) a:hover {
     background: none;
     font-size: 30px;
     margin: 0;
-    color: #00377E;
+    color: #D4A373;
     margin-bottom: 30px;
 }
 
@@ -877,7 +877,7 @@ ul.social-list li:nth-child(3) a:hover {
 }
 
 .testemonial-slider {
-    background: #D4A373;
+    background: #00377E;
     top: -120px;
 }
 
@@ -1325,6 +1325,10 @@ ul.navbar-nav > li > a:focus{
      color: #00377E ;
      background: none ;
 }
+.navbar-nav li a:hover {
+    color: #00377E;
+    background-color: #D4A373;
+  }
  /** white navigation**/
 .white-nav-top{
     background: #fff;
