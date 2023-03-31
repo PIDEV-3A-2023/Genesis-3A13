@@ -234,7 +234,16 @@
 			</div>
 		</nav>
 
-		<main class="content"> {% block body %}{% endblock %}
+		<main class="content"> 
+
+		 <div class="media d-flex align-items-center justify-content-end" style="padding-top:15px;padding-bottom: 15px">
+              <img class="avatar " alt="user" src="{{asset('Back/img/icons/account.png')}}">
+              <div class="media-body ms-2 text-dark align-items-center d-none d-lg-block">
+                <span class="mb-0 font-small fw-bold text-gray-900">Melek Labidi</span>
+              </div>
+            </div>
+			
+		{% block body %}{% endblock %}
 
 
 			<footer class="bg-white rounded shadow p-5 mb-4 mt-4">
