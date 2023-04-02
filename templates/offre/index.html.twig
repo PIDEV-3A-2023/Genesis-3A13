@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+
+<title>Offre index</title>
+
+{% block body %}
+    <h1>Offre index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>IdOffre</th>
+                <th>PourcentageSolde</th>
+                <th>PrixSoldé</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for offre in offres %}
+            <tr>
+                <td>{{ offre.idOffre }}</td>
+                <td>{{ offre.pourcentageSolde }}</td>
+                <td>{{ offre.prixSoldé }}</td>
+                <td>
+                    <a href="{{ path('app_offre_show', {'idOffre': offre.idOffre}) }}">show</a>
+                    <a href="{{ path('app_offre_edit', {'idOffre': offre.idOffre}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_offre_new') }}">Create new</a>
+{% endblock %}
