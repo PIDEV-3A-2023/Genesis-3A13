@@ -36,7 +36,7 @@ class Messagerie
     private $dateHeure;
 
     /**
-     * @var \Utilisateur
+     * @var Utilisateur
      *
      * @ORM\ManyToOne(targetEntity="Utilisateur")
      * @ORM\JoinColumns({

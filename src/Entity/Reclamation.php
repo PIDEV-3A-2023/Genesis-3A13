@@ -37,7 +37,7 @@ class Reclamation
     private $feedback;
 
     /**
-     * @var int
+     * @var Utilisateur
      *
      * @ORM\ManyToOne(targetEntity="Utilisateur")
      * @ORM\JoinColumns({
@@ -75,12 +75,12 @@ class Reclamation
         return $this;
     }
 
-    public function getUser(): ?int
+    public function getUser(): ?Utilisateur
     {
         return $this->user;
     }
 
-    public function setUser(?int $user): self
+    public function setUser(?Utilisateur $user): self
     {
         $this->user = $user;
 

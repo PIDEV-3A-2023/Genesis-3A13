@@ -57,7 +57,7 @@ class Question
     private $reponseCorrect;
 
     /**
-     * @var int
+     * @var Quiz
      *
      * @ORM\ManyToOne(targetEntity="Quiz")
      * @ORM\JoinColumns({
@@ -131,12 +131,12 @@ class Question
         return $this;
     }
 
-    public function getIdQuiz(): ?int
+    public function getIdQuiz(): ?Quiz
     {
         return $this->idQuiz;
     }
 
-    public function setIdQuiz(?int $idQuiz): self
+    public function setIdQuiz(?Quiz $idQuiz): self
     {
         $this->idQuiz = $idQuiz;
 
