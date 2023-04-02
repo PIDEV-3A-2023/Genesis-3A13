@@ -1,0 +1,37 @@
+{{ form_start(form) }}
+
+{{form_label(form.nom)}}
+{{form_widget(form.nom)}}
+{{form_errors(form.nom)}}
+<br>
+{{form_label(form.date)}}
+{{form_widget(form.date)}}
+{{form_errors(form.date)}}
+<br>
+{{form_label(form.heure)}}
+{{form_widget(form.heure)}}
+{{form_errors(form.heure)}}
+<br>
+{{form_label(form.lieu)}}
+{{form_widget(form.lieu)}}
+{{form_errors(form.lieu)}}
+<br>
+{{form_label(form.description)}}
+{{form_widget(form.description)}}
+{{form_errors(form.description)}}
+<br>
+{{form_label(form.nbTicket)}}
+{{form_widget(form.nbTicket)}}
+{{form_errors(form.nbTicket)}}
+<br>
+{{form_label(form.idlivre)}}
+{{form_widget(form.idlivre)}}
+{{form_errors(form.idlivre)}}
+<br>
+{{form_label(form.idauteur)}}
+{{form_widget(form.idauteur)}}
+{{form_errors(form.idauteur)}}
+<br>
+    
+    <button class="btn btn-primary d-inline-flex align-items-center"  style="background-color:#00377E;">{{ button_label|default('Enregistrer') }}</button>
+{{ form_end(form) }}

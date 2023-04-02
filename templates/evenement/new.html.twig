@@ -1,0 +1,17 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}Ajouter Compétition
+{% endblock %}
+
+{% block body %}
+ <h1>
+		<span class="sidebar-icon">
+			<i class="fas fa-plus" style="padding-right:3px"></i>
+		</span>Créer une nouveau Evenement
+	</h1>
+	<br>
+
+    {{ include('evenement/_form.html.twig') }}
+
+   
+{% endblock %}
