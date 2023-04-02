@@ -35,7 +35,7 @@ class CompetitionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($competition);
             $entityManager->flush();
-            $this->addFlash('success', 'Competition created successfully!');
+            $this->addFlash('success', 'Competition ajoutée avec succés!');
 
             return $this->redirectToRoute('app_competition_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -62,7 +62,7 @@ class CompetitionController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-            $this->addFlash('success', 'Competition updated successfully!');
+            $this->addFlash('success', 'Competition est mise à jour avec succés!');
 
             return $this->redirectToRoute('app_competition_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -80,7 +80,7 @@ class CompetitionController extends AbstractController
             $entityManager->remove($competition);
             $entityManager->flush();
         }
-        $this->addFlash('success', 'Competition deleted successfully!');
+        $this->addFlash('success', 'Competition supprimée avec succés!');
         return $this->redirectToRoute('app_competition_index', [], Response::HTTP_SEE_OTHER);
     }
 }
