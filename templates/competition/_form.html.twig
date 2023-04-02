@@ -1,0 +1,29 @@
+{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+{{form_label(form.nom)}}
+{{form_widget(form.nom)}}
+{{form_errors(form.nom,{'attr': {'class': 'invalid-feedback'}})}}
+<br>
+{{form_label(form.lienCompetition)}}
+{{form_widget(form.lienCompetition)}}
+{{form_errors(form.lienCompetition,{'attr': {'class': 'invalid-feedback'}})}}
+<br>
+{{form_label(form.idlivre)}}
+{{form_widget(form.idlivre)}}
+{{form_errors(form.idlivre,{'attr': {'class': 'invalid-feedback'}})}}
+<br>
+{{form_label(form.recompense)}}
+{{form_widget(form.recompense)}}
+{{form_errors(form.recompense,{'attr': {'class': 'invalid-feedback'}})}}
+<br>
+{{form_label(form.dateDebut)}}
+{{form_widget(form.dateDebut)}}
+{{form_errors(form.dateDebut,{'attr': {'class': 'invalid-feedback'}})}}
+<br>
+{{form_label(form.dateFin)}}
+{{form_widget(form.dateFin)}}
+{{form_errors(form.dateFin,{'attr': {'class': 'invalid-feedback'}})}}
+<br>
+
+    <button class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;">{{ button_label|default('Enregistrer') }}</button>
+{{ form_end(form) }}

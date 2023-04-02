@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Competition
@@ -27,13 +28,16 @@ class Competition
      *
      * @ORM\Column(name="recompense", type="string", length=255, nullable=false)
      */
+    #[Assert\NotBlank(message: 'Récompense obligatoire!')]
+    #[Assert\Length(max:255, maxMessage:'La récompense ne peut pas dépasser {{ limit }} caractères.')]
     private $recompense;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="liste_paticipants", type="text", length=65535, nullable=false)
+     * @ORM\Column(name="liste_paticipants", type="text", length=65535, nullable=true)
      */
+    
     private $listePaticipants;
 
     /**
@@ -41,6 +45,9 @@ class Competition
      *
      * @ORM\Column(name="lien_competition", type="string", length=255, nullable=false)
      */
+    #[Assert\NotBlank(message: 'Lien est obligatoire!')]
+    #[Assert\Url(message: 'Le lien doit être une URL valide!')]
+    #[Assert\Length(max:255, maxMessage:'Le lien ne peut pas dépasser {{ limit }} caractères.')]
     private $lienCompetition;
 
     /**
@@ -48,6 +55,8 @@ class Competition
      *
      * @ORM\Column(name="nom", type="string", length=255, nullable=false)
      */
+    #[Assert\NotBlank(message: 'Nom est obligatoire!')]
+    #[Assert\Length(max:255, maxMessage:'Le nom ne peut pas dépasser {{ limit }} caractères.')]
     private $nom;
 
     /**
@@ -55,6 +64,9 @@ class Competition
      *
      * @ORM\Column(name="date_debut", type="date", nullable=false)
      */
+    #[Assert\NotBlank(message: 'La date de début est obligatoire!')]
+    #[Assert\GreaterThanOrEqual("today",message: 'La date de début doit être supérieure ou égale à la date d\'aujourd\'hui!')]
+    #[Assert\LessThan(propertyPath: 'dateFin', message:'La date de début doit être inférieure à la date de fin!')]
     private $dateDebut;
 
     /**
@@ -62,16 +74,19 @@ class Competition
      *
      * @ORM\Column(name="date_fin", type="date", nullable=false)
      */
+    #[Assert\NotBlank(message: 'La date de fin est obligatoire!')]
+    #[Assert\GreaterThan(propertyPath: 'dateDebut',message: 'La date de fin doit être supérieure à la date de début!')]
     private $dateFin;
 
     /**
-     * @var int
+     * @var Livre
      *
      * @ORM\ManyToOne(targetEntity="Livre")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_livre", referencedColumnName="id_livre")
      * })
      */
+    #[Assert\NotBlank(message: 'Livre est obligatoire!')]
     private $idLivre;
 
     public function getIdCompetition(): ?int
@@ -151,12 +166,12 @@ class Competition
         return $this;
     }
 
-    public function getIdLivre(): ?int
+    public function getIdLivre(): ?Livre
     {
         return $this->idLivre;
     }
 
-    public function setIdLivre(?int $idLivre): self
+    public function setIdLivre(?Livre $idLivre): self
     {
         $this->idLivre = $idLivre;
 

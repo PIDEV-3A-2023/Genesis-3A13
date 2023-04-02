@@ -32,6 +32,10 @@
 		<link
 		type="text/css" href="{{asset('Back/css/volt.css')}}" rel="stylesheet">
 
+		<!-- font awsome -->
+		<link
+		rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
 	<!-- NOTICE: You can use the _analytics.html partial to include production code specific code & trackers -->
 
 	</head>
@@ -60,15 +64,16 @@
 				</div>
 				<ul class="nav flex-column pt-3 pt-md-0">
 					<li class="nav-item">
-						<a href="" class="nav-link d-flex align-items-center">
+						<a href="{{path('app_dashboard')}}" class="nav-link d-flex align-items-center">
 							<span class="sidebar-icon">
 								<img src="{{asset('Back/img/brand/maktabti.png')}}" height="60" width="150" alt="Volt Logo">
 							</span>
 
 						</a>
 					</li>
-					<li class="nav-item  active ">
-						<a href="" class="nav-link">
+
+					<li class="nav-item {% if app.request.attributes.get('_route') == 'app_dashboard'  %}active{% endif %}">
+						<a href="{{path('app_dashboard')}}" class="nav-link">
 							<span class="sidebar-icon">
 								<img src="{{asset('Back/img/icons/home.png')}}" class="icon icon-xs me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
 							</span>
@@ -76,7 +81,7 @@
 						</a>
 					</li>
 					<li class="nav-item">
-						<a href="" target="_blank" class="nav-link d-flex justify-content-between">
+						<a href="" class="nav-link d-flex justify-content-between">
 							<span>
 								<span class="sidebar-icon">
 									<span class="sidebar-icon">
@@ -126,8 +131,8 @@
 							<span class="sidebar-text">Offre</span>
 						</a>
 					</li>
-					<li class="nav-item">
-						<a href="" target="_blank" class="nav-link d-flex justify-content-between">
+					<li class="nav-item {% if app.request.attributes.get('_route') == 'app_competition_index'  %}active{% endif %}">
+						<a href="{{path('app_competition_index')}}" class="nav-link d-flex justify-content-between">
 							<span>
 								<span class="sidebar-icon">
 									<span class="sidebar-icon">
@@ -142,7 +147,7 @@
 						</a>
 					</li>
 					<li class="nav-item">
-						<a href="" target="_blank" class="nav-link d-flex justify-content-between">
+						<a href="" class="nav-link d-flex justify-content-between">
 							<span>
 								<span class="sidebar-icon">
 									<span class="sidebar-icon">
@@ -157,7 +162,7 @@
 						</a>
 					</li>
 					<li class="nav-item">
-						<a href="" target="_blank" class="nav-link d-flex justify-content-between">
+						<a href="" class="nav-link d-flex justify-content-between">
 							<span>
 								<span class="sidebar-icon">
 									<span class="sidebar-icon">
@@ -172,7 +177,7 @@
 						</a>
 					</li>
 					<li class="nav-item">
-						<a href="" target="_blank" class="nav-link d-flex justify-content-between">
+						<a href="" class="nav-link d-flex justify-content-between">
 							<span>
 								<span class="sidebar-icon">
 									<span class="sidebar-icon">
@@ -190,7 +195,7 @@
 
 					<li role="separator" class="dropdown-divider mt-4 mb-3 border-gray-700"></li>
 					<li class="nav-item">
-						<a href="" target="_blank" class="nav-link d-flex align-items-center">
+						<a href="" class="nav-link d-flex align-items-center">
 							<span class="sidebar-icon">
 								<span class="sidebar-icon">
 
@@ -218,7 +223,7 @@
 					</li>
 
 					<li class="nav-item">
-						<a href="" target="_blank" class="nav-link d-flex align-items-center btn-upgrade-pro">
+						<a href="" class="nav-link d-flex align-items-center btn-upgrade-pro">
 							<span class="sidebar-icon">
 
 								<img src="{{asset('Back/img/icons/turn-off.png')}}" class="icon icon-xs me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
@@ -234,16 +239,16 @@
 			</div>
 		</nav>
 
-		<main class="content"> 
+		<main class="content">
 
-		 <div class="media d-flex align-items-center justify-content-end" style="padding-top:15px;padding-bottom: 15px">
-              <img class="avatar " alt="user" src="{{asset('Back/img/icons/account.png')}}">
-              <div class="media-body ms-2 text-dark align-items-center d-none d-lg-block">
-                <span class="mb-0 font-small fw-bold text-gray-900">Melek Labidi</span>
-              </div>
-            </div>
-			
-		{% block body %}{% endblock %}
+			<div class="media d-flex align-items-center justify-content-end" style="padding-top:20px;padding-bottom: 20px;padding-right: 15px;">
+				<img class="avatar " alt="user" src="{{asset('Back/img/icons/account.png')}}">
+				<div class="media-body ms-2 text-dark align-items-center d-none d-lg-block">
+					<span class="mb-0 font-medium fw-bold text-gray-900">Melek Labidi</span>
+				</div>
+			</div>
+
+			{% block body %}{% endblock %}
 
 
 			<footer class="bg-white rounded shadow p-5 mb-4 mt-4">
@@ -315,4 +320,4 @@
 		<!-- Volt JS -->
 		<script src="{{asset('Back/js/volt.js')}}"></script>
 	</body>
-</html>
+</html></body></html>
