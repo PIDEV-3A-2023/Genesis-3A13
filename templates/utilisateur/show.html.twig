@@ -1,0 +1,66 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}Détails Utilisateur
+{% endblock %}
+
+{% block body %}
+	<a href="{{ path('app_utilisateur_index') }}">
+		<i class="fas fa-arrow-left"></i>
+	</a>
+    	<div class="d-flex justify-content-between w-100 flex-wrap">
+		<div class="mb-3 mb-lg-0">
+			<h1>
+				<span class="sidebar-icon">
+
+					<img src="{{asset('Back/img/icons/user.png')}}" class="icon icon-s me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
+
+				</span>Utilisateur : {{ utilisateur.nom }}</h1>
+
+		</div>
+	</div>
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>IdUtilisateur</th>
+                <td>{{ utilisateur.idUtilisateur }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ utilisateur.nom }}</td>
+            </tr>
+            <tr>
+                <th>Prenom</th>
+                <td>{{ utilisateur.prenom }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ utilisateur.email }}</td>
+            </tr>
+            <tr>
+                <th>MotDePasse</th>
+                <td>{{ utilisateur.motDePasse }}</td>
+            </tr>
+            <tr>
+                <th>NumTelephone</th>
+                <td>{{ utilisateur.numTelephone }}</td>
+            </tr>
+            <tr>
+                <th>Role</th>
+                <td>{{ utilisateur.role }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+
+
+    	<div class="row">
+		<div class="col-md-2">
+			<a href="{{ path('app_utilisateur_edit', {'idUtilisateur': utilisateur.idUtilisateur}) }}" class="btn btn-warning d-inline-flex align-items-center">
+				<i class="fas fa-edit" style="padding-right:3px"></i>Modifier</a>
+		</div>
+		<div class="col-md-2">
+        {{ include('utilisateur/_delete_form.html.twig') }}
+		</div>
+	</div>
+{% endblock %}

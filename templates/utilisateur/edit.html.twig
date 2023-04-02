@@ -1,0 +1,19 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}Dashboard
+{% endblock %}
+{% block body %}
+
+	<a href="{{ path('app_utilisateur_index') }}">
+		<i class="fas fa-arrow-left"></i>
+	</a>
+
+	<h1>
+		<span class="sidebar-icon">
+			<i class="fas fa-edit" style="padding-right:3px"></i>
+		</span>Modifier Utilisateur
+	</h1>
+    {{ include('utilisateur/_form.html.twig', {'button_label': 'Update'}) }}
+
+
+{% endblock %}
