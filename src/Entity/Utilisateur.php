@@ -1,7 +1,6 @@
 <?php
-
 namespace App\Entity;
-
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -26,6 +25,7 @@ class Utilisateur
      *
      * @ORM\Column(name="nom", type="string", length=255, nullable=false)
      */
+    #[Assert\NotBlank(message: 'Nom obligatoire!')]
     private $nom;
 
     /**
@@ -33,6 +33,7 @@ class Utilisateur
      *
      * @ORM\Column(name="prenom", type="string", length=255, nullable=false)
      */
+    #[Assert\NotBlank(message: 'Nom obligatoire!')]
     private $prenom;
 
     /**
@@ -40,6 +41,8 @@ class Utilisateur
      *
      * @ORM\Column(name="email", type="string", length=255, nullable=false)
      */
+    #[Assert\NotBlank(message: 'Nom obligatoire!')]
+    #[Assert\Email(message: 'Email Invalide!')]
     private $email;
 
     /**
@@ -47,6 +50,7 @@ class Utilisateur
      *
      * @ORM\Column(name="mot_de_passe", type="string", length=255, nullable=false)
      */
+    #[Assert\NotBlank(message: 'Nom obligatoire!')]
     private $motDePasse;
 
     /**
@@ -54,13 +58,16 @@ class Utilisateur
      *
      * @ORM\Column(name="num_telephone", type="integer", nullable=false)
      */
+    #[Assert\NotBlank(message: 'Nom obligatoire!')]
+    #[Assert\Length(8)]
     private $numTelephone;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="role", type="string", length=0, nullable=false)
+     * @ORM\Column(name="role", type="string", nullable=false)
      */
+    #[Assert\NotBlank(message: 'Nom obligatoire!')]
     private $role;
 
     public function getIdUtilisateur(): ?int
