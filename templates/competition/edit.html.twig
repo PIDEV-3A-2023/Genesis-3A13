@@ -1,0 +1,23 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}Modifier Compétition
+{% endblock %}
+
+{% block body %}
+<a href="{{ path('app_competition_index') }}">
+		<i class="fas fa-arrow-left"></i>
+	</a>
+    
+	<h1>
+		<span class="sidebar-icon">
+			<i class="fas fa-edit" style="padding-right:3px"></i>
+		</span>Modifier Competition
+	</h1>
+
+	<br>
+
+
+	{{ include('competition/_form.html.twig', {'button_label': 'Mise à jour'}) }}
+
+
+{% endblock %}
