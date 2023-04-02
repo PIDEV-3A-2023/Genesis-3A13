@@ -25,7 +25,11 @@
 	<br>
 {% for type, messages in app.flashes %}
     {% for message in messages %}
-        <div class="alert alert-{{ type }} alert-dismissible fade show">{{ message }}
+        <div class="alert alert-{{ type }} alert-dismissible fade show d-flex align-items-center">
+		<i class="fas fa-check-circle"style="padding-right: 10px"></i>
+		<div>
+		{{ message }}
+		</div>
          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     {% endfor %}
@@ -65,7 +69,7 @@
 							</tr>
 						{% else %}
 							<tr>
-								<td colspan="8">no records found</td>
+								<td colspan="8">Aucun enregistrement trouvé</td>
 							</tr>
 						{% endfor %}
 					</tbody>
