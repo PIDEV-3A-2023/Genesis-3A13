@@ -79,7 +79,7 @@ class Livre
     private $image;
 
     /**
-     * @var int
+     * @var Categorie
      *
      * @ORM\ManyToOne(targetEntity="Categorie")
      * @ORM\JoinColumns({
@@ -89,7 +89,7 @@ class Livre
     private $idCategorie;
 
     /**
-     * @var int
+     * @var Utilisateur
      *
      * @ORM\ManyToOne(targetEntity="Utilisateur")
      * @ORM\JoinColumns({
@@ -199,24 +199,24 @@ class Livre
         return $this;
     }
 
-    public function getIdCategorie(): ?int
+    public function getIdCategorie(): ?Categorie
     {
         return $this->idCategorie;
     }
 
-    public function setIdCategorie(?int $idCategorie): self
+    public function setIdCategorie(?Categorie $idCategorie): self
     {
         $this->idCategorie = $idCategorie;
 
         return $this;
     }
 
-    public function getIdAuteur(): ?int
+    public function getIdAuteur(): ?Utilisateur
     {
         return $this->idAuteur;
     }
 
-    public function setIdAuteur(?int $idAuteur): self
+    public function setIdAuteur(?Utilisateur $idAuteur): self
     {
         $this->idAuteur = $idAuteur;
 

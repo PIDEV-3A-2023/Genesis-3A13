@@ -36,7 +36,7 @@ class Offre
     private $prixSoldé;
 
     /**
-     * @var int
+     * @var Livre
      *
      * @ORM\ManyToOne(targetEntity="Livre")
      * @ORM\JoinColumns({
@@ -74,12 +74,12 @@ class Offre
         return $this;
     }
 
-    public function getIdLivre(): ?int
+    public function getIdLivre(): ?Livre
     {
         return $this->idLivre;
     }
 
-    public function setIdLivre(?int $idLivre): self
+    public function setIdLivre(?Livre $idLivre): self
     {
         $this->idLivre = $idLivre;
 

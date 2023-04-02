@@ -29,7 +29,7 @@ class Reservation
     private $etat;
 
     /**
-     * @var int
+     * @var Ticket
      *
      * @ORM\ManyToOne(targetEntity="Ticket")
      * @ORM\JoinColumns({
@@ -39,7 +39,7 @@ class Reservation
     private $idTicket;
 
     /**
-     * @var int
+     * @var Evenement
      *
      * @ORM\ManyToOne(targetEntity="Evenement")
      * @ORM\JoinColumns({
@@ -65,24 +65,24 @@ class Reservation
         return $this;
     }
 
-    public function getIdTicket(): ?int
+    public function getIdTicket(): ?Ticket
     {
         return $this->idTicket;
     }
 
-    public function setIdTicket(?int $idTicket): self
+    public function setIdTicket(?Ticket $idTicket): self
     {
         $this->idTicket = $idTicket;
 
         return $this;
     }
 
-    public function getIdEvenement(): ?int
+    public function getIdEvenement(): ?Evenement
     {
         return $this->idEvenement;
     }
 
-    public function setIdEvenement(?int $idEvenement): self
+    public function setIdEvenement(?Evenement $idEvenement): self
     {
         $this->idEvenement = $idEvenement;
 

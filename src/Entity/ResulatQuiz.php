@@ -36,7 +36,7 @@ class ResulatQuiz
     private $reponseClient;
 
     /**
-     * @var int
+     * @var Quiz
      *
      * @ORM\ManyToOne(targetEntity="Quiz")
      * @ORM\JoinColumns({
@@ -46,7 +46,7 @@ class ResulatQuiz
     private $idQuiz;
 
     /**
-     * @var int
+     * @var Utilisateur
      *
      * @ORM\ManyToOne(targetEntity="Utilisateur")
      * @ORM\JoinColumns({
@@ -84,7 +84,7 @@ class ResulatQuiz
         return $this;
     }
 
-    public function getIdQuiz(): ?int
+    public function getIdQuiz(): ?Quiz
     {
         return $this->idQuiz;
     }
@@ -96,12 +96,12 @@ class ResulatQuiz
         return $this;
     }
 
-    public function getIdClient(): ?int
+    public function getIdClient(): ?Utilisateur
     {
         return $this->idClient;
     }
 
-    public function setIdClient(?int $idClient): self
+    public function setIdClient(?Utilisateur $idClient): self
     {
         $this->idClient = $idClient;
 

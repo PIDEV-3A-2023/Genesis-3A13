@@ -36,7 +36,7 @@ class Panier
     private $totalprix;
 
     /**
-     * @var int
+     * @var Livre
      *
      * @ORM\ManyToOne(targetEntity="Livre")
      * @ORM\JoinColumns({
@@ -46,7 +46,7 @@ class Panier
     private $idLivre;
 
     /**
-     * @var int
+     * @var Utilisateur
      *
      * @ORM\ManyToOne(targetEntity="Utilisateur")
      * @ORM\JoinColumns({
@@ -84,24 +84,24 @@ class Panier
         return $this;
     }
 
-    public function getIdLivre(): ?int
+    public function getIdLivre(): ?Livre
     {
         return $this->idLivre;
     }
 
-    public function setIdLivre(?int $idLivre): self
+    public function setIdLivre(?Livre $idLivre): self
     {
         $this->idLivre = $idLivre;
 
         return $this;
     }
 
-    public function getIdClient(): ?int
+    public function getIdClient(): ?Utilisateur
     {
         return $this->idClient;
     }
 
-    public function setIdClient(?int $idClient): self
+    public function setIdClient(?Utilisateur $idClient): self
     {
         $this->idClient = $idClient;
 

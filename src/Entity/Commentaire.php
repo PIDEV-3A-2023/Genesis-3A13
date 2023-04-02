@@ -29,7 +29,7 @@ class Commentaire
     private $commentaire;
 
     /**
-     * @var int
+     * @var Utilisateur
      *
      * @ORM\ManyToOne(targetEntity="Utilisateur")
      * @ORM\JoinColumns({
@@ -39,7 +39,7 @@ class Commentaire
     private $idClient;
 
     /**
-     * @var int
+     * @var Evenement
      *
      * @ORM\ManyToOne(targetEntity="Evenement")
      * @ORM\JoinColumns({
@@ -65,24 +65,24 @@ class Commentaire
         return $this;
     }
 
-    public function getIdClient(): ?int
+    public function getIdClient(): ?Utilisateur
     {
         return $this->idClient;
     }
 
-    public function setIdClient(?int $idClient): self
+    public function setIdClient(?Utilisateur $idClient): self
     {
         $this->idClient = $idClient;
 
         return $this;
     }
 
-    public function getIdEvenement(): ?int
+    public function getIdEvenement(): ?Evenement
     {
         return $this->idEvenement;
     }
 
-    public function setIdEvenement(?int $idEvenement): self
+    public function setIdEvenement(?Evenement $idEvenement): self
     {
         $this->idEvenement = $idEvenement;
 
