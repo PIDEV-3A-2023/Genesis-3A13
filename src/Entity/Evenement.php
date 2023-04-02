@@ -65,7 +65,7 @@ class Evenement
     private $nbTicket;
 
     /**
-     * @var int
+     * @var Utilisateur
      *
      * @ORM\ManyToOne(targetEntity="Utilisateur")
      * @ORM\JoinColumns({
@@ -75,7 +75,7 @@ class Evenement
     private $idAuteur;
 
     /**
-     * @var int
+     * @var Livre
      *
      * @ORM\ManyToOne(targetEntity="Livre")
      * @ORM\JoinColumns({
@@ -161,24 +161,24 @@ class Evenement
         return $this;
     }
 
-    public function getIdAuteur(): ?int
+    public function getIdAuteur(): ?Utilisateur
     {
         return $this->idAuteur;
     }
 
-    public function setIdAuteur(?int $idAuteur): self
+    public function setIdAuteur(?Utilisateur $idAuteur): self
     {
         $this->idAuteur = $idAuteur;
 
         return $this;
     }
 
-    public function getIdLivre(): ?int
+    public function getIdLivre(): ?Livre
     {
         return $this->idLivre;
     }
 
-    public function setIdLivre(?int $idLivre): self
+    public function setIdLivre(?Livre $idLivre): self
     {
         $this->idLivre = $idLivre;
 
