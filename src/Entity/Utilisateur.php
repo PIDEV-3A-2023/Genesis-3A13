@@ -33,7 +33,7 @@ class Utilisateur
      *
      * @ORM\Column(name="prenom", type="string", length=255, nullable=false)
      */
-    #[Assert\NotBlank(message: 'Nom obligatoire!')]
+    #[Assert\NotBlank(message: 'Prénom obligatoire!')]
     private $prenom;
 
     /**
@@ -41,7 +41,7 @@ class Utilisateur
      *
      * @ORM\Column(name="email", type="string", length=255, nullable=false)
      */
-    #[Assert\NotBlank(message: 'Nom obligatoire!')]
+    #[Assert\NotBlank(message: 'Email obligatoire!')]
     #[Assert\Email(message: 'Email Invalide!')]
     private $email;
 
@@ -50,7 +50,7 @@ class Utilisateur
      *
      * @ORM\Column(name="mot_de_passe", type="string", length=255, nullable=false)
      */
-    #[Assert\NotBlank(message: 'Nom obligatoire!')]
+    #[Assert\NotBlank(message: 'Mot de passe obligatoire!')]
     private $motDePasse;
 
     /**
@@ -58,7 +58,7 @@ class Utilisateur
      *
      * @ORM\Column(name="num_telephone", type="integer", nullable=false)
      */
-    #[Assert\NotBlank(message: 'Nom obligatoire!')]
+    #[Assert\NotBlank(message: 'Numéro de téléphone obligatoire!')]
     #[Assert\Length(8)]
     private $numTelephone;
 
@@ -67,7 +67,7 @@ class Utilisateur
      *
      * @ORM\Column(name="role", type="string", nullable=false)
      */
-    #[Assert\NotBlank(message: 'Nom obligatoire!')]
+    #[Assert\NotBlank(message: 'Role obligatoire!')]
     private $role;
 
     public function getIdUtilisateur(): ?int
