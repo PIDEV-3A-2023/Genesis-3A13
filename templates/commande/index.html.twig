@@ -1,0 +1,56 @@
+
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}Commandes
+{% endblock %}
+
+{% block body %}
+    <h1>Commande index</h1>
+    <br>
+{% for type, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="alert alert-{{ type }} alert-dismissible fade show d-flex align-items-center">
+		<i class="fas fa-check-circle"style="padding-right: 10px"></i>
+		<div>
+		{{ message }}
+		</div>
+         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+{% endfor %}
+
+<br>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>IdCommande</th>
+                <th>Status</th>
+                <th>Mode</th>
+                <th>Etat</th>
+                <th>Montant</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for commande in commandes %}
+            <tr>
+                <td>{{ commande.idCommande }}</td>
+                <td>{{ commande.status }}</td>
+                <td>{{ commande.mode }}</td>
+                <td>{{ commande.etat }}</td>
+                <td>{{ commande.montant }}</td>
+                <td>
+                    <a href="{{ path('app_commande_show', {'idCommande': commande.idCommande}) }}">show</a>
+                    <a href="{{ path('app_commande_edit', {'idCommande': commande.idCommande}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_commande_new') }}">Create new</a>
+{% endblock %}
