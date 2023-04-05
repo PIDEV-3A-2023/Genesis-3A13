@@ -1,16 +1,47 @@
-<!DOCTYPE html>
+{% extends 'baseBack.html.twig' %}
 
-<title>Offre index</title>
+{% block title %}Offre
+{% endblock %}
 
 {% block body %}
-    <h1>Offre index</h1>
+   <div class="d-flex justify-content-between w-100 flex-wrap">
+		<div class="mb-3 mb-lg-0">
+			<h1>
+				<span class="sidebar-icon">
 
-    <table class="table">
+					<img src="{{asset('Back/img/icons/user.png')}}" class="icon icon-s me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
+
+				</span>Liste des offres</h1>
+
+		</div>
+		<div style="padding-top: 10px;">
+
+			<a href="{{ path('app_offre_new') }}" class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;">
+				<i class="fas fa-plus" style="padding-right:3px"></i>
+				Créer un nouveau</a>
+		</div>
+	</div>
+	<br>
+{% for type, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="alert alert-{{ type }} alert-dismissible fade show">{{ message }}
+         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+{% endfor %}
+
+
+	
+
+	<div class="card border-0 shadow mb-4">
+		<div class="card-body">
+		<div class="table-responsive">
+		<table class="table table-centered table-nowrap mb-0 rounded">
         <thead>
             <tr>
                 <th>IdOffre</th>
                 <th>PourcentageSolde</th>
-                <th>PrixSoldé</th>
+                <th>PrixSolde</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -21,8 +52,8 @@
                 <td>{{ offre.pourcentageSolde }}</td>
                 <td>{{ offre.prixSoldé }}</td>
                 <td>
-                    <a href="{{ path('app_offre_show', {'idOffre': offre.idOffre}) }}">show</a>
-                    <a href="{{ path('app_offre_edit', {'idOffre': offre.idOffre}) }}">edit</a>
+                    <a href="{{ path('app_offre_show', {'idOffre': offre.idOffre}) }}"><i class="fas fa-info-circle text-info"></i></a></a>
+                    <a href="{{ path('app_offre_edit', {'idOffre': offre.idOffre}) }}"><i class="fas fa-edit text-warning"></i></a>
                 </td>
             </tr>
         {% else %}
@@ -32,6 +63,10 @@
         {% endfor %}
         </tbody>
     </table>
+    
+    </div>
+        </div>
+    </div>
 
-    <a href="{{ path('app_offre_new') }}">Create new</a>
+
 {% endblock %}
