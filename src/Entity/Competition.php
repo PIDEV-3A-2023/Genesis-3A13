@@ -5,12 +5,14 @@ namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use App\Repository\CompetitionRepository;
 /**
  * Competition
  *
  * @ORM\Table(name="competition", indexes={@ORM\Index(name="livre", columns={"id_livre"})})
  * @ORM\Entity
+ * @UniqueEntity(fields={"nom"}, message="Ce nom est déjà utilisé.")
  * @ORM\Entity(repositoryClass="App\Repository\CompetitionRepository")
  */
 class Competition
@@ -31,6 +33,7 @@ class Competition
      */
     #[Assert\NotBlank(message: 'Récompense obligatoire!')]
     #[Assert\Length(max:255, maxMessage:'La récompense ne peut pas dépasser {{ limit }} caractères.')]
+    #[Assert\Length(min:5, minMessage:'La récompense doit au minimum avoir {{ limit }} caractères.')]
     private $recompense;
 
     /**
@@ -58,6 +61,7 @@ class Competition
      */
     #[Assert\NotBlank(message: 'Nom est obligatoire!')]
     #[Assert\Length(max:255, maxMessage:'Le nom ne peut pas dépasser {{ limit }} caractères.')]
+    #[Assert\Length(min:5, minMessage:'La récompense doit au minimum avoir {{ limit }} caractères.')]
     private $nom;
 
     /**
@@ -84,7 +88,7 @@ class Competition
      *
      * @ORM\ManyToOne(targetEntity="Livre")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_livre", referencedColumnName="id_livre")
+     * @ORM\JoinColumn(name="id_livre", referencedColumnName="id_livre")
      * })
      */
     #[Assert\NotBlank(message: 'Livre est obligatoire!')]
