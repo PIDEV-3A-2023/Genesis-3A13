@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Competition;
 use App\Form\CompetitionType;
+use App\Repository\CompetitionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,11 +15,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class CompetitionController extends AbstractController
 {
     #[Route('/', name: 'app_competition_index', methods: ['GET'])]
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(CompetitionRepository $repo): Response
     {
-        $competitions = $entityManager
-            ->getRepository(Competition::class)
-            ->findAll();
+        $competitions = $repo->findAll();
+            
 
         return $this->render('competition/index.html.twig', [
             'competitions' => $competitions,
@@ -26,15 +26,14 @@ class CompetitionController extends AbstractController
     }
 
     #[Route('/new', name: 'app_competition_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, CompetitionRepository $repo): Response
     {
         $competition = new Competition();
         $form = $this->createForm(CompetitionType::class, $competition);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($competition);
-            $entityManager->flush();
+            $repo->save($competition,true);
             $this->addFlash('success', 'Competition ajoutée avec succés!');
 
             return $this->redirectToRoute('app_competition_index', [], Response::HTTP_SEE_OTHER);
@@ -74,11 +73,11 @@ class CompetitionController extends AbstractController
     }
 
     #[Route('/{idCompetition}', name: 'app_competition_delete', methods: ['POST'])]
-    public function delete(Request $request, Competition $competition, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, Competition $competition, CompetitionRepository $repo): Response
     {
         if ($this->isCsrfTokenValid('delete' . $competition->getIdCompetition(), $request->request->get('_token'))) {
-            $entityManager->remove($competition);
-            $entityManager->flush();
+            $repo->remove($competition,true);
+         
         }
         $this->addFlash('success', 'Competition supprimée avec succés!');
         return $this->redirectToRoute('app_competition_index', [], Response::HTTP_SEE_OTHER);

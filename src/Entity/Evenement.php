@@ -4,12 +4,14 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\EvenementRepository;
 
 /**
  * Evenement
  *
  * @ORM\Table(name="evenement", indexes={@ORM\Index(name="auteur", columns={"id_auteur"}), @ORM\Index(name="livre", columns={"id_livre"})})
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\EvenementRepository")
  */
 class Evenement
 {

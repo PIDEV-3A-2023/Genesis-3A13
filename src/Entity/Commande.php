@@ -3,12 +3,14 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CommandeRepository;
 
 /**
  * Commande
  *
  * @ORM\Table(name="commande", indexes={@ORM\Index(name="livre", columns={"id_livre"}), @ORM\Index(name="client", columns={"id_client"})})
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\CommandeRepository")
  */
 class Commande
 {
@@ -50,7 +52,7 @@ class Commande
     private $montant;
 
     /**
-     * @var \Utilisateur
+     * @var Utilisateur
      *
      * @ORM\ManyToOne(targetEntity="Utilisateur")
      * @ORM\JoinColumns({
@@ -60,7 +62,7 @@ class Commande
     private $idClient;
 
     /**
-     * @var \Livre
+     * @var Livre
      *
      * @ORM\ManyToOne(targetEntity="Livre")
      * @ORM\JoinColumns({

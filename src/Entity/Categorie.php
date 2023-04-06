@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Repository\CategorieRepository;
 
 /**
  * Categorie
@@ -12,6 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="categorie")
  * @ORM\Entity
  * @UniqueEntity(fields={"nom"}, message="Ce nom est déjà utilisé.")
+ * @ORM\Entity(repositoryClass="App\Repository\CategorieRepository")
  */
 class Categorie
 {
