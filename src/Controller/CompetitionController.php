@@ -76,10 +76,16 @@ class CompetitionController extends AbstractController
     public function delete(Request $request, Competition $competition, CompetitionRepository $repo): Response
     {
         if ($this->isCsrfTokenValid('delete' . $competition->getIdCompetition(), $request->request->get('_token'))) {
-            $repo->remove($competition,true);
+            $now = new \DateTime();
+        if ($now >= $competition->getDateDebut() && $now <= $competition->getDateFin()) {
+            $this->addFlash('danger', 'Impossible de supprimer la compétition car elle est en cours!');
+        } else {
+            $repo->remove($competition, true);
+            $this->addFlash('success', 'Compétition supprimée avec succès!');
+        }
          
         }
-        $this->addFlash('success', 'Competition supprimée avec succés!');
+        
         return $this->redirectToRoute('app_competition_index', [], Response::HTTP_SEE_OTHER);
     }
 }

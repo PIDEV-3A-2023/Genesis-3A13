@@ -50,14 +50,14 @@
 		<!-- End Preloader  -->
 		<header>
 			<nav class="navbar navbar-expand-lg navbar-light  fixed-top">
-				<a class="navbar-brand" href="#"><img src="{{asset('Front/images/logo/maktabti.png')}}" height="60" width="150" ></a>
+				<a class="navbar-brand" href="{{path('index')}}"><img src="{{asset('Front/images/logo/maktabti.png')}}" height="60" width="150" ></a>
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				</button>
 				<div class="collapse navbar-collapse" id="navbarNav" style="padding-top:10px">
 					<ul class="navbar-nav me-auto mb-2 mb-lg-0" style="padding-top:6px">
-						<li class="nav-item active">
-							<a class="nav-link" style="color:#D4A373;" href="{{path('index')}}">
+						<li class="nav-item">
+							<a class="nav-link" {% if app.request.attributes.get('_route') == 'index'  %}style="color:#00377E;" {% else %}style="color:#D4A373;"{% endif %}  href="{{path('index')}}">
 								<h6>
 									<b>Acceuil</b>
 								</h6>
@@ -71,7 +71,7 @@
 							</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" style="color:#D4A373;" href="#">
+							<a class="nav-link"  {% if app.request.attributes.get('_route') == 'app_competition_front'  %}style="color:#00377E;" {% else %}style="color:#D4A373;"{% endif %} href="{{path('app_competition_front')}}">
 								<h6>
 									<b>Compétitions</b>
 								</h6>

@@ -1,0 +1,88 @@
+{% extends 'baseFront.html.twig' %}
+
+{% block title %}Compétitions
+{% endblock %}
+
+{% block body %}
+	<section
+		id="home">
+		<!-- Background image -->
+		<video id="home_vedio_bg" poster="Front/images/home/home-img.png" autoplay loop muted>
+			<source src="Front/images/home/video/home-video.mp4" width="200" height="150" type="video/mp4"/>
+
+		</video>
+		<!-- Overlay -->
+		<div id="home_overlay"></div>
+		<!-- Home content -->
+		<div id="home-content">
+			<div id="content-inner" class="text-center">
+				<div id="home-heading">
+					<h1 id="home-heading-1">
+						Découvrir
+					</h1>
+					<br>
+					<h1 id="home-heading-2">
+						 Nos
+						<span>Compétitions</span>
+					</h1>
+				</div>
+				<div id="home-text">
+					<p>participez aux compétitions et gagner des récompenses
+					</p>
+				</div>
+				<!-- Arrow down-->
+				<a href="#competitions" title="About" class="smooth-scroll" id="arrow-down">
+					<i class="fas fa-angle-down"></i>
+				</a>
+			</div>
+		</div>
+	</section>
+	<!-- End Home  -->
+	<section id="competitions" style="background-color:#e9ecef">
+		<div class="row">
+			<div class="card-deck" style="padding-top: 15px;padding-left:15px;padding-right: 15px">
+				{% for competition in competitions %}
+					<div class="col-4">
+						<div class="card border-0 shadow mb-4">
+
+								
+							<img src="{{competition.idlivre.image}}" class="card-img-top" alt="...">
+
+							<div class="card-body">
+								<h5 class="card-title">{{competition.nom}}</h5>
+                                 <p class="card-text">Livre : {{competition.idlivre.titre}}</p>
+								<p class="card-text">Date Début :
+									{{ competition.dateDebut ? competition.dateDebut|date('Y-m-d') : '' }}</p>
+								<p class="card-text">Date Fin :
+									{{ competition.dateFin ? competition.dateFin|date('Y-m-d') : '' }}</p>
+                                      <p class="card-text">Récompense : {{competition.recompense}}</p>
+                                    
+                                    
+							</div>
+							<div class="card-footer">
+                           
+
+								{% if competition.dateDebut >  'now' %}
+									<button class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;" disabled>
+										<i class="fas fa-plus" style="padding-right:3px"></i>
+										Participer
+									</button>
+								
+								{% else %}
+									<a href="#" class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;">
+										<i class="fas fa-plus" style="padding-right:3px"></i>
+										Participer
+									</a>
+								{% endif %}
+							</div>
+						</div>
+					</div>
+				{% else %}
+
+					<h1>Aucun competition trouvé</h1>
+
+				{% endfor %}
+			</div>
+		</div>
+	</section>
+{% endblock %}
