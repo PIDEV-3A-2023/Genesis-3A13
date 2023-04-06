@@ -2,12 +2,14 @@
 namespace App\Entity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\UtilisateurRepository;
 
 /**
  * Utilisateur
  *
  * @ORM\Table(name="utilisateur", uniqueConstraints={@ORM\UniqueConstraint(name="email", columns={"email"})})
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\UtilisateurRepository")
  */
 class Utilisateur
 {

@@ -3,12 +3,13 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use App\Repository\PanierRepository;
 /**
  * Panier
  *
  * @ORM\Table(name="panier", indexes={@ORM\Index(name="client", columns={"id_client"}), @ORM\Index(name="livre", columns={"id_livre"})})
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\PanierRepository")
  */
 class Panier
 {

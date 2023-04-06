@@ -3,12 +3,13 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use App\Repository\QuizRepository;
 /**
  * Quiz
  *
  * @ORM\Table(name="quiz", indexes={@ORM\Index(name="livre", columns={"id_livre"}), @ORM\Index(name="competition", columns={"id_competition"})})
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\QuizRepository")
  */
 class Quiz
 {
