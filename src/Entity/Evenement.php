@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * Evenement
@@ -26,7 +28,10 @@ class Evenement
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=255, nullable=false)
+     * 
      */
+    #[Assert\NotBlank(message: 'nom obligatoire!')]
+    #[Assert\Length(max:255, maxMessage:'Le nom ne peut pas dépasser {{ limit }} caractères.')]
     private $nom;
 
     /**
@@ -34,6 +39,8 @@ class Evenement
      *
      * @ORM\Column(name="date", type="date", nullable=false)
      */
+    #[Assert\NotBlank(message: 'date obligatoire!')]
+    
     private $date;
 
     /**
@@ -41,6 +48,9 @@ class Evenement
      *
      * @ORM\Column(name="heure", type="time", nullable=false)
      */
+    #[Assert\NotBlank(message: 'heure obligatoire!')]
+    #[Assert\NotBlank(message: 'La date est obligatoire!')]
+    #[Assert\GreaterThanOrEqual("today",message: 'La date doit être supérieure ou égale à la date d\'aujourd\'hui!')]
     private $heure;
 
     /**
@@ -48,6 +58,8 @@ class Evenement
      *
      * @ORM\Column(name="lieu", type="string", length=255, nullable=false)
      */
+    #[Assert\NotBlank(message: 'Lieu obligatoire!')]
+    #[Assert\Length(max:255, maxMessage:'Le lieu ne peut pas dépasser {{ limit }} caractères.')]
     private $lieu;
 
     /**
@@ -55,6 +67,8 @@ class Evenement
      *
      * @ORM\Column(name="description", type="string", length=255, nullable=false)
      */
+    #[Assert\NotBlank(message: 'Description obligatoire!')]
+    #[Assert\Length(max:255, maxMessage:'La description ne peut pas dépasser {{ limit }} caractères.')]
     private $description;
 
     /**
@@ -62,6 +76,7 @@ class Evenement
      *
      * @ORM\Column(name="nb_ticket", type="integer", nullable=false)
      */
+    #[Assert\NotBlank(message: 'nombre de ticket obligatoire!')]
     private $nbTicket;
 
     /**
@@ -72,6 +87,7 @@ class Evenement
      *   @ORM\JoinColumn(name="id_auteur", referencedColumnName="id_utilisateur")
      * })
      */
+    #[Assert\NotBlank(message: 'Auteur obligatoire!')]
     private $idAuteur;
 
     /**
@@ -82,6 +98,7 @@ class Evenement
      *   @ORM\JoinColumn(name="id_livre", referencedColumnName="id_livre")
      * })
      */
+    #[Assert\NotBlank(message: 'Livre obligatoire!')]
     private $idLivre;
 
     public function getIdEvenement(): ?int

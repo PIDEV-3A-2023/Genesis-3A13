@@ -1,13 +1,20 @@
-<!DOCTYPE html>
+{% extends 'baseBack.html.twig' %}
+{% block title %}Modifier Evenement
+{% endblock %}
 
-<title>Edit Evenement</title>
+
 
 {% block body %}
-    <h1>Edit Evenement</h1>
+    <h1>
+        <span class="sidebar-icon">
+			<i class="fas fa-plus" style="padding-right:3px"></i>
+		</span>Modifier Evenement
+    </h1>
+    <br>
 
     {{ include('evenement/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('app_evenement_index') }}">back to list</a>
+    
 
-    {{ include('evenement/_delete_form.html.twig') }}
+   
 {% endblock %}

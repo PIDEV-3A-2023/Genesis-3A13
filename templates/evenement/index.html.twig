@@ -20,6 +20,15 @@
 	</div>
 
 	<br>
+	{% for type, messages in app.flashes %}
+		{% for message in messages %}
+			<div class="alert alert-{{ type }} alert-dismissible fade show">{{ message }}
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+		{% endfor %}
+	{% endfor %}
+
+	<br>
 	<div class="card border-0 shadow mb-4">
 		<div class="card-body">
 			<div class="table-responsive">
@@ -47,8 +56,12 @@
 								<td>{{ evenement.description }}</td>
 								<td>{{ evenement.nbTicket }}</td>
 								<td>
-									<a href="{{ path('app_evenement_show', {'idEvenement': evenement.idEvenement}) }}"><i class="fas fa-info-circle text-primary"></i></a>
-									<a href="{{ path('app_evenement_edit', {'idEvenement': evenement.idEvenement}) }}"><i class="fas fa-edit text-warning"></i></a>
+									<a href="{{ path('app_evenement_show', {'idEvenement': evenement.idEvenement}) }}">
+										<i class="fas fa-info-circle text-primary"></i>
+									</a>
+									<a href="{{ path('app_evenement_edit', {'idEvenement': evenement.idEvenement}) }}">
+										<i class="fas fa-edit text-warning"></i>
+									</a>
 								</td>
 							</tr>
 						{% else %}
