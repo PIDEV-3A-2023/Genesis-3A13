@@ -26,7 +26,11 @@
 {% for type, messages in app.flashes %}
     {% for message in messages %}
         <div class="alert alert-{{ type }} alert-dismissible fade show d-flex align-items-center">
+		{% if type == 'success'%}
 		<i class="fas fa-check-circle"style="padding-right: 10px"></i>
+		{% elseif type == 'danger'%}
+		<i class="fas fa-times-circle"style="padding-right: 10px"></i>
+		{% endif %}
 		<div>
 		{{ message }}
 		</div>
