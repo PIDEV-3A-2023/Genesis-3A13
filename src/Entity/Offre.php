@@ -26,6 +26,8 @@ class Offre
      *
      * @ORM\Column(name="pourcentage_solde", type="string", length=255, nullable=false)
      */
+    #[Assert\NotBlank(message: 'pourcentage du solde est obligatoire!')]
+     #[Assert\Length(max: 3)]
     private $pourcentageSolde;
 
     /**
@@ -33,10 +35,12 @@ class Offre
      *
      * @ORM\Column(name="prix_soldé", type="float", precision=10, scale=0, nullable=false)
      */
+    #[Assert\NotBlank(message: 'prix soldé est obligatoire!')]
+
     private $prixSoldé;
 
     /**
-     * @var Livre
+     * @var int
      *
      * @ORM\ManyToOne(targetEntity="Livre")
      * @ORM\JoinColumns({
@@ -74,17 +78,18 @@ class Offre
         return $this;
     }
 
-    public function getIdLivre(): ?Livre
+    public function getIdLivre(): ?int
     {
         return $this->idLivre;
     }
 
-    public function setIdLivre(?Livre $idLivre): self
+    public function setIdLivre(?int $idLivre): self
     {
         $this->idLivre = $idLivre;
 
         return $this;
     }
 
-
+    
+    
 }

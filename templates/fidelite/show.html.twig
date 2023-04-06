@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<title>Fidelite</title>
+
+{% block body %}
+    <h1>Fidelite</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>IdFidelite</th>
+                <td>{{ fidelite.idFidelite }}</td>
+            </tr>
+            <tr>
+                <th>TotalAchat</th>
+                <td>{{ fidelite.totalAchat }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ fidelite.type }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_fidelite_index') }}">back to list</a>
+
+    <a href="{{ path('app_fidelite_edit', {'idFidelite': fidelite.idFidelite}) }}">edit</a>
+
+    {{ include('fidelite/_delete_form.html.twig') }}
+{% endblock %}

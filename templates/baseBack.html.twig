@@ -95,8 +95,8 @@
 
 						</a>
 					</li>
-					<li class="nav-item ">
-						<a href="" class="nav-link">
+					<li class="nav-item  {% if app.request.attributes.get('_route') == 'app_categorie_index'  %}active{% endif %}">
+						<a href="{{path('app_categorie_index')}}" class="nav-link">
 							<span class="sidebar-icon">
 								<span class="sidebar-icon">
 
@@ -119,8 +119,8 @@
 							<span class="sidebar-text">Quiz</span>
 						</a>
 					</li>
-					<li class="nav-item ">
-						<a href="" class="nav-link">
+					<li class="nav-item {% if app.request.attributes.get('_route') == 'app_offre_index'  %}active{% endif %}">
+						<a href="{{path('app_offre_index')}}" class="nav-link ">
 							<span class="sidebar-icon">
 								<span class="sidebar-icon">
 
@@ -146,8 +146,8 @@
 
 						</a>
 					</li>
-					<li class="nav-item">
-						<a href="" class="nav-link d-flex justify-content-between">
+					<li class="nav-item {% if app.request.attributes.get('_route') == 'app_evenement_index'  %}active{% endif %}">
+						<a href="{{path('app_evenement_index')}}" class="nav-link d-flex justify-content-between">
 							<span>
 								<span class="sidebar-icon">
 									<span class="sidebar-icon">
@@ -161,8 +161,8 @@
 
 						</a>
 					</li>
-					<li class="nav-item">
-						<a href="" class="nav-link d-flex justify-content-between">
+					<li class="nav-item {% if app.request.attributes.get('_route') == 'app_commande_index'  %}active{% endif %}">
+						<a href="{{path('app_commande_index')}}" class="nav-link d-flex justify-content-between">
 							<span>
 								<span class="sidebar-icon">
 									<span class="sidebar-icon">
@@ -176,8 +176,8 @@
 
 						</a>
 					</li>
-					<li class="nav-item">
-						<a href="" class="nav-link d-flex justify-content-between">
+					<li class="nav-item {% if app.request.attributes.get('_route') == 'app_utilisateur_index'  %}active{% endif %}">
+						<a href="{{path('app_utilisateur_index')}}" class="nav-link d-flex justify-content-between">
 							<span>
 								<span class="sidebar-icon">
 									<span class="sidebar-icon">

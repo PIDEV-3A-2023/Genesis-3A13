@@ -24,12 +24,17 @@
 	<br>
 {% for type, messages in app.flashes %}
     {% for message in messages %}
-        <div class="alert alert-{{ type }} alert-dismissible fade show">{{ message }}
+        <div class="alert alert-{{ type }} alert-dismissible fade show d-flex align-items-center">
+		<i class="fas fa-check-circle"style="padding-right: 10px"></i>
+		<div>
+		{{ message }}
+		</div>
          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     {% endfor %}
 {% endfor %}
 
+<br>
 
 	
 
@@ -43,7 +48,6 @@
                 <th class="border-0">Nom</th>
                 <th class="border-0">Prénom</th>
                 <th class="border-0">Email</th>
-                <th class="border-0">Mot De Passe</th>
                 <th class="border-0">Numéro de Telephone</th>
                 <th class="border-0">Role</th>
                 <th class="border-0 rounded-end">actions</th>
@@ -56,7 +60,6 @@
                 <td>{{ utilisateur.nom }}</td>
                 <td>{{ utilisateur.prenom }}</td>
                 <td>{{ utilisateur.email }}</td>
-                <td>{{ utilisateur.motDePasse }}</td>
                 <td>{{ utilisateur.numTelephone }}</td>
                 <td>{{ utilisateur.role }}</td>
                 <td>

@@ -3,12 +3,14 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CartebancaireRepository;
 
 /**
  * CarteBancaire
  *
  * @ORM\Table(name="carte_bancaire", uniqueConstraints={@ORM\UniqueConstraint(name="num_carte", columns={"num_carte"})})
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\CartebancaireRepository")
  */
 class CarteBancaire
 {

@@ -26,6 +26,8 @@ class Fidelite
      *
      * @ORM\Column(name="total_achat", type="integer", nullable=false)
      */
+    #[Assert\NotBlank(message: 'total achat est obligatoire!')]
+
     private $totalAchat;
 
     /**
@@ -33,10 +35,12 @@ class Fidelite
      *
      * @ORM\Column(name="type", type="string", length=0, nullable=false)
      */
+
+    #[Assert\NotBlank(message: 'type de fidelite est obligatoire!')]
     private $type;
 
     /**
-     * @var Utilisateur
+     * @var int
      *
      * @ORM\ManyToOne(targetEntity="Utilisateur")
      * @ORM\JoinColumns({
@@ -74,12 +78,12 @@ class Fidelite
         return $this;
     }
 
-    public function getIdClient(): ?Utilisateur
+    public function getIdClient(): ?int
     {
         return $this->idClient;
     }
 
-    public function setIdClient(?Utilisateur $idClient): self
+    public function setIdClient(?int $idClient): self
     {
         $this->idClient = $idClient;
 

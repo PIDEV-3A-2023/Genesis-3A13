@@ -1,0 +1,12 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}modifier commande
+{% endblock %}
+
+{% block body %}
+ <a href="{{ path('app_commande_index') }}"><i class="fas fa-arrow-left"></i></a>
+    <h1>modifier commande</h1>
+
+    {{ include('commande/_form.html.twig', {'button_label': 'Mise à jour'}) }}
+
+{% endblock %}

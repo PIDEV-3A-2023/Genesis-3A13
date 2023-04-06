@@ -5,12 +5,13 @@ namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use App\Repository\CompetitionRepository;
 /**
  * Competition
  *
  * @ORM\Table(name="competition", indexes={@ORM\Index(name="livre", columns={"id_livre"})})
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\CompetitionRepository")
  */
 class Competition
 {

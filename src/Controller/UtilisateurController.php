@@ -35,7 +35,7 @@ class UtilisateurController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($utilisateur);
             $entityManager->flush();
-
+            $this->addFlash('success', 'Utilisateur ajouté avec succés!');
             return $this->redirectToRoute('app_utilisateur_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -61,7 +61,7 @@ class UtilisateurController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-
+            $this->addFlash('success', 'Utilisateur mise à jour avec succés!');
             return $this->redirectToRoute('app_utilisateur_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -78,7 +78,7 @@ class UtilisateurController extends AbstractController
             $entityManager->remove($utilisateur);
             $entityManager->flush();
         }
-
+        $this->addFlash('success', 'Utilisateur supprimée avec succés!');
         return $this->redirectToRoute('app_utilisateur_index', [], Response::HTTP_SEE_OTHER);
     }
 }

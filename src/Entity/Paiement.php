@@ -3,12 +3,13 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use App\Repository\PaiementRepository;
 /**
  * Paiement
  *
  * @ORM\Table(name="paiement", indexes={@ORM\Index(name="client", columns={"id_client"})})
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\PaiementRepository")
  */
 class Paiement
 {
