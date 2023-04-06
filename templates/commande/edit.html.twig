@@ -1,13 +1,12 @@
-<!DOCTYPE html>
+{% extends 'baseBack.html.twig' %}
 
-<title>Edit Commande</title>
+{% block title %}modifier commande
+{% endblock %}
 
 {% block body %}
-    <h1>Edit Commande</h1>
+ <a href="{{ path('app_commande_index') }}"><i class="fas fa-arrow-left"></i></a>
+    <h1>modifier commande</h1>
 
-    {{ include('commande/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('commande/_form.html.twig', {'button_label': 'Mise à jour'}) }}
 
-    <a href="{{ path('app_commande_index') }}">back to list</a>
-
-    {{ include('commande/_delete_form.html.twig') }}
 {% endblock %}
