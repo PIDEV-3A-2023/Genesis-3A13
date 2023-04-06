@@ -36,6 +36,7 @@ class EvenementController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($evenement);
             $entityManager->flush();
+            $this->addFlash('success', 'Evenement created successfully!');
 
             return $this->redirectToRoute('app_evenement_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -62,6 +63,7 @@ class EvenementController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
+            $this->addFlash('success', 'Evenement updated successfully!');
 
             return $this->redirectToRoute('app_evenement_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -79,7 +81,7 @@ class EvenementController extends AbstractController
             $entityManager->remove($evenement);
             $entityManager->flush();
         }
-
+        $this->addFlash('success', 'Evenement deleted successfully!');
         return $this->redirectToRoute('app_evenement_index', [], Response::HTTP_SEE_OTHER);
     }
 }
