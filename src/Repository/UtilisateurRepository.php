@@ -39,6 +39,16 @@ class UtilisateurRepository extends ServiceEntityRepository
         }
     }
 
+    public function getUserWithRole($role)
+    {
+        $qb = $this->createQueryBuilder('u')
+            ->leftJoin('u.role', 'r')
+            ->where('r.nom = :role')
+            ->setParameter('role', $role)
+            ->getQuery();
+        
+        return $qb->getResult();
+    }
 //    /**
 //     * @return Utilisateur[] Returns an array of Utilisateur objects
 //     */
