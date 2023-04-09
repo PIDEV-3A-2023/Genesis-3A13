@@ -1,0 +1,88 @@
+{% extends 'baseFront.html.twig' %}
+
+{% block title %}Evenements
+{% endblock %}
+
+{% block body %}
+	<section
+		id="home">
+		<!-- Background image -->
+		<video id="home_vedio_bg" poster="{{asset('Front/images/evenement/video/camp.mp4')}}" autoplay loop muted>
+			<source src="{{asset('Front/images/evenement/video/camp.mp4')}}" width="200" height="150" type="video/mp4"/>
+
+		</video>
+		<!-- Overlay -->
+		<div id="home_overlay"></div>
+		<!-- Home content -->
+		<div id="home-content">
+			<div id="content-inner" class="text-center">
+				<div id="home-heading">
+					<h1 id="home-heading-1">
+						Découvrir
+					</h1>
+					<br>
+					<h1 id="home-heading-2">
+						 Nos
+						<span>Evenements</span>
+					</h1>
+				</div>
+				<div id="home-text">
+					<p>consulter nos evenements et reserver vos tickets
+					</p>
+				</div>
+				<!-- Arrow down-->
+				<a href="#evenements" title="About" class="smooth-scroll" id="arrow-down">
+					<i class="fas fa-angle-down"></i>
+				</a>
+			</div>
+		</div>
+	</section>
+	<!-- End Home  -->
+	<section id="evenements" style="background-color:#e9ecef">
+		<div class="row">
+			<div class="card-deck" style="padding-top: 15px;padding-left:15px;padding-right: 15px">
+				{% for evenement in evenements %}
+					<div class="col-4">
+						<div class="card border-0 shadow mb-4">
+
+								
+							<img src="{{asset('Front/images/evenement/quiz.jpg')}}" class="card-img-top" alt="..." style="border-radius: 10%;padding-top:15px;padding-left:15px;padding-right:15px">
+
+							<div class="card-body">
+								<h5 class="card-title">{{evenement.nom}}</h5>
+                                 <p class="card-text">Livre : {{evenement.idlivre.titre}}</p>
+								<p class="card-text">Date :
+									{{ evenement.date ? evenement.date|date('Y-m-d') : '' }}</p>
+								<p class="card-text">Heure :
+									{{ evenement.heure ? evenement.heure|date('H:i:s') : '' }}</p>
+                                     
+                                    
+                                    
+							</div>
+							<div class="card-footer">
+                           
+							
+								{% if evenement.date <  date('now') %}
+									<button class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;" disabled>
+										<i class="fas fa-plus" style="padding-right:3px"></i>
+										Reserver
+									</button>
+								
+								{% else %}
+									<a href="#" class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;">
+										<i class="fas fa-plus" style="padding-right:3px"></i>
+										Reserver
+									</a>
+								{% endif %}
+							</div>
+						</div>
+					</div>
+				{% else %}
+
+					<h1>Aucun evenement trouvé</h1>
+
+				{% endfor %}
+			</div>
+		</div>
+	</section>
+{% endblock %}
