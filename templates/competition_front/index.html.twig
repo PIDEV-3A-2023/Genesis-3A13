@@ -1,5 +1,6 @@
 {% extends 'baseFront.html.twig' %}
 
+
 {% block title %}Compétitions
 {% endblock %}
 
@@ -7,9 +8,8 @@
 	<section
 		id="home">
 		<!-- Background image -->
-		<video id="home_vedio_bg" poster="Front/images/home/home-img.png" autoplay loop muted>
-			<source src="Front/images/home/video/home-video.mp4" width="200" height="150" type="video/mp4"/>
-
+		<video id="home_vedio_bg" poster="{{asset('Front/images/competition/competition-img.jpg')}}" autoplay loop muted>
+			<source src="{{asset('Front/images/competition/video/comp.mp4')}}" width="200" height="150" type="video/mp4"/>
 		</video>
 		<!-- Overlay -->
 		<div id="home_overlay"></div>
@@ -22,12 +22,12 @@
 					</h1>
 					<br>
 					<h1 id="home-heading-2">
-						 Nos
+						Nos
 						<span>Compétitions</span>
 					</h1>
 				</div>
 				<div id="home-text">
-					<p>participez aux compétitions et gagner des récompenses
+					<p>participez aux compétitions et gagner des cadeaux
 					</p>
 				</div>
 				<!-- Arrow down-->
@@ -42,32 +42,32 @@
 		<div class="row">
 			<div class="card-deck" style="padding-top: 15px;padding-left:15px;padding-right: 15px">
 				{% for competition in competitions %}
-					<div class="col-4">
+					<div class="col-4 justify-content-center">
 						<div class="card border-0 shadow mb-4">
 
-								
-							<img src="{{competition.idlivre.image}}" class="card-img-top" alt="...">
+
+							<img src="{{asset('Front/images/competition/quiz.jpg')}}" class="card-img-top" style="border-radius: 10%;padding-top:15px;padding-left:15px;padding-right:15px" alt="...">
 
 							<div class="card-body">
 								<h5 class="card-title">{{competition.nom}}</h5>
-                                 <p class="card-text">Livre : {{competition.idlivre.titre}}</p>
-								<p class="card-text">Date Début :
-									{{ competition.dateDebut ? competition.dateDebut|date('Y-m-d') : '' }}</p>
-								<p class="card-text">Date Fin :
+								<p class="card-text">
+									<i class="fas fa-book-open"></i>
+									{{competition.idlivre.titre}}</p>
+								<p class="card-text">
+									<i class="fas fa-calendar-alt"></i>
+									De
+									{{ competition.dateDebut ? competition.dateDebut|date('Y-m-d') : '' }}
+									à
 									{{ competition.dateFin ? competition.dateFin|date('Y-m-d') : '' }}</p>
-                                      <p class="card-text">Récompense : {{competition.recompense}}</p>
-                                    
-                                    
-							</div>
-							<div class="card-footer">
-                           
+								<p class="card-text">
+									<i class="fas fa-gift"></i>
+									{{competition.recompense}}</p>
 
-								{% if competition.dateDebut >  'now' %}
+								{% if competition.dateDebut > date('now') or competition.dateFin < date('now') %}
 									<button class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;" disabled>
 										<i class="fas fa-plus" style="padding-right:3px"></i>
 										Participer
 									</button>
-								
 								{% else %}
 									<a href="#" class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;">
 										<i class="fas fa-plus" style="padding-right:3px"></i>
@@ -75,6 +75,8 @@
 									</a>
 								{% endif %}
 							</div>
+
+
 						</div>
 					</div>
 				{% else %}

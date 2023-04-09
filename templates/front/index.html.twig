@@ -5,8 +5,8 @@
 {% block body %}
    <section id="home">
         <!-- Background image -->
-        <video id="home_vedio_bg" poster="Front/images/home/home-img.png" autoplay loop muted>
-            <source src="Front/images/home/video/home-video.mp4" width="200" height="150" type="video/mp4" />
+        <video id="home_vedio_bg" poster="{{asset('Front/images/home/home-img.png')}}" autoplay loop muted>
+            <source src="{{asset('Front/images/home/video/home-video.mp4')}}" width="200" height="150" type="video/mp4" />
        
         </video>
         <!-- Overlay -->
