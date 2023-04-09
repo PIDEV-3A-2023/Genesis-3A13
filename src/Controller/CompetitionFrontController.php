@@ -14,7 +14,7 @@ class CompetitionFrontController extends AbstractController
     public function index(CompetitionRepository $repo): Response
     {
         $competitions = $repo->findAll();
-        //$livres=$repolivre->findAll();
+      
         return $this->render('competition_front/index.html.twig', [
             'competitions' => $competitions,
             'controller_name' => 'CompetitionFrontController',
