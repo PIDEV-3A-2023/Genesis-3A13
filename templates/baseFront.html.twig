@@ -78,7 +78,7 @@
 							</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" style="color:#D4A373;" href="#">
+							<a class="nav-link" {% if app.request.attributes.get('_route') == 'app_evenement_front'  %}style="color:#00377E;" {% else %}style="color:#D4A373;"{% endif %} href="{{path('app_evenement_front')}}">
 								<h6>
 									<b>Evénements</b>
 								</h6>
