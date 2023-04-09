@@ -37,6 +37,7 @@ class Evenement
      */
     #[Assert\NotBlank(message: 'nom obligatoire!')]
     #[Assert\Length(max:255, maxMessage:'Le nom ne peut pas dépasser {{ limit }} caractères.')]
+    #[Assert\Length(min:5, maxMessage:'Le nom ne peut pas etre inférieure {{ limit }} caractères.')]
     private $nom;
 
     /**
@@ -45,6 +46,7 @@ class Evenement
      * @ORM\Column(name="date", type="date", nullable=false)
      */
     #[Assert\NotBlank(message: 'date obligatoire!')]
+    #[Assert\GreaterThanOrEqual("today",message: 'La date doit être supérieure ou égale à la date d\'aujourd\'hui!')]
     
     private $date;
 
@@ -54,8 +56,8 @@ class Evenement
      * @ORM\Column(name="heure", type="time", nullable=false)
      */
     #[Assert\NotBlank(message: 'heure obligatoire!')]
-    #[Assert\NotBlank(message: 'La date est obligatoire!')]
-    #[Assert\GreaterThanOrEqual("today",message: 'La date doit être supérieure ou égale à la date d\'aujourd\'hui!')]
+    
+    
     private $heure;
 
     /**
@@ -82,6 +84,8 @@ class Evenement
      * @ORM\Column(name="nb_ticket", type="integer", nullable=false)
      */
     #[Assert\NotBlank(message: 'nombre de ticket obligatoire!')]
+    #[Assert\Range(min : 10,max :500, notInRangeMessage:'Le nombre de ticket doit être compris entre {{ min }} et {{ max }}!')]
+    #[Assert\Positive(message : "Le nombre de ticket doit être positif!")]
     private $nbTicket;
 
     /**
