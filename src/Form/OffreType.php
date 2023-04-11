@@ -13,7 +13,7 @@ class OffreType extends AbstractType
     {
         $builder
             ->add('pourcentageSolde')
-            ->add('prixSoldé')
+            ->add('prixSolde')
             ->add('idLivre')
         ;
     }

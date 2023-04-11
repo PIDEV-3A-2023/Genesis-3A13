@@ -1,11 +1,34 @@
-<!DOCTYPE html>
+{% extends 'baseBack.html.twig' %}
 
-<title>Fidelite index</title>
+{% block title %}Offre
+{% endblock %}
 
 {% block body %}
-    <h1>Fidelite index</h1>
+   <div class="d-flex justify-content-between w-100 flex-wrap">
+		<div class="mb-3 mb-lg-0">
+			<h1>
+				
+		</div>
+		<div style="padding-top: 10px;">
 
-    <table class="table">
+			<a href="{{ path('app_fidelite_new') }}" class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;">
+				<i class="fas fa-plus" style="padding-right:3px"></i>
+				Créer un nouveau</a>
+		</div>
+	</div>
+	<br>
+{% for type, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="alert alert-{{ type }} alert-dismissible fade show">{{ message }}
+         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+{% endfor %}
+
+	<div class="card border-0 shadow mb-4">
+		<div class="card-body">
+		<div class="table-responsive">
+		<table class="table table-centered table-nowrap mb-0 rounded">
         <thead>
             <tr>
                 <th>IdFidelite</th>
@@ -21,8 +44,8 @@
                 <td>{{ fidelite.totalAchat }}</td>
                 <td>{{ fidelite.type }}</td>
                 <td>
-                    <a href="{{ path('app_fidelite_show', {'idFidelite': fidelite.idFidelite}) }}">show</a>
-                    <a href="{{ path('app_fidelite_edit', {'idFidelite': fidelite.idFidelite}) }}">edit</a>
+                    <a href="{{ path('app_fidelite_show', {'idFidelite': fidelite.idFidelite}) }}"><i class="fas fa-info-circle text-info"></i></a></a>
+                    <a href="{{ path('app_fidelite_edit', {'idFidelite': fidelite.idFidelite}) }}"><i class="fas fa-edit text-warning"></i></a>
                 </td>
             </tr>
         {% else %}
@@ -32,6 +55,7 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('app_fidelite_new') }}">Create new</a>
+</div>
+        </div>
+    </div>
 {% endblock %}
