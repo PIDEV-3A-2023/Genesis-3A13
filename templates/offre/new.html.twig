@@ -1,11 +1,19 @@
-<!DOCTYPE html>
+{% extends 'baseBack.html.twig' %}
 
-<title>New Offre</title>
+{% block title %}Ajouter Offre
+{% endblock %}
 
 {% block body %}
-    <h1>Create new Offre</h1>
+ <a href="{{ path('app_offre_index') }}">
+   <i class="fas fa-arrow-alt-circle-left"></i>
+	</a>
+	<h1>
+		<span class="sidebar-icon">
+			<i class="fas fa-plus" style="padding-right:3px"></i>
+		</span>Créer une nouvelle Competition
+	</h1>	
+	<br>
 
     {{ include('offre/_form.html.twig') }}
 
-    <a href="{{ path('app_offre_index') }}">back to list</a>
 {% endblock %}

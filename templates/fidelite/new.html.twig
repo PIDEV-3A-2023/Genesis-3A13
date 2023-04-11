@@ -1,10 +1,18 @@
-<!DOCTYPE html>
+{% extends 'baseBack.html.twig' %}
 
-<title>New Fidelite</title>
+{% block title %}Ajouter Fidelite
+{% endblock %}
 
 {% block body %}
-    <h1>Create new Fidelite</h1>
-
+  <a href="{{ path('app_fidelite_index') }}">
+		<i class="fas fa-arrow-alt-circle-left"></i>
+	</a>
+	<h1>
+		<span class="sidebar-icon">
+			<i class="fas fa-plus" style="padding-right:3px"></i>
+		</span>Créer une nouvelle Fidelite
+	</h1>
+	<br>
     {{ include('fidelite/_form.html.twig') }}
 
     <a href="{{ path('app_fidelite_index') }}">back to list</a>
