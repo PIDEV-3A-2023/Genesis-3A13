@@ -33,11 +33,11 @@ class Offre
     /**
      * @var float
      *
-     * @ORM\Column(name="prix_soldé", type="float", precision=10, scale=0, nullable=false)
+     * @ORM\Column(name="prix_solde", type="float", precision=10, scale=0, nullable=false)
      */
     #[Assert\NotBlank(message: 'prix soldé est obligatoire!')]
 
-    private $prixSoldé;
+    private $prixSolde;
 
     /**
      * @var int
@@ -66,14 +66,14 @@ class Offre
         return $this;
     }
 
-    public function getPrixSoldé(): ?float
+    public function getPrixSolde(): ?float
     {
-        return $this->prixSoldé;
+        return $this->prixSolde;
     }
 
-    public function setPrixSoldé(float $prixSoldé): self
+    public function setPrixSolde(float $prixSolde): self
     {
-        $this->prixSoldé = $prixSoldé;
+        $this->prixSolde = $prixSolde;
 
         return $this;
     }
