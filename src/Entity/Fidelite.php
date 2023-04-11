@@ -3,12 +3,15 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\FideliteRepository;
 
 /**
  * Fidelite
  *
  * @ORM\Table(name="fidelite", indexes={@ORM\Index(name="client", columns={"id_client"})})
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\FideliteRepository")
+
  */
 class Fidelite
 {
@@ -40,7 +43,7 @@ class Fidelite
     private $type;
 
     /**
-     * @var int
+     * @var Utilisateur
      *
      * @ORM\ManyToOne(targetEntity="Utilisateur")
      * @ORM\JoinColumns({
@@ -78,12 +81,12 @@ class Fidelite
         return $this;
     }
 
-    public function getIdClient(): ?int
+    public function getIdClient(): ?Utilisateur
     {
         return $this->idClient;
     }
 
-    public function setIdClient(?int $idClient): self
+    public function setIdClient(?Utilisateur $idClient): self
     {
         $this->idClient = $idClient;
 

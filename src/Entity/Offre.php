@@ -3,12 +3,15 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\OffreRepository;
 
 /**
  * Offre
  *
  * @ORM\Table(name="offre", indexes={@ORM\Index(name="livre", columns={"id_livre"})})
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\OffreRepository")
+
  */
 class Offre
 {
@@ -40,7 +43,7 @@ class Offre
     private $prixSolde;
 
     /**
-     * @var int
+     * @var Livre
      *
      * @ORM\ManyToOne(targetEntity="Livre")
      * @ORM\JoinColumns({
@@ -78,18 +81,17 @@ class Offre
         return $this;
     }
 
-    public function getIdLivre(): ?int
+    public function getIdLivre(): ?Livre
     {
         return $this->idLivre;
     }
 
-    public function setIdLivre(?int $idLivre): self
+    public function setIdLivre(?Livre $idLivre): self
     {
         $this->idLivre = $idLivre;
 
         return $this;
     }
-
     
     
 }
