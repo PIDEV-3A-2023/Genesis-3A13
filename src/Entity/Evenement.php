@@ -37,7 +37,7 @@ class Evenement
      */
     #[Assert\NotBlank(message: 'nom obligatoire!')]
     #[Assert\Length(max:255, maxMessage:'Le nom ne peut pas dépasser {{ limit }} caractères.')]
-    #[Assert\Length(min:5, maxMessage:'Le nom ne peut pas etre inférieure {{ limit }} caractères.')]
+    #[Assert\Length(min:5, minMessage:'Le nom ne peut pas etre inférieure {{ limit }} caractères.')]
     private $nom;
 
     /**
@@ -67,6 +67,7 @@ class Evenement
      */
     #[Assert\NotBlank(message: 'Lieu obligatoire!')]
     #[Assert\Length(max:255, maxMessage:'Le lieu ne peut pas dépasser {{ limit }} caractères.')]
+    #[Assert\Length(min:5, minMessage:'Le nom ne peut pas etre inférieure {{ limit }} caractères.')]
     private $lieu;
 
     /**
@@ -76,6 +77,7 @@ class Evenement
      */
     #[Assert\NotBlank(message: 'Description obligatoire!')]
     #[Assert\Length(max:255, maxMessage:'La description ne peut pas dépasser {{ limit }} caractères.')]
+    #[Assert\Length(min:5, minMessage:'Le nom ne peut pas etre inférieure {{ limit }} caractères.')]
     private $description;
 
     /**
