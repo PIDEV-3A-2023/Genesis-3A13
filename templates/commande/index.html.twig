@@ -10,7 +10,11 @@
 {% for type, messages in app.flashes %}
     {% for message in messages %}
         <div class="alert alert-{{ type }} alert-dismissible fade show d-flex align-items-center">
+		{% if type == 'success'%}
 		<i class="fas fa-check-circle"style="padding-right: 10px"></i>
+		{% elseif type == 'danger'%}
+		<i class="fas fa-times-circle"style="padding-right: 10px"></i>
+		{% endif %}
 		<div>
 		{{ message }}
 		</div>
@@ -31,7 +35,10 @@
                 <th class="border-0">Status</th>
                 <th class="border-0">Mode</th>
                 <th class="border-0">Etat</th>
+                
                 <th class="border-0">Montant</th>
+                <th class="border-0">Client</th>
+
                 <th class="border-0 rounded-end">actions</th>
             </tr>
         </thead>
@@ -43,9 +50,10 @@
                 <td>{{ commande.mode }}</td>
                 <td>{{ commande.etat }}</td>
                 <td>{{ commande.montant }}</td>
+                <td>{{ commande.idClient.nom}} {{ commande.idClient.prenom}}</td>
                 <td>
                     <a href="{{ path('app_commande_show', {'idCommande': commande.idCommande}) }}"><i class="fas fa-info-circle text-info"></i></a>
-                    <a href="{{ path('app_commande_edit', {'idCommande': commande.idCommande}) }}"><i class="fas fa-edit text-warning"></i></a>
+                    <a href="{{ path('app_commande_edit', {'idCommande': commande.idCommande}) }}" {% if commande.Etat == 'livre' %} disabled {% endif %}><i class="fas fa-edit text-warning"></i></a>
                 </td>
             </tr>
         {% else %}

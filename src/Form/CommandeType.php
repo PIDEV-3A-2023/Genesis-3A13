@@ -14,7 +14,7 @@ class CommandeType extends AbstractType
     {
         $builder
             ->add('status',ChoiceType::class, [
-                'label' => 'Etat',
+                'label' => 'Status de paiement',
                 'choices' => [
                     'Payé' => 'paye',
                     'Non payé' => 'non_paye'
