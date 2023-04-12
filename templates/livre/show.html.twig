@@ -1,0 +1,76 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}Détails Livre
+{% endblock %}
+
+{% block body %}
+ <a href="{{ path('app_livre_index') }}"><i class="fas fa-arrow-left"></i></a>
+   	<div class="d-flex justify-content-between w-100 flex-wrap">
+		<div class="mb-3 mb-lg-0">
+			<h1>
+				<span class="sidebar-icon">
+
+					<img src="{{asset('Back/img/icons/book.png')}}" class="icon icon-s me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
+
+				</span>Livre : {{ livre.titre }}</h1>
+
+		</div>
+	</div>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th class="text-primary fw-bold">IdLivre</th>
+                <td>{{ livre.idLivre }}</td>
+            </tr>
+             <tr>
+                <th class="text-primary fw-bold">Image</th>
+                <td><img src="data:image/png;base64,{{ livre.image|blobToBase64 }}" class="card-img-top" alt="..."></td>
+            </tr>
+            <tr>
+                <th class="text-primary fw-bold">Titre</th>
+                <td>{{ livre.titre }}</td>
+            </tr>
+             <tr>
+                <th class="text-primary fw-bold">Auteur</th>
+                <td>{{ livre.idauteur.nom }} {{ livre.idauteur.prenom }}</td>
+            </tr>
+            <tr>
+                <th class="text-primary fw-bold">Date de publication</th>
+                <td>{{ livre.datePub ? livre.datePub|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th class="text-primary fw-bold">Langue</th>
+                <td>{{ livre.langue }}</td>
+            </tr>
+            <tr>
+                <th class="text-primary fw-bold">Isbn</th>
+                <td>{{ livre.isbn }}</td>
+            </tr>
+            <tr>
+                <th class="text-primary fw-bold">NbPages</th>
+                <td>{{ livre.nbPages }}</td>
+            </tr>
+            <tr>
+                <th class="text-primary fw-bold">Resume</th>
+                <td>{{ livre.resume }}</td>
+            </tr>
+            <tr>
+                <th class="text-primary fw-bold">Prix</th>
+                <td>{{ livre.prix }}</td>
+            </tr>
+           
+        </tbody>
+    </table>
+   
+
+   <div class="row">
+		<div class="col-md-2">
+
+    <a href="{{ path('app_livre_edit', {'idLivre': livre.idLivre}) }}"  class="btn btn-warning d-inline-flex align-items-center"><i class="fas fa-edit" style="padding-right:3px"></i>Modifier</a>
+</div>
+		<div class="col-md-2">
+    {{ include('livre/_delete_form.html.twig') }}
+    </div>
+	</div>
+{% endblock %}
