@@ -1,0 +1,31 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}Details Messagerie
+{% endblock %}
+
+{% block body %}
+    <h1>Messagerie</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>IdMessagerie</th>
+                <td>{{ messagerie.idMessagerie }}</td>
+            </tr>
+            <tr>
+                <th>Message</th>
+                <td>{{ messagerie.message }}</td>
+            </tr>
+            <tr>
+                <th>DateHeure</th>
+                <td>{{ messagerie.dateHeure }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_messagerie_index') }}">back to list</a>
+
+    <a href="{{ path('app_messagerie_edit', {'idMessagerie': messagerie.idMessagerie}) }}">edit</a>
+
+    {{ include('messagerie/_delete_form.html.twig') }}
+{% endblock %}

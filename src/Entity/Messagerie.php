@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Messagerie
@@ -22,16 +23,14 @@ class Messagerie
     private $idMessagerie;
 
     /**
-     * @var string
-     *
+     * @Assert\NotBlank
+     * @Assert\Length(min=5, max=100)
      * @ORM\Column(name="message", type="string", length=255, nullable=false)
      */
     private $message;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="date_heure", type="string", length=20, nullable=false)
+     * @ORM\Column(type="datetime")
      */
     private $dateHeure;
 
@@ -62,12 +61,12 @@ class Messagerie
         return $this;
     }
 
-    public function getDateHeure(): ?string
+    public function getDateHeure(): ?\DateTimeInterface
     {
         return $this->dateHeure;
     }
 
-    public function setDateHeure(string $dateHeure): self
+    public function setDateHeure(\DateTimeInterface $dateHeure): self
     {
         $this->dateHeure = $dateHeure;
 
