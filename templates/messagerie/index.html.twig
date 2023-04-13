@@ -1,0 +1,38 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}Messagerie
+{% endblock %}
+
+{% block body %}
+    <h1>Messagerie index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>IdMessagerie</th>
+                <th>Message</th>
+                <th>DateHeure</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for messagerie in messageries %}
+            <tr>
+                <td>{{ messagerie.idMessagerie }}</td>
+                <td>{{ messagerie.message }}</td>
+                <td>{{ messagerie.dateHeure|date('Y-m-d H:i:s') }}</td>
+                <td>
+                    <a href="{{ path('app_messagerie_show', {'idMessagerie': messagerie.idMessagerie}) }}">show</a>
+                    <a href="{{ path('app_messagerie_edit', {'idMessagerie': messagerie.idMessagerie}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_messagerie_new') }}">Create new</a>
+{% endblock %}
