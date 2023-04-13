@@ -3,7 +3,7 @@ namespace App\Entity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UtilisateurRepository;
-
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * Utilisateur
  *
@@ -11,7 +11,7 @@ use App\Repository\UtilisateurRepository;
  * @ORM\Entity
  * @ORM\Entity(repositoryClass="App\Repository\UtilisateurRepository")
  */
-class Utilisateur
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]class Utilisateur
 {
     /**
      * @var int
@@ -52,7 +52,6 @@ class Utilisateur
      *
      * @ORM\Column(name="mot_de_passe", type="string", length=255, nullable=false)
      */
-    #[Assert\NotBlank(message: 'Mot de passe obligatoire!')]
     private $motDePasse;
 
     /**
