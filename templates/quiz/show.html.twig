@@ -1,0 +1,44 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}Détails Quiz
+{% endblock %}
+
+{% block body %}
+    	<a href="{{ path('app_quiz_index') }}">
+		<i class="fas fa-arrow-left"></i>
+	</a>
+	<div class="d-flex justify-content-between w-100 flex-wrap">
+		<div class="mb-3 mb-lg-0">
+			<h1>
+				<span class="sidebar-icon">
+
+					<img src="{{asset('Back/img/icons/Event.png')}}" class="icon icon-s me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
+
+				</span>Quiz</h1>
+
+		</div>
+	</div>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>IdQuiz</th>
+                <td>{{ quiz.idQuiz }}</td>
+            </tr>
+             <tr>
+                <th>Competition</th>
+                <td>{{ quiz.idCompetition.nom }}</td>
+            </tr>
+             <tr>
+                <th>Livre</th>
+                <td>{{ quiz.idLivre.titre }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_quiz_index') }}">back to list</a>
+
+    <a href="{{ path('app_quiz_edit', {'idQuiz': quiz.idQuiz}) }}">edit</a>
+
+    {{ include('quiz/_delete_form.html.twig') }}
+{% endblock %}
