@@ -70,10 +70,7 @@ private $choix3;
  *
  * @ORM\Column(name="reponse_correct", type="string", length=255, nullable=false)
  * @Assert\NotBlank(message="Le champ réponse correcte est obligatoire")
- * @Assert\Choice(
- *     choices={"choix1", "choix2", "choix3"},
- *     message="La réponse correcte doit être l'un des choix proposés"
- * )
+
  */
 private $reponseCorrect;
 

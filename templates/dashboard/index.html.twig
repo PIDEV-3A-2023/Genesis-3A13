@@ -100,21 +100,46 @@
 				<div class="card-header d-flex flex-row align-items-center flex-0 border-bottom">
 					<div class="d-block">
 						<div class="h6 fw-normal text-gray mb-2">Résultat competition</div>
-						<h2 class="h6 fw-extrabold">31mars - 05 avril</h2>
+						{% set currentWeekStart = date('Monday this week') %}
+						{% set currentWeekEnd = date('Sunday this week') %}
+
+						<h2 class="h6 fw-extrabold">{{ currentWeekStart|date('d F') }}
+							-
+							{{ currentWeekEnd|date('d F') }}</h2>
+
+
 					</div>
 					<div class="d-block ms-auto">
-						<div class="d-flex align-items-center text-end mb-2">
-							<span class="dot rounded-circle me-2" style="background-color:#00377E;"></span>
-							<span class="fw-normal small">July</span>
-						</div>
-						<div class="d-flex align-items-center text-end">
-							<span class="dot rounded-circle bg-secondary me-2"></span>
-							<span class="fw-normal small">August</span>
-						</div>
+						<select class="form-select" name="competition" aria-label="selectionner la competition">
+							<option selected>selectionner la competition</option>
+							{% for competition in competitions%}
+								<option value="{{competition.nom}}">{{competition.nom}}</option>
+							{% endfor %}
+						</select>
 					</div>
 				</div>
 				<div class="card-body p-2">
-					<div class="ct-chart-ranking ct-golden-section ct-series-a"></div>
+					<canvas id="myChart" width="400" height="250"></canvas>
+					{% block javascripts %}
+
+						<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+						<script>
+							const chartData = {{ chartData|raw }};
+const ctx = document.getElementById('myChart').getContext('2d');
+const myChart = new Chart(ctx, {
+type: 'bar',
+data: chartData,
+
+options: {
+scales: {
+y: {
+beginAtZero: true
+}
+}
+}
+});
+						</script>
+					{% endblock %}
 				</div>
 			</div>
 		</div>
@@ -141,7 +166,7 @@
 						</div>
 						<div class="d-block">
 							<label class="mb-0">Competitions</label>
-							<h4 class="mb-0">99</h4>
+							<h4 class="mb-0">{{nbcompetitions}}</h4>
 						</div>
 					</div>
 				</div>

@@ -12,6 +12,7 @@
 		<meta name="title" content="Maktabti Dashboard">
 		<meta
 		name="author" content="GenesisTeam">
+<link rel="stylesheet" href="{{ asset('Back/css/dark-mode.css') }}" media="(prefers-color-scheme: dark)">
 
 
 		<!-- Favicon -->
@@ -266,9 +267,25 @@
 		<main class="content">
 
 			<div class="media d-flex align-items-center justify-content-end" style="padding-top:20px;padding-bottom: 20px;padding-right: 15px;">
+			<div>
+<div class="form-check form-switch">
+  <input class="form-check-input" type="checkbox" id="dark-mode-toggle">
+  <label class="form-check-label" for="dark-mode-toggle">
+    <i class="bi bi-moon"></i>
+  </label>
+</div>
+
+<script>
+  const toggle = document.querySelector('#dark-mode-toggle');
+  toggle.addEventListener('change', () => {
+    document.body.classList.toggle('dark-mode');
+  });
+</script>
+
+</div>
 				<img class="avatar " alt="user" src="{{asset('Back/img/icons/account.png')}}">
 				<div class="media-body ms-2 text-dark align-items-center d-none d-lg-block">
-					<span class="mb-0 font-medium fw-bold text-gray-900">Melek Labidi</span>
+					<span class="mb-0 font-medium fw-bold text-blue-900">Melek Labidi</span>
 				</div>
 			</div>
 
