@@ -1,44 +1,45 @@
-
 {% extends 'baseFront.html.twig' %}
 
 
-{% block title %}Compétitions
+{% block title %}Quiz
 {% endblock %}
 
 {% block body %}
-    <table class="table">
-        <tbody>
-        {% for question in questions %}
-            <tr>
-                <th class="text-primary fw-bold">IdQuestion</th>
-                <td>{{ question.idQuestion }}</td>
-            </tr>
-            <tr>
-                <th class="text-primary fw-bold">Question</th>
-                <td>{{ question.question }}</td>
-            </tr>
-            <tr>
-                <th class="text-primary fw-bold">Choix1</th>
-                <td>{{ question.choix1 }}</td>
-            </tr>
-            <tr>
-                <th class="text-primary fw-bold">Choix2</th>
-                <td>{{ question.choix2 }}</td>
-            </tr>
-            <tr>
-                <th class="text-primary fw-bold">Choix3</th>
-                <td>{{ question.choix3 }}</td>
-            </tr>
-            <tr>
-                <th class="text-success fw-bold">ReponseCorrect</th>
-                <td class="text-success">{{ question.reponseCorrect }}</td>
-            </tr>{% else %}
+	<div class="d-flex justify-content-center">
+		<div class="mb-3 mb-lg-0">
+			<h1>
+				<span class="sidebar-icon">
 
-					<h1>Aucune question trouvé</h1>
+					<img src="{{asset('Back/img/icons/ideas.png')}}" width="50" height="50" class="icon icon-s me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
 
-				{% endfor %}
-            
-        
-        </tbody>
-    </table>
+				</span>quiz</h1>
+
+		</div>
+	</div>
+	<form id="quiz-form">
+		{% for question in questions %}
+			<div class="form-group">
+				<label for="question1">{{ question.question }}</label>
+				<div class="radio">
+					<label><input type="radio" name="question1" value="{{ question.choix1 }}">
+						{{ question.choix1  }}</label>
+				</div>
+				<div class="radio">
+					<label><input type="radio" name="question1" value="{{ question.choix2 }}">
+						{{ question.choix2 }}</label>
+				</div>
+				<div class="radio">
+					<label><input type="radio" name="question1" value="{{ question.choix3 }}">
+						{{ question.choix3  }}</label>
+				</div>
+			</div>
+		{% else %}
+
+			<h1>Aucun enregistrement trouvé</h1>
+
+		{% endfor %}
+
+
+		<button type="submit" class="btn btn-primary">valider</button>
+	</form>
 {% endblock %}
