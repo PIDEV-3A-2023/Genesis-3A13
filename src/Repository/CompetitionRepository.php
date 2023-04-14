@@ -63,4 +63,14 @@ class CompetitionRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+function SearchByNom($nom)
+{
+    return $this->createQueryBuilder('c')
+        ->where('c.nom LIKE :m')
+        ->setParameter('m', '%' . $nom . '%')
+        ->getQuery()
+        ->getResult();
+}
+
 }
