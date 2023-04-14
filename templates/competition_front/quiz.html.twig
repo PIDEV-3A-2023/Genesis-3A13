@@ -1,0 +1,44 @@
+
+{% extends 'baseFront.html.twig' %}
+
+
+{% block title %}Compétitions
+{% endblock %}
+
+{% block body %}
+    <table class="table">
+        <tbody>
+        {% for question in questions %}
+            <tr>
+                <th class="text-primary fw-bold">IdQuestion</th>
+                <td>{{ question.idQuestion }}</td>
+            </tr>
+            <tr>
+                <th class="text-primary fw-bold">Question</th>
+                <td>{{ question.question }}</td>
+            </tr>
+            <tr>
+                <th class="text-primary fw-bold">Choix1</th>
+                <td>{{ question.choix1 }}</td>
+            </tr>
+            <tr>
+                <th class="text-primary fw-bold">Choix2</th>
+                <td>{{ question.choix2 }}</td>
+            </tr>
+            <tr>
+                <th class="text-primary fw-bold">Choix3</th>
+                <td>{{ question.choix3 }}</td>
+            </tr>
+            <tr>
+                <th class="text-success fw-bold">ReponseCorrect</th>
+                <td class="text-success">{{ question.reponseCorrect }}</td>
+            </tr>{% else %}
+
+					<h1>Aucune question trouvé</h1>
+
+				{% endfor %}
+            
+        
+        </tbody>
+    </table>
+{% endblock %}
