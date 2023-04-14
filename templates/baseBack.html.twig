@@ -107,8 +107,8 @@
 							<span class="sidebar-text">Catégories</span>
 						</a>
 					</li>
-					<li class="nav-item ">
-						<a href="" class="nav-link">
+					<li class="nav-item {% if app.request.attributes.get('_route') == 'app_quiz_index'  %}active{% endif %}">
+						<a href="{{path('app_quiz_index')}}" class="nav-link">
 							<span class="sidebar-icon">
 								<span class="sidebar-icon">
 
@@ -116,7 +116,19 @@
 
 								</span>
 							</span>
-							<span class="sidebar-text">Quiz</span>
+							<span class="sidebar-text">Quizzes</span>
+						</a>
+					</li>
+					<li class="nav-item {% if app.request.attributes.get('_route') == 'app_question_index'  %}active{% endif %}">
+						<a href="{{path('app_question_index')}}" class="nav-link">
+							<span class="sidebar-icon">
+								<span class="sidebar-icon">
+
+									<img src="{{asset('Back/img/icons/ideas.png')}}" class="icon icon-xs me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
+
+								</span>
+							</span>
+							<span class="sidebar-text">Questions</span>
 						</a>
 					</li>
 					<li class="nav-item {% if app.request.attributes.get('_route') == 'app_offre_index'  %}active{% endif %}">
@@ -266,10 +278,10 @@
 			<footer class="bg-white rounded shadow p-5 mb-4 mt-4">
 				<div class="row">
 					<div class="col-12 col-md-4 col-xl-6 mb-4 mb-md-0">
-						<p class="mb-0 text-center text-lg-start">©
+						<p class="mb-0 text-center text-lg-start">Copyright ©
 							<span class="current-year"></span>
 							<a class="text-primary fw-normal" href="" target="_blank">
-								<a class="text-primary fw-normal" href="" target="_blank">GenesisTeam-MaktabtiDashboard</a>
+								| made with <i class="fas fa-heart text-danger"></i> by GenesisTeam<img src="{{asset('Back/img/brand/logo-genesis.png')}}" height="30" width="30"> </a>
 							</p>
 						</p>
 					</div>

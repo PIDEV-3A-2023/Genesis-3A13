@@ -1,0 +1,67 @@
+{% extends 'baseFront.html.twig' %}
+
+{% block title %}Détails Compétition
+{% endblock %}
+
+{% block body %}
+	<br><br>
+	<div class="d-flex justify-content-between w-100 flex-wrap">
+		<div class="mb-3 mb-lg-0">
+			<h1>
+				<span class="sidebar-icon">
+
+					<img src="{{asset('Back/img/icons/Event.png')}}" width="50" height="50" class="icon icon-s me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
+
+				</span>Compétition :
+				{{ competition.nom }}</h1>
+
+		</div>
+	</div>
+
+	<table class="table">
+		<tbody>
+			<tr>
+				<th class="text-info fw-bold">Nom</th>
+				<td>{{ competition.nom }}</td>
+			</tr>
+			<tr>
+				<th class="text-info fw-bold">Livre</th>
+				<td>{{ competition.idlivre.titre }}</td>
+			</tr>
+			<tr>
+				<th class="text-info fw-bold">Auteur de Livre</th>
+				<td>{{ competition.idlivre.idauteur.nom }}
+					{{ competition.idlivre.idauteur.prenom }}</td>
+			</tr>
+			<tr>
+				<th class="text-info fw-bold">Recompense</th>
+				<td>{{ competition.recompense }}</td>
+			</tr>
+			<tr>
+				<th class="text-info fw-bold">LienCompetition</th>
+				<td>{{ competition.lienCompetition }}</td>
+			</tr>
+			<tr>
+				<th class="text-info fw-bold">DateDebut</th>
+				<td>{{ competition.dateDebut ? competition.dateDebut|date('Y-m-d') : '' }}</td>
+			</tr>
+			<tr>
+				<th class="text-info fw-bold">DateFin</th>
+				<td>{{ competition.dateFin ? competition.dateFin|date('Y-m-d') : '' }}</td>
+			</tr>
+		</tbody>
+	</table>
+	{% if competition.dateDebut > date('now') or competition.dateFin < date('now') %}
+		<div style="padding-left:10px;padding-bottom:10px">
+			<span class="badge bg-danger" style="color:white;">Compétition fermée</span>
+		</div>
+	{% else %}
+		<div style="padding-left:10px;padding-bottom:10px">
+			<a href="#" class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;">
+				<i class="fas fa-plus" style="padding-right:3px"></i>
+				Participer
+			</a>
+		</div>
+	{% endif %}
+
+{% endblock %}

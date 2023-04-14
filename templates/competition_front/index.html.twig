@@ -62,20 +62,23 @@
 								<p class="card-text">
 									<i class="fas fa-gift"></i>
 									{{competition.recompense}}</p>
-
-								{% if competition.dateDebut > date('now') or competition.dateFin < date('now') %}
-									<button class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;" disabled>
-										<i class="fas fa-plus" style="padding-right:3px"></i>
-										Participer
-									</button>
-								{% else %}
-									<a href="#" class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;">
-										<i class="fas fa-plus" style="padding-right:3px"></i>
-										Participer
-									</a>
-								{% endif %}
+								
+								<div class="d-flex justify-content-between w-100 flex-wrap">
+								<div>
+									{% if competition.dateDebut > date('now') or competition.dateFin < date('now') %}
+										<span class="badge bg-danger" style="color:white">Compétition fermée</span>
+									{% else %}
+										<a href="{{path('app_competition_quiz_front', {'idCompetition': competition.idCompetition})}}" class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;">
+											<i class="fas fa-plus" style="padding-right:3px"></i>
+											Participer
+										</a>
+									{% endif %}
+								</div>
+								<div>
+									<a href="{{ path('app_competition_show_front', {'idCompetition': competition.idCompetition}) }}"><i class="fas fa-info-circle text-info"></i></a>
+									</div>
+								</div>
 							</div>
-
 
 						</div>
 					</div>
