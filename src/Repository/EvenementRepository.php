@@ -38,6 +38,14 @@ class EvenementRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function SearchByLieu($lieu)
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.lieu = :location')
+            ->setParameter('location', $lieu)
+            ->getQuery()
+            ->getResult();
+    }
 
 //    /**
 //     * @return Evenement[] Returns an array of Evenement objects
