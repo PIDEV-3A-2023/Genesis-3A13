@@ -72,4 +72,16 @@ public function findQuestionsByCompetition($idCompetition)
         ->getQuery()
         ->getResult();
 }
+public function searchByCompetitionName($competitionName)
+{
+    return $this->createQueryBuilder('q')
+        ->leftJoin('q.idQuiz', 'quiz')
+        ->leftJoin('quiz.idCompetition', 'competition')
+        ->where('competition.nom = :competitionName')
+        ->setParameter('competitionName', $competitionName)
+        ->getQuery()
+        ->getResult();
+}
+
+
 }

@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block body %}
-	<div class="d-flex justify-content-between w-100 flex-wrap">
+		<div class="d-flex justify-content-between w-100 flex-wrap">
 		<div class="mb-3 mb-lg-0">
 			<h1>
 				<span class="sidebar-icon">
@@ -14,13 +14,29 @@
 				</span>Liste des Questions</h1>
 
 		</div>
+		
+	</div>
+	<div class="d-flex justify-content-between w-100 flex-wrap">
+		<div class="mb-3 mb-lg-0">
+			<!-- Search form -->
+        <form action="{{path('app_question_search')}}" class="navbar-search form-inline" id="navbar-search-main" style="padding-top: 10px;">
+          <div class="input-group input-group-merge search-bar">
+              <span class="input-group-text" id="topbar-addon">
+                <svg class="icon icon-xs" x-description="Heroicon name: solid/search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+                </svg>
+              </span>
+              <input type="text" class="form-control" id="nom" name="nom" placeholder="Rechercher" aria-label="Search" aria-describedby="topbar-addon">
+          </div>
+        </form>
+        <!-- / Search form -->
+		</div>
 		<div style="padding-top: 10px;">
 
 			<a href="{{ path('app_question_new') }}" class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;">
 				<i class="fas fa-plus" style="padding-right:3px"></i>
 				Créer un nouveau</a>
 		</div>
-
 	</div>
 	<br>
 	{% for type, messages in app.flashes %}
@@ -47,6 +63,7 @@
 					<thead class="thead-light">
 						<tr>
 							<th class="border-0 rounded-start">#</th>
+							<th class="border-0">Competition</th>
 							<th class="border-0">Question</th>
 							<th class="border-0">Choix1</th>
 							<th class="border-0">Choix2</th>
@@ -59,6 +76,7 @@
 						{% for question in questions %}
 							<tr>
 								<td>{{ question.idQuestion }}</td>
+								<td>{{ question.idQuiz.idCompetition.nom }}</td>
 								<td>{{ question.question }}</td>
 								<td>{{ question.choix1 }}</td>
 								<td>{{ question.choix2 }}</td>
