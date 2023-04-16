@@ -1,15 +1,16 @@
-{% extends 'baseBack.html.twig' %}
+{% extends 'baseFront.html.twig' %}
 
 {% block title %}Détails Evenement
 {% endblock %}
 
 {% block body %}
+	<br><br>
   	<div class="d-flex justify-content-between w-100 flex-wrap">
 		<div class="mb-3 mb-lg-0">
 			<h1>
 				<span class="sidebar-icon">
 
-					<img src="{{asset('Back/img/icons/calendar.png')}}" class="icon icon-s me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
+					<img src="{{asset('Back/img/icons/calendar.png')}}" width="50" height="50" class="icon icon-s me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
 
 				</span>Evenement : {{ evenement.nom }}</h1>
 
@@ -44,14 +45,31 @@
             </tr>
         </tbody>
     </table>
-
-  
-<div class="row">
-		<div class="col-md-2">
-    <a href="{{ path('app_evenement_edit', {'idEvenement': evenement.idEvenement}) }}"  class="btn btn-warning d-inline-flex align-items-center"><i class="fas fa-edit" style="padding-right:3px"></i>Modifier</a>
-</div>
-		<div class="col-md-2">
-    {{ include('evenement/_delete_form.html.twig') }}
+    <div class="row">
+                            <div  class="col-md-2">
+    {% if evenement.date <  date('now') %}
+    <div  style="padding-left:10px;padding-bottom:10px">
+		<button class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;" disabled>
+		<i class="fas fa-plus" style="padding-right:3px"></i>
+         Reserver
+		</button>
+        </div>
+	{% else %}
+    <div style="padding-left:10px;padding-bottom:10px">
+		<a href="{{ path('reservation',{'idevenement':evenement.idevenement}) }}" class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;">
+		<i class="fas fa-plus" style="padding-right:3px"></i>
+			Reserver
+		</a>
+        </div>
+	{% endif %}
     </div>
-	</div>
+     <div   class="col-md-2" style="padding-right:10px;padding-bottom:10px">
+		<a href="" class="btn btn-info d-inline-flex align-items-center">
+		<i class="fas fa-comments" style="padding-right:3px"></i>
+			Commenter
+		</a>
+        </div>
+						</div>
+						</div>
+
 {% endblock %}

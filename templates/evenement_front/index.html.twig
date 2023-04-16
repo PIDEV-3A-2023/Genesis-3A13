@@ -60,22 +60,31 @@
                                     
 							</div>
 							<div class="card-footer">
-                           
+						<div class="d-flex justify-content-between w-100 flex-wrap">
+                            <div>
 							
 								{% if evenement.date <  date('now') %}
 									<button class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;" disabled>
 										<i class="fas fa-plus" style="padding-right:3px"></i>
+
 										Reserver
 									</button>
 								
 								{% else %}
-									<a href="{{ path('reservation',{'eventId':evenement.idevenement}) }}" class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;">
+									<a href="{{ path('reservation',{'idevenement': evenement.idevenement}) }}" class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;">
 										<i class="fas fa-plus" style="padding-right:3px"></i>
 										Reserver
 									</a>
 								{% endif %}
+								
+
 							</div>
+							<div>
+								<a href="{{ path('app_evenement_show_front', {'idEvenement': evenement.idevenement}) }}"><i class="fas fa-info-circle text-info"></i></a>
+								</div>
 						</div>
+						</div>
+					</div>
 					</div>
 				{% else %}
 
