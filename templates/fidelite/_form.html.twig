@@ -1,5 +1,16 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-<button class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;">{{ button_label|default('Enregistrer') }}</button>
+{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+{{form_label(form.totalAchat)}}
+{{form_widget(form.totalAchat)}}
+{{form_errors(form.totalAchat,{'attr': {'class': 'invalid-feedback'}})}}
+<br>
+{{form_label(form.type)}}
+{{form_widget(form.type)}}
+{{form_errors(form.type,{'attr': {'class': 'invalid-feedback'}})}}
+<br>
+{{form_label(form.idClient)}}
+{{form_widget(form.idClient)}}
+{{form_errors(form.idClient,{'attr': {'class': 'invalid-feedback'}})}}
+<br>
+    <button class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;">{{ button_label|default('Enregistrer') }}</button>
 {{ form_end(form) }}

@@ -1,0 +1,75 @@
+{% extends 'baseFront.html.twig' %}
+
+{% block title %}Fidelite
+{% endblock %}
+
+{% block body %}
+	<section
+		id="home">
+		<!-- Background image -->
+		<video id="home_vedio_bg" poster="{{asset('Front/images/evenement/video/camp.mp4')}}" autoplay loop muted>
+			<source src="{{asset('Front/images/evenement/video/camp.mp4')}}" width="200" height="150" type="video/mp4"/>
+
+		</video>
+		<!-- Overlay -->
+		<div id="home_overlay"></div>
+		<!-- Home content -->
+		<div id="home-content">
+			<div id="content-inner" class="text-center">
+				<div id="home-heading">
+					<h1 id="home-heading-1">
+						consulter
+					</h1>
+					<br>
+					<h1 id="home-heading-2">
+						 votre
+						<span>fidelite</span>
+					</h1>
+				</div>
+				<div id="home-text">
+					<p>consulter votre fidelite et Découvrir les avantages de chaque fidelite
+					</p>
+				</div>
+				<!-- Arrow down-->
+				<a href="#evenements" title="About" class="smooth-scroll" id="arrow-down">
+					<i class="fas fa-angle-down"></i>
+				</a>
+			</div>
+		</div>
+	</section>
+	<section id="evenements" style="background-color:#e9ecef">
+
+    <br><br>
+  	<div class="d-flex justify-content-between w-100 flex-wrap">
+		<div class="mb-3 mb-lg-0">
+			<h1>
+				<span class="sidebar-icon">
+
+					<img src="{{asset('Back/img/icons/fidelite.png')}}" width="50" height="50" class="icon icon-s me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
+
+				</span>Fidelite : {{ fidelite.idfidelite }}</h1>
+
+		</div>
+	</div>
+<table class="table">
+        <tbody>
+            <tr>
+                <th class="text-primary fw-bold">Nom</th>
+                <td>{{ fidelite.idfidelite }}</td>
+            </tr>
+      
+            <tr>
+                <th class="text-primary fw-bold">prénom</th>
+                <td>{{ fidelite.totalachat }}</td>
+            </tr>
+            <tr>
+                <th class="text-primary fw-bold">totalachat</th>
+                <td>{{ fidelite.totalachat }}</td>
+            </tr>
+            <tr>
+                <th class="text-primary fw-bold">typefidelite</th>
+                <td>{{ fidelite.type }}</td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

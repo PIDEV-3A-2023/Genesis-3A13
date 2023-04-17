@@ -63,4 +63,14 @@ class FideliteRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+public function findOneByIdClient(int $idClient): ?Fidelite
+{
+    return $this->createQueryBuilder('f')
+        ->andWhere('f.idClient = :idClient')
+        ->setParameter('idClient', $idClient)
+        ->getQuery()
+        ->getOneOrNullResult();
+}
+
 }

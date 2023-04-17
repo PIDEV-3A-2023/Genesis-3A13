@@ -14,7 +14,7 @@
 
 					<img src="{{asset('Back/img/icons/user.png')}}" class="icon icon-s me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
 
-				</span>offre : {{ fidelite.idFidelite }}</h1>
+				</span>fidelite : {{ fidelite.idFidelite }}</h1>
 
 		</div>
 	</div>
@@ -34,10 +34,14 @@
             </tr>
         </tbody>
     </table>
-
-    <a href="{{ path('app_fidelite_index') }}">back to list</a>
-
-    <a href="{{ path('app_fidelite_edit', {'idFidelite': fidelite.idFidelite}) }}">edit</a>
-
-    {{ include('fidelite/_delete_form.html.twig') }}
+<div class="row">
+		<div class="col-md-2">
+			<a href="{{path('app_fidelite_edit', {'idFidelite': fidelite.idFidelite}) }}" class="btn btn-warning d-inline-flex align-items-center">
+				<i class="fas fa-edit" style="padding-right:3px"></i>Modifier</a>
+		</div>
+		<div class="col-md-2">
+			{{ include('fidelite/_delete_form.html.twig') }}
+		</div>
+	</div>
 {% endblock %}
+ 

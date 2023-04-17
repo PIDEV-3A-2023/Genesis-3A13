@@ -4,7 +4,8 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\FideliteRepository;
-
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * Fidelite
  *
@@ -30,13 +31,14 @@ class Fidelite
      * @ORM\Column(name="total_achat", type="integer", nullable=false)
      */
     #[Assert\NotBlank(message: 'total achat est obligatoire!')]
-
+    #[Assert\Length(max:6, maxMessage:'Le total achat  ne peut pas dépasser {{ limit }} nombre.')]
+    #[Assert\Length(min:1, minMessage:'La tatal achat doit au minimum avoir {{ limit }} nombre.')]
     private $totalAchat;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="type", type="string", length=0, nullable=false)
+     * @ORM\Column(name="type", type="string", nullable=false)
      */
 
     #[Assert\NotBlank(message: 'type de fidelite est obligatoire!')]
