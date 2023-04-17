@@ -5,41 +5,66 @@
 {% endblock %}
 
 {% block body %}
-	<div class="d-flex justify-content-center">
-		<div class="mb-3 mb-lg-0">
-			<h1>
-				<span class="sidebar-icon">
+	<div class="container mt-sm-5 my-1">
 
-					<img src="{{asset('Back/img/icons/ideas.png')}}" width="50" height="50" class="icon icon-s me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
+		<div class="d-flex justify-content-center">
+			<div class="mb-3 mb-lg-0">
+				<h1>
+					<span class="sidebar-icon">
 
-				</span>quiz</h1>
+						<img src="{{asset('Back/img/icons/ideas.png')}}" width="30" height="30" class="icon icon-s me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
 
-		</div>
-	</div>
-	<form id="quiz-form">
-		{% for question in questions %}
-			<div class="form-group">
-				<label for="question1">{{ question.question }}</label>
-				<div class="radio">
-					<label><input type="radio" name="question1" value="{{ question.choix1 }}">
-						{{ question.choix1  }}</label>
-				</div>
-				<div class="radio">
-					<label><input type="radio" name="question1" value="{{ question.choix2 }}">
-						{{ question.choix2 }}</label>
-				</div>
-				<div class="radio">
-					<label><input type="radio" name="question1" value="{{ question.choix3 }}">
-						{{ question.choix3  }}</label>
-				</div>
+					</span>Quiz</h1>
+
 			</div>
-		{% else %}
-
-			<h1>Aucun enregistrement trouvé</h1>
-
+		</div>
+		{% for type, messages in app.flashes %}
+			{% for message in messages %}
+				<div class="alert alert-{{ type }} alert-dismissible fade show d-flex align-items-center">
+					{% if type == 'success'%}
+						<i class="fas fa-check-circle" style="padding-right: 10px"></i>
+					{% elseif type == 'danger'%}
+						<i class="fas fa-times-circle" style="padding-right: 10px"></i>
+					{% endif %}
+					<div>
+						{{ message }}
+					</div>
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+			{% endfor %}
 		{% endfor %}
+		<form id="quiz-form" action="{{path('app_competition_participer_front', {'comp': comp})}}">
+			{% for question in questions %}
+				<div class="form-group form-check">
+					<label>
+						<b>Q.
+							{{ question.question }}
+							{{ score }}
+							{{ totalQuestions }}</b>
+					</label>
+					<div class="radio">
+						<label class="form-check-label"><input class="form-check-input" type="radio" name="question_{{ question.idquestion }}" value="{{ question.choix1 }}">
+							{{ question.choix1  }}</label>
+					</div>
+					<div class="radio">
+						<label class="form-check-label"><input class="form-check-input" type="radio" name="question_{{ question.idquestion }}" value="{{ question.choix2 }}">
+							{{ question.choix2 }}</label>
+					</div>
+					<div class="radio">
+						<label class="form-check-label"><input class="form-check-input" type="radio" name="question_{{ question.idquestion }}" value="{{ question.choix3 }}">
+							{{ question.choix3  }}</label>
+					</div>
+				</div>
+			{% else %}
+
+				<h1>Aucun enregistrement trouvé</h1>
+
+			{% endfor %}
 
 
-		<button type="submit" class="btn btn-primary">valider</button>
-	</form>
-{% endblock %}
+			<button type="submit" class="btn btn-success">valider</button>
+		</form>
+
+
+	</div>
+</div>{% endblock %}

@@ -30,7 +30,7 @@ class QuestionController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $questionRepository->save($question, true);
-
+            $this->addFlash('success', 'Question ajoutée avec succés!');
             return $this->redirectToRoute('app_question_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -56,7 +56,7 @@ class QuestionController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $questionRepository->save($question, true);
-
+            $this->addFlash('success', 'Question modifiée avec succés!');
             return $this->redirectToRoute('app_question_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -72,7 +72,7 @@ class QuestionController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$question->getIdQuestion(), $request->request->get('_token'))) {
             $questionRepository->remove($question, true);
         }
-
+        $this->addFlash('success', 'Question supprimée avec succés!');
         return $this->redirectToRoute('app_question_index', [], Response::HTTP_SEE_OTHER);
     }
 }
