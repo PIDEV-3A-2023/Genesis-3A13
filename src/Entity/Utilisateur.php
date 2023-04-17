@@ -4,6 +4,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UtilisateurRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
+
 /**
  * Utilisateur
  *
@@ -11,7 +13,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity
  * @ORM\Entity(repositoryClass="App\Repository\UtilisateurRepository")
  */
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]class Utilisateur
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+class Utilisateur implements UserInterface
 {
     /**
      * @var int
@@ -70,6 +74,13 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
      */
     #[Assert\NotBlank(message: 'Role obligatoire!')]
     private $role;
+
+       /**
+     * @var string|null
+     *
+     * @ORM\Column(name="roles", type="text", length=0, nullable=true)
+     */
+    private $roles;
 
     public function getIdUtilisateur(): ?int
     {
@@ -146,6 +157,74 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
         $this->role = $role;
 
         return $this;
+    }
+
+       /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * @deprecated since Symfony 5.3, use getUserIdentifier instead
+     */
+    public function getUsername(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        $roles[] = 'ROLE_USER';
+        return array_unique($roles);
+    }
+
+    function setRoles($roles)
+    {
+        $this->roles[] = $roles;
+    }
+
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getPassword(): string
+    {
+        return $this->motDePasse;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->motDePasse = $password;
+
+        return $this;
+    }
+
+    /**
+     * Returning a salt is only needed, if you are not using a modern
+     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
+     *
+     * @see UserInterface
+     */
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 
 
