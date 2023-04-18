@@ -24,27 +24,30 @@ class RegistrationFormType extends AbstractType
             ->add('role', ChoiceType::class, [
                 'label' => 'Role',
                 'choices' => [
-                    'auteur' => 'Auteur',
                     'client' => 'Client',
+                    'auteur' => 'Auteur',
                 ],
+                'placeholder' => 'Selectionner role ',
             ])
             ->add('email')
             ->add('agreeTerms', CheckboxType::class, [
+                'label'=>'Accepter les conditions',
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([
-                        'message' => 'You should agree to our terms.',
+                        'message' => 'Vous devez accepter nos conditions.',
                     ]),
                 ],
             ])
             ->add('plainPassword', PasswordType::class, [
+                'label'=>'Mot de passe',
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Please enter a password',
+                        'message' => 'Veuillez entrer un mot de passe',
                     ]),
                     new Length([
                         'min' => 6,
