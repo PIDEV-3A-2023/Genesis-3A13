@@ -1,0 +1,47 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}Commentaire
+{% endblock %}
+
+
+{% block body %}
+	<a href="{{ path('app_commentaire_index') }}">
+		<i class="fas fa-arrow-left"></i>
+	</a>
+	<div class="d-flex justify-content-between w-100 flex-wrap">
+		<div class="mb-3 mb-lg-0">
+			<h1>
+				<span class="sidebar-icon">
+
+					<img src="{{asset('Back/img/icons/Event.png')}}" class="icon icon-s me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
+
+				</span>Commentaire
+			</h1>
+
+		</div>
+	</div>
+
+	<table class="table">
+		<tbody>
+			<tr>
+				<th class="text-primary fw-bold">#</th>
+				<td>{{ commentaire.idCommentaire }}</td>
+			</tr>
+			<tr>
+				<th class="text-primary fw-bold">Commentaire</th>
+				<td>{{ commentaire.commentaire }}</td>
+			</tr>
+			<tr>
+				<th class="text-primary fw-bold">Evenement</th>
+				<td>{{ commentaire.idevenement.nom }}</td>
+			</tr>
+            <tr>
+				<th class="text-primary fw-bold">Client</th>
+				<td>{{ commentaire.idclient.nom }}{{ commentaire.idclient.prenom }}</td>
+			</tr>
+		</tbody>
+	</tr>
+</tbody></table>
+
+
+{% endblock %}
