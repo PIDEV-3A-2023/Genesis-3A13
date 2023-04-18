@@ -5,71 +5,137 @@
 
 {% block body %}
 	<br><br>
-  	<div class="d-flex justify-content-between w-100 flex-wrap">
+	<div class="d-flex justify-content-between w-100 flex-wrap">
 		<div class="mb-3 mb-lg-0">
 			<h1>
 				<span class="sidebar-icon">
 
 					<img src="{{asset('Back/img/icons/calendar.png')}}" width="50" height="50" class="icon icon-s me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
 
-				</span>Evenement : {{ evenement.nom }}</h1>
+				</span>Evenement :
+				{{ evenement.nom }}</h1>
 
 		</div>
 	</div>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th class="text-primary fw-bold">Nom</th>
-                <td>{{ evenement.nom }}</td>
-            </tr>
-            <tr>
-                <th class="text-primary fw-bold">Date</th>
-                <td>{{ evenement.date ? evenement.date|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th class="text-primary fw-bold">Heure</th>
-                <td>{{ evenement.heure ? evenement.heure|date('H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th class="text-primary fw-bold">Lieu</th>
-                <td>{{ evenement.lieu }}</td>
-            </tr>
-            <tr>
-                <th class="text-primary fw-bold">Description</th>
-                <td>{{ evenement.description }}</td>
-            </tr>
-            <tr>
-                <th class="text-primary fw-bold">NbTicket</th>
-                <td>{{ evenement.nbTicket }}</td>
-            </tr>
-        </tbody>
-    </table>
-    <div class="row">
-                            <div  class="col-md-2">
-    {% if evenement.date <  date('now') %}
-    <div  style="padding-left:10px;padding-bottom:10px">
-		<button class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;" disabled>
-		<i class="fas fa-plus" style="padding-right:3px"></i>
-         Reserver
-		</button>
-        </div>
-	{% else %}
-    <div style="padding-left:10px;padding-bottom:10px">
-		<a href="{{ path('reservation',{'idevenement':evenement.idevenement}) }}" class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;">
-		<i class="fas fa-plus" style="padding-right:3px"></i>
-			Reserver
-		</a>
-        </div>
-	{% endif %}
-    </div>
-     <div   class="col-md-2" style="padding-right:10px;padding-bottom:10px">
-		<a href="" class="btn btn-info d-inline-flex align-items-center">
-		<i class="fas fa-comments" style="padding-right:3px"></i>
-			Commenter
-		</a>
-        </div>
-						</div>
+	<table class="table">
+		<tbody>
+			<tr>
+				<th class="text-primary fw-bold">Nom</th>
+				<td>{{ evenement.nom }}</td>
+			</tr>
+			<tr>
+				<th class="text-primary fw-bold">Date</th>
+				<td>{{ evenement.date ? evenement.date|date('Y-m-d') : '' }}</td>
+			</tr>
+			<tr>
+				<th class="text-primary fw-bold">Heure</th>
+				<td>{{ evenement.heure ? evenement.heure|date('H:i:s') : '' }}</td>
+			</tr>
+			<tr>
+				<th class="text-primary fw-bold">Lieu</th>
+				<td>{{ evenement.lieu }}</td>
+			</tr>
+			<tr>
+				<th class="text-primary fw-bold">Description</th>
+				<td>{{ evenement.description }}</td>
+			</tr>
+			<tr>
+				<th class="text-primary fw-bold">NbTicket</th>
+				<td>{{ evenement.nbTicket }}</td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="row">
+		<div class="col-md-2">
+			{% if evenement.date <  date('now') %}
+				<div style="padding-left:10px;padding-bottom:10px">
+					<button class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;" disabled>
+						<i class="fas fa-plus" style="padding-right:3px"></i>
+						Reserver
+					</button>
+				</div>
+			{% else %}
+				<div style="padding-left:10px;padding-bottom:10px">
+					<a href="{{ path('reservation',{'idevenement':evenement.idevenement}) }}" class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;">
+						<i class="fas fa-plus" style="padding-right:3px"></i>
+						Reserver
+					</a>
+				</div>
+			{% endif %}
+		</div>
+
+	</div>
+</div>
+<div class="container">
+
+	<div class="row  d-flex justify-content-center">
+
+		<div class="col" id="comments-section">
+
+			<div class="headings d-flex justify-content-between align-items-center mb-3">
+				<h5>
+					<i class="fas fa-comments" style="padding-right:3px"></i>Commentaires</h5>
+
+			</div>
+
+			{% for commentaire in commentaires %}
+				<div class="card p-3">
+
+					<div class="d-flex justify-content-between align-items-center">
+
+						<div class="user d-flex flex-row align-items-center">
+
+							<img src="{{asset('Front/images/user/utilisateur.png')}}" width="30" class="user-img rounded-circle mr-2">
+							<span>
+								<small class="font-weight-bold text-primary">{{ commentaire.idclient.nom }}
+									{{ commentaire.idclient.prenom }}</small>
+							</span>
+
 						</div>
 
-{% endblock %}
+
+						<small>
+							<a href="">
+								<i class="fas fa-edit text-warning"></i>
+							</a>
+							<a href="">
+								<i class="fas fa-trash text-danger"></i>
+							</a>
+						</small>
+
+					</div>
+
+
+					<div class="action d-flex justify-content-between mt-2 align-items-center">
+
+						<small class="font-weight-bold">{{commentaire.commentaire}}</small>
+
+
+					</div>
+
+
+				</div>
+			{% endfor %}
+			<br>
+			<form action="{{path('commentaire',{'idEvenement' : evenement.idEvenement})}}">
+				<div class="bg-light p-2">
+					<div class="d-flex flex-row align-items-start"><img class="rounded-circle" src="{{asset('Front/images/user/utilisateur.png')}}" width="40"><textarea name="commentaire" placeholder="Commenter..." class="form-control ml-1 shadow-none textarea"></textarea>
+					</div>
+					<div class="mt-2 text-right">
+						<button class="btn btn-info btn-sm shadow-none" type="submit">
+							<i class="fas fa-comments" style="padding-right:3px"></i>
+							Commenter</button>
+						<button class="btn btn-danger btn-sm ml-1 shadow-none" type="reset">annuler</button>
+					</div>
+				</div>
+			</form>
+
+
+		</div>
+
+	</div>
+		
+
+</div>
+<br><br>{% endblock %}

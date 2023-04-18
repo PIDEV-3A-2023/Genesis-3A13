@@ -38,6 +38,15 @@ class CommentaireRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function SearchByNom($nom)
+    {
+        return $this->createQueryBuilder('c')
+        ->join('c.idEvenement', 'evenement')
+        ->where('evenement.nom LIKE :m')
+        ->setParameter('m', '%' . $nom . '%')
+        ->getQuery()
+        ->getResult();
+    }
 
 //    /**
 //     * @return Commentaire[] Returns an array of Commentaire objects

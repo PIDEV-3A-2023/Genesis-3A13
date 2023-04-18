@@ -36,7 +36,7 @@ class EvenementController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($evenement);
             $entityManager->flush();
-            $this->addFlash('success', 'Evenement created successfully!');
+            $this->addFlash('success', 'Evenement a été crée avec succés!');
 
             return $this->redirectToRoute('app_evenement_index', [], Response::HTTP_SEE_OTHER);
         }
