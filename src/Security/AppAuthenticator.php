@@ -44,14 +44,14 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
         $user = $this->userRepository->findOneBy(['email' => $email]);
     
         if (!$user) {
-            throw new CustomUserMessageAuthenticationException('Invalid email or password');
+            throw new CustomUserMessageAuthenticationException('email ou mot de passe invalide');
         }
     
         // Verify that the provided password matches with the user's encoded password
         $isPasswordValid = $this->passwordEncoder->isPasswordValid($user, $password);
     
         if (!$isPasswordValid) {
-            throw new CustomUserMessageAuthenticationException('Invalid email or password');
+            throw new CustomUserMessageAuthenticationException('email ou mot de passe invalide');
         }
     
         return new Passport(

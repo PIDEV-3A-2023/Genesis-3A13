@@ -62,8 +62,9 @@
 									<h1 class="mb-0 h3">Créer un Compte
 									</h1>
 								</div>
+								<br>
 								{{ form_start(registrationForm, {'attr': {'novalidate': 'novalidate'}}) }}
-								{{ form_label(registrationForm.nom ) }}
+
 								<div class="input-group mb-4">
 									<span class="input-group-text">
 										<i class="fas fa-user"></i>
@@ -72,7 +73,7 @@
 								</div>
 								{{ form_errors(registrationForm.nom) }}
 
-								{{ form_label(registrationForm.prenom) }}
+
 								<div class="input-group mb-4">
 									<span class="input-group-text">
 										<i class="fas fa-user"></i>
@@ -81,7 +82,7 @@
 								</div>
 								{{ form_errors(registrationForm.prenom) }}
 
-								{{ form_label(registrationForm.numTelephone) }}
+
 								<div class="input-group mb-4">
 									<span class="input-group-text">
 										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="fas fa-telephone-fill" viewbox="0 0 16 16">
@@ -92,7 +93,7 @@
 								</div>
 								{{ form_errors(registrationForm.numTelephone) }}
 
-								{{ form_label(registrationForm.role) }}
+
 								<div class="input-group mb-4">
 									<span class="input-group-text">
 										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-menu-button" viewbox="0 0 16 16">
@@ -104,7 +105,7 @@
 								</div>
 								{{ form_errors(registrationForm.role) }}
 
-								{{ form_label(registrationForm.email) }}
+
 								<div class="input-group mb-4">
 									<span class="input-group-text">
 										<svg class="icon icon-xs text-gray-600" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -116,7 +117,7 @@
 								</div>
 								{{ form_errors(registrationForm.email) }}
 
-								{{ form_label(registrationForm.plainPassword) }}
+
 								<div class="input-group mb-4">
 									<span class="input-group-text" id="basic-addon2">
 										<svg class="icon icon-xs text-gray-600" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -134,6 +135,31 @@
 
 								<button type="submit" class="btn btn-primary float-end" style="background-color:#00377E;">Créer Un Compte</button>
 								{{ form_end(registrationForm) }}
+								<br><br>
+								<div class="d-flex justify-content-center align-items-center mt-4">
+									<span class="fw-normal">
+										Vous avez déjà un compte ?
+										<a href="{{path('app_login')}}" class="fw-bold">Se connecter</a>
+									</span>
+								</div>
+								<br>
+									<!-- Footer-->
+								<footer class="text-center">
+									<div class="container">
+										<div class="row">
+											<div class="col-md-12">
+												<p> &copy; 2023
+													<img src="{{asset('Front/images/logo/maktabti.png')}}" height="30" width="60">
+
+													| made with
+													<i class="fas fa-heart text-danger"></i>
+													by GenesisTeam<img src="{{asset('Front/images/logo/logo-genesis.png')}}" height="30" width="30"></p>
+											</div>
+										</div>
+									</div>
+
+								</footer>
+								<!-- End Footer-->
 
 							</div>
 						</div>
