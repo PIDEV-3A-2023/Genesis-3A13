@@ -27,11 +27,13 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
     private $passwordEncoder;
     private $userRepository;
 
+    
 
     public function __construct(private UrlGeneratorInterface $urlGenerator,UserPasswordEncoderInterface $passwordEncoder, UtilisateurRepository $userRepository)
     {
         $this->passwordEncoder = $passwordEncoder;
         $this->userRepository = $userRepository;
+
 
     }
 
@@ -70,12 +72,32 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
+
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
+        $email = $request->get('email');
+
+       // Get the user from your User repository or database
+       $user = $this->userRepository->findOneBy(['email' => $email]);
+       $role=$user->getRole();
+
+        if ($role=='Auteur') {
+            // Redirect to the admin dashboard
+            return new RedirectResponse($this->urlGenerator->generate('app_home'));
+        } elseif ($role=='Client') {
+            // Redirect to the user dashboard
+            return new RedirectResponse($this->urlGenerator->generate('app_offre_index'));
+        }
+        elseif ($role=='Administrateur') {
+            // Redirect to the user dashboard
+            return new RedirectResponse($this->urlGenerator->generate('app_evenement_front'));
+        }else {
+            error_log('Unknown role: ' . $role);  // or var_dump($role);
+            return new RedirectResponse($this->urlGenerator->generate('app_home'));
+        }
 
         // For example:
-        return new RedirectResponse($this->urlGenerator->generate('app_competition_front'));
         //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 
