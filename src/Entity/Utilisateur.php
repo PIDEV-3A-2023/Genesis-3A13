@@ -5,6 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UtilisateurRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 /**
  * Utilisateur
@@ -15,7 +16,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
-class Utilisateur implements UserInterface
+class Utilisateur implements UserInterface , PasswordAuthenticatedUserInterface
 {
     /**
      * @var int
@@ -195,7 +196,7 @@ class Utilisateur implements UserInterface
     /**
      * @see PasswordAuthenticatedUserInterface
      */
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
         return $this->motDePasse;
     }
