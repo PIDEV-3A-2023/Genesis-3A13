@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class HomeController extends AbstractController
 {
-    #[Route('/Home', name: 'app_home')]
+    
     public function index(CompetitionRepository $repocomp): Response
     {
         $competitions = $repocomp->findAll();
