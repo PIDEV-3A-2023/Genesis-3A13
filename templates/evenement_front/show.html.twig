@@ -94,15 +94,54 @@
 
 						</div>
 
+						{% if commentaire.idclient == app.user %}
+							<small>
 
-						<small>
-							<a href="">
-								<i class="fas fa-edit text-warning"></i>
-							</a>
-							<a href="">
-								<i class="fas fa-trash text-danger"></i>
-							</a>
-						</small>
+
+								<button class="btn btn-link text-warning" onclick="showEditForm({{ commentaire.idCommentaire }})">
+									<i class="fas fa-edit"></i>
+								</button>
+
+								<div id="commentaire-form-{{ commentaire.idCommentaire }}" style="display:none;">
+									<textarea id="commentaire-text-{{ commentaire.idCommentaire }}" name="commentaireedit" class="form-control">{{ commentaire.commentaire }}</textarea>
+									<button class="btn btn-warning mt-2" onclick="editCommentaire({{ commentaire.idCommentaire }})">
+										<i class="fas fa-edit"></i>Modifier</button>
+								</div>
+								<script>
+									function showEditForm(idCommentaire) { // Afficher le formulaire de modification
+$('#commentaire-form-' + idCommentaire).show();
+}
+
+function editCommentaire(idCommentaire) { // Récupérer le texte modifié
+var nouveauCommentaire = $('#commentaire-text-' + idCommentaire).val();
+
+// Envoyer une requête AJAX pour mettre à jour le commentaire
+$.ajax({
+url: '{{ path('app_commentaire_edit_front', {'idCommentaire': commentaire.idCommentaire}) }}',
+method: 'POST',
+data: {
+commentaire: nouveauCommentaire
+},
+success: function (response) { // Mettre à jour le commentaire en temps réel
+$('#commentaire-' + idCommentaire).html(response);
+$('#commentaire-form-' + idCommentaire).hide();
+},
+error: function () {
+alert('Une erreur s\'est produite lors de la modification du commentaire.');
+}
+});
+}
+								</script>
+								<form action="{{ path('app_commentaire_delete', {'idCommentaire': commentaire.idCommentaire}) }}" method="post" style="display: inline-block;">
+									<input type="hidden" name="_method" value="DELETE">
+									<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ commentaire.idCommentaire) }}">
+									<button type="submit" class="btn btn-link text-danger" onclick="return confirm('Are you sure you want to delete this comment?')">
+										<i class="fas fa-trash"></i>
+									</button>
+								</form>
+
+							</small>
+						{% endif %}
 
 					</div>
 
@@ -118,12 +157,17 @@
 				</div>
 			{% endfor %}
 			<br>
+			{% if not app.user %}
+				<div class="alert alert-danger" role="alert">
+					vous ne pouvez pas écrire un commentaire sans etre connecté
+				</div>
+			{% endif %}
 			<form action="{{path('commentaire',{'idEvenement' : evenement.idEvenement})}}">
 				<div class="bg-light p-2">
 					<div class="d-flex flex-row align-items-start"><img class="rounded-circle" src="{{asset('Front/images/user/utilisateur.png')}}" width="40"><textarea name="commentaire" placeholder="Commenter..." class="form-control ml-1 shadow-none textarea"></textarea>
 					</div>
 					<div class="mt-2 text-right">
-						<button class="btn btn-info btn-sm shadow-none" type="submit">
+						<button class="btn btn-info btn-sm shadow-none" type="submit" {% if not app.user %} disabled {% endif %}>
 							<i class="fas fa-comments" style="padding-right:3px"></i>
 							Commenter</button>
 						<button class="btn btn-danger btn-sm ml-1 shadow-none" type="reset">annuler</button>
@@ -135,7 +179,9 @@
 		</div>
 
 	</div>
-		
+
 
 </div>
+
+
 <br><br>{% endblock %}
