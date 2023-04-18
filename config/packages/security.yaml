@@ -21,6 +21,7 @@ security:
             provider: users_in_memory
             logout:
                 path: app_logout
+            custom_authenticator: App\Security\AppAuthenticator
                 # where to redirect after logout
                 # target: app_any_route
 
