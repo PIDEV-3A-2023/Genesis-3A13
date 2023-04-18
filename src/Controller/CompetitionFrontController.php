@@ -10,6 +10,7 @@ use App\Repository\QuizRepository;
 use App\Repository\ResultatQuizRepository;
 use App\Repository\UtilisateurRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -40,25 +41,30 @@ class CompetitionFrontController extends AbstractController
         $score = 0;
 
         $comp = $idCompetition;
+       
         $questions = $repo->findQuestionsByCompetition($idCompetition);
         return $this->render('competition_front/quiz.html.twig', [
             'questions' => $questions,
             'comp' => $comp,
+           
             'totalQuestions' => count($questions),
             'score' => $score,
         ]);
     }
     #[Route('/quiz/participer/{comp}', name: 'app_competition_participer_front')]
-    public function participate(Request $request, QuestionRepository $repo, $comp, UtilisateurRepository $repouser, ResultatQuizRepository $repores, QuizRepository $repoQuiz, competitionRepository $repoComp): Response
+    public function participate(Request $request, QuestionRepository $repo, $comp, UtilisateurRepository $repouser, ResultatQuizRepository $repores, QuizRepository $repoQuiz, competitionRepository $repoComp, Security $security): Response
     {
-        $Client = 3;
+        $Client = $security->getUser();
         $idComp = array('idUtilisateur' => $Client);
         $idClient = $repouser->findOneBy($idComp);
         $questions = $repo->findQuestionsByCompetition($comp);
 
+
         $score = 0;
         $reponseClient = '[';
-       
+        $answeredQuestions = 0;
+
+
 
         foreach ($questions as $question) {
             $userAnswer = $request->get('question_' . $question->getIdQuestion());
@@ -67,29 +73,46 @@ class CompetitionFrontController extends AbstractController
                 $score++;
                 $reponseClient .=  $userAnswer . ',';
             }
+            if (!empty($userAnswer)) {
+                $answeredQuestions++;
+            }
         }
-        $idQuiz = $repoQuiz->findOneBy(['idCompetition' => $comp]);
-        $reponseClient = rtrim($reponseClient, ',') . ']';
 
-        $resultat = new ResulatQuiz();
-        $resultat->setIdClient($idClient);
-        $resultat->setIdQuiz($idQuiz);
-        $resultat->setScore($score);
-        $resultat->setReponseClient($reponseClient);
-
-        $repores->save($resultat, true);
-
-        $participant = '[';
         $competition = $repoComp->findOneBy(['idCompetition' => $comp]);
-        
+
+        // Check if the user has already participated in the competition
+        $participants = $competition->getListePaticipants();
+        $participantsArray = explode(',', $participants);
+
+        if (in_array($idClient->getIdUtilisateur(), $participantsArray)) {
+            $this->addFlash('danger', 'Vous avez déjà participé à cette compétition.');
+        } else if ($answeredQuestions !== count($questions)) {
+            $this->addFlash('danger', 'Veuillez répondre à toutes les questions avant de soumettre le quiz.');
+            return $this->render('competition_front/quiz.html.twig', [
+                'questions' => $questions,
+                'comp' => $comp,
+                'totalQuestions' => count($questions),
+                'score' => $score,
+            ]);
+        } else {
+            $idQuiz = $repoQuiz->findOneBy(['idCompetition' => $comp]);
+            $reponseClient = rtrim($reponseClient, ',') . ']';
+
+            $resultat = new ResulatQuiz();
+            $resultat->setIdClient($idClient);
+            $resultat->setIdQuiz($idQuiz);
+            $resultat->setScore($score);
+            $resultat->setReponseClient($reponseClient);
+
+            $repores->save($resultat, true);
+
+            $participant = '[';
+            $competition = $repoComp->findOneBy(['idCompetition' => $comp]);
+
+            $this->addFlash('success', 'votre participation est enregistée avec succés !');
+        }
 
 
-        $this->addFlash('success', 'votre participation est enregister avec succés !');
-        return $this->render('competition_front/quiz.html.twig', [
-            'score' => $score,
-            'totalQuestions' => count($questions),
-            'comp' => $comp,
-            'questions' => $questions
-        ]);
+        return $this->redirectToRoute('app_competition_front');
     }
 }
