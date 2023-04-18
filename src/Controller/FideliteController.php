@@ -9,16 +9,28 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\FideliteRepository;
 
 #[Route('/fidelite')]
 class FideliteController extends AbstractController
 {
     #[Route('/', name: 'app_fidelite_index', methods: ['GET'])]
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(EntityManagerInterface $entityManager,FideliteRepository $repo): Response
     {
         $fidelites = $entityManager
             ->getRepository(Fidelite::class)
             ->findAll();
+
+            $fidelite = $repo->findFideliteByIdClient(6);
+            if (!$fidelite) {
+                throw $this->createNotFoundException('Client non trouvé pour l\'ID ' . 6);
+            }
+            $totalAchat = $repo->calculateTotalAchatByIdClient(6);
+            $totalAchatInt = intval($totalAchat);
+
+                $fidelite->setTotalachat($totalAchatInt);
+            $entityManager->flush();
+
 
         return $this->render('fidelite/index.html.twig', [
             'fidelites' => $fidelites,

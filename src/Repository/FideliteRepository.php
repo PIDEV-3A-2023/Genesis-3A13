@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Fidelite;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\Commande;
 
 /**
  * @extends ServiceEntityRepository<Fidelite>
@@ -63,7 +64,6 @@ class FideliteRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
-
 public function findOneByIdClient(int $idClient): ?Fidelite
 {
     return $this->createQueryBuilder('f')
@@ -71,6 +71,40 @@ public function findOneByIdClient(int $idClient): ?Fidelite
         ->setParameter('idClient', $idClient)
         ->getQuery()
         ->getOneOrNullResult();
+}
+
+public function calculateTotalAchatByIdClient($idClient)
+{
+    $qb = $this->getEntityManager()->createQueryBuilder();
+
+    $qb->select('SUM(c.montant) as total_achat')
+       ->from('App\Entity\Commande', 'c')
+       ->where('c.idClient = :id_client')
+       ->setParameter('id_client', $idClient);
+
+    $result = $qb->getQuery()->getSingleScalarResult();
+
+    return $result;
+}
+public function findFideliteByIdClient($idClient)
+    {
+        return $this->createQueryBuilder('f')
+            ->where('f.idClient = :idClient')
+            ->setParameter('idClient', $idClient)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+public function checkUserFidelite(int $userId): bool
+{
+    $fideliteRepository = $this->entityManager->getRepository(Fidelite::class);
+    $userFidelite = $fideliteRepository->findOneBy(['user' => $userId]);
+
+    if ($userFidelite === null) {
+        return false;
+    }
+
+    return true;
 }
 
 }
