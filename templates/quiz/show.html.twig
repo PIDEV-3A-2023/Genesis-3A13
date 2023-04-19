@@ -19,26 +19,23 @@
 		</div>
 	</div>
 
-    <table class="table">
+    <table class="table" >
         <tbody>
             <tr>
-                <th>IdQuiz</th>
+                <th class="text-primary fw-bold">IdQuiz</th>
                 <td>{{ quiz.idQuiz }}</td>
             </tr>
              <tr>
-                <th>Competition</th>
+                <th class="text-primary fw-bold">Competition</th>
                 <td>{{ quiz.idCompetition.nom }}</td>
             </tr>
              <tr>
-                <th>Livre</th>
+                <th class="text-primary fw-bold">Livre</th>
                 <td>{{ quiz.idLivre.titre }}</td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('app_quiz_index') }}">back to list</a>
-
-    <a href="{{ path('app_quiz_edit', {'idQuiz': quiz.idQuiz}) }}">edit</a>
-
+  
     {{ include('quiz/_delete_form.html.twig') }}
 {% endblock %}

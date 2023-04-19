@@ -72,6 +72,7 @@ class QuizController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$quiz->getIdQuiz(), $request->request->get('_token'))) {
             $quizRepository->remove($quiz, true);
         }
+        $this->addFlash('success', 'Quiz supprimée avec succés!');
 
         return $this->redirectToRoute('app_quiz_index', [], Response::HTTP_SEE_OTHER);
     }

@@ -84,17 +84,17 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
 
         if ($role=='Auteur') {
             // Redirect to the admin dashboard
-            return new RedirectResponse($this->urlGenerator->generate('app_home'));
+            return new RedirectResponse($this->urlGenerator->generate('index'));
         } elseif ($role=='Client') {
             // Redirect to the user dashboard
-            return new RedirectResponse($this->urlGenerator->generate('app_offre_index'));
+            return new RedirectResponse($this->urlGenerator->generate('index'));
         }
         elseif ($role=='Administrateur') {
             // Redirect to the user dashboard
-            return new RedirectResponse($this->urlGenerator->generate('app_evenement_front'));
+            return new RedirectResponse($this->urlGenerator->generate('app_dashboard'));
         }else {
             error_log('Unknown role: ' . $role);  // or var_dump($role);
-            return new RedirectResponse($this->urlGenerator->generate('app_home'));
+            return new RedirectResponse($this->urlGenerator->generate('index'));
         }
 
         // For example:
