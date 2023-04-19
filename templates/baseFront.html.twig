@@ -92,8 +92,29 @@
 							</a>
 						</li>
 					</ul>
-					<ul class="d-flex ml-auto navbar-nav">
-					<li class="nav-item">
+
+
+						{% if app.user %}
+						<ul class="d-flex ml-auto navbar-nav">
+						<li class="nav-item">
+							<a class="nav-link" style="color:#D4A373;" >
+							<h6>
+							<img src="{{asset('Back/img/icons/account.png')}}"height="25" width="25">
+								{{app.user.nom}} {{app.user.prenom}} |
+							</h6>
+							</a>
+						</li>
+						<li class="nav-item">						
+						<a class="nav-link" style="color:#D4A373;" href="{{ path('app_logout') }}">
+						<h6>
+						Logout
+						</h6>
+						</a>
+						</li>
+						</ul>
+						{% else %}
+						<ul class="d-flex ml-auto navbar-nav">
+						<li class="nav-item">
 							<a class="nav-link" style="color:#D4A373;" href="#">
 								<img src="{{asset('Front/images/home/paniers.png')}}" height="25" width="25">
 							</a>
@@ -112,7 +133,8 @@
 								</h6>
 							</a>
 						</li>
-					</ul>
+						</ul>
+						{% endif %}
 				</div>
 
 			</nav>

@@ -281,6 +281,7 @@
 
 		<main class="content">
 
+
 			<div class="media d-flex align-items-center justify-content-end" style="padding-top:20px;padding-bottom: 20px;padding-right: 15px;">
 				<div>
 					<div class="form-check form-switch">
@@ -292,9 +293,9 @@
 
 					<script>
 						const toggle = document.querySelector('#dark-mode-toggle');
-toggle.addEventListener('change', () => {
-document.body.classList.toggle('dark-mode');
-});
+					toggle.addEventListener('change', () => {
+					document.body.classList.toggle('dark-mode');
+					});
 					</script>
 
 				</div>
@@ -302,7 +303,9 @@ document.body.classList.toggle('dark-mode');
 				<div class="media-body ms-2 text-dark align-items-center d-none d-lg-block">
 					<span class="mb-0 font-medium fw-bold text-blue-900">{{app.user.nom}} {{app.user.prenom}}</span>
 				</div>
+				
 			</div>
+			
 
 			{% block body %}{% endblock %}
 
