@@ -17,10 +17,18 @@ use Doctrine\ORM\EntityManagerInterface;
 class FideliteFrontController extends AbstractController
 {
     #[Route('/ff', name: 'app_fidelite_front')]
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(EntityManagerInterface $entityManager,FideliteRepository $repo): Response
     {
         $fidelite = $entityManager->getRepository(Fidelite::class)->findOneByIdClient(6);
         $user = $entityManager->getRepository(Utilisateur::class)->find(6);
+        $totalAchat = $repo->calculateTotalAchatByIdClient($fidelite->getIdClient());
+        $totalAchatInt = intval($totalAchat);
+
+            $fidelite->setTotalachat($totalAchatInt);
+        $entityManager->flush();
+
+        $fidelite->settype($this->tyyype($totalAchatInt));
+
         return $this->render('fidelite_front/index.html.twig', [
             'fidelite' => $fidelite,
             'user'=> $user,
@@ -28,4 +36,15 @@ class FideliteFrontController extends AbstractController
         ]);
     }
 
+
+ public function tyyype(int $total): string
+    {
+        if ($total < 1000) {
+            return 'bronze';
+        } elseif ($total >= 1000 && $total < 2000) {
+            return 'silver';
+        } elseif ($total >= 2000) {
+            return 'gold';
+        }
+    }
 }

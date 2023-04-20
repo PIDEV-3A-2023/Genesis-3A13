@@ -21,16 +21,20 @@ class FideliteController extends AbstractController
             ->getRepository(Fidelite::class)
             ->findAll();
 
-            $fidelite = $repo->findFideliteByIdClient(6);
-            if (!$fidelite) {
-                throw $this->createNotFoundException('Client non trouvé pour l\'ID ' . 6);
-            }
-            $totalAchat = $repo->calculateTotalAchatByIdClient(6);
+            foreach ($fidelites as $fideliteee) {
+
+            //$fidelite = $repo->findFideliteByIdClient($fideliteee->getIdClient());
+            //if (!$fidelite) {
+              //  throw $this->createNotFoundException('Client non trouvé pour l\'ID ' . $fideliteee->getIdClient());
+            //}
+            $totalAchat = $repo->calculateTotalAchatByIdClient($fideliteee->getIdClient());
             $totalAchatInt = intval($totalAchat);
 
-                $fidelite->setTotalachat($totalAchatInt);
+                $fideliteee->setTotalachat($totalAchatInt);
             $entityManager->flush();
 
+            $fideliteee->settype($this->tyyype($totalAchatInt));
+        }
 
         return $this->render('fidelite/index.html.twig', [
             'fidelites' => $fidelites,
@@ -93,4 +97,16 @@ class FideliteController extends AbstractController
 
         return $this->redirectToRoute('app_fidelite_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    public function tyyype(int $total): string
+    {
+        if ($total < 1000) {
+            return 'bronze';
+        } elseif ($total >= 1000 && $total < 2000) {
+            return 'silver';
+        } elseif ($total >= 2000) {
+            return 'gold';
+        }
+    }
+    
 }
