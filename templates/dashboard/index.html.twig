@@ -112,6 +112,7 @@
 					<div class="d-block ms-auto">
 						<select class="form-select" name="competition" aria-label="selectionner la competition">
 							<option selected>selectionner la competition</option>
+
 							{% for competition in competitions%}
 								<option value="{{competition.nom}}">{{competition.nom}}</option>
 							{% endfor %}
@@ -138,6 +139,16 @@ beginAtZero: true
 }
 }
 });
+   const competitionSelect = document.querySelector('select[name="competition"]');
+        competitionSelect.addEventListener('change', () => {
+            const nom = competitionSelect.value;
+            fetch(`/chart-data?nom=${encodeURIComponent(nom)}`)
+                .then(response => response.json())
+                .then(data => {
+                    myChart.data = data;
+                    myChart.update();
+                });
+        });
 						</script>
 					{% endblock %}
 				</div>
