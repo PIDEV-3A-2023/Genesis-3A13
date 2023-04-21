@@ -41,12 +41,12 @@ class CompetitionFrontController extends AbstractController
         $score = 0;
 
         $comp = $idCompetition;
-       
+
         $questions = $repo->findQuestionsByCompetition($idCompetition);
         return $this->render('competition_front/quiz.html.twig', [
             'questions' => $questions,
             'comp' => $comp,
-           
+
             'totalQuestions' => count($questions),
             'score' => $score,
         ]);
@@ -82,9 +82,9 @@ class CompetitionFrontController extends AbstractController
 
         // Check if the user has already participated in the competition
         $participants = $competition->getListePaticipants();
-        $participantsArray = explode(',', $participants);
+        $participantsArray = json_decode($participants, true); // On utilise json_decode pour convertir la liste de participants en tableau associatif
 
-        if (in_array($idClient->getIdUtilisateur(), $participantsArray)) {
+        if (is_array($participantsArray) && in_array($idClient->getIdUtilisateur(), $participantsArray)) {
             $this->addFlash('danger', 'Vous avez déjà participé à cette compétition.');
         } else if ($answeredQuestions !== count($questions)) {
             $this->addFlash('danger', 'Veuillez répondre à toutes les questions avant de soumettre le quiz.');
@@ -106,9 +106,19 @@ class CompetitionFrontController extends AbstractController
 
             $repores->save($resultat, true);
 
-            $participant = '[';
-            $competition = $repoComp->findOneBy(['idCompetition' => $comp]);
 
+
+            // Check if the user has already participated in the competition
+            $participants = $competition->getListePaticipants();
+
+
+
+            $participantsArray = '[' . $idClient->getIdUtilisateur() . ']' . '' . $participants;
+
+
+            // Update the competition with the new list of participants
+            $competition->setListePaticipants($participantsArray);
+            $repoComp->save($competition, true);
             $this->addFlash('success', 'votre participation est enregistée avec succés !');
         }
 
