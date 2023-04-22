@@ -83,12 +83,30 @@
 										{% if competition.dateDebut > date('now') or competition.dateFin < date('now') %}
 											<span class="badge bg-danger" style="color:white">Compétition fermée</span>
 										{% else %}
-
-											<button type="button" class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;" {% if app.user.idUtilisateur in competition.listePaticipants|json_encode %} data-toggle="modal" data-target="#modal-notification" {% else %} data-toggle="modal" data-target="#confirmModal" {% endif %}>
+										{% if not app.user %}
+    {# Redirect the user to the login page #}
+    {% set loginUrl = path('app_login') %}
+    {% set redirectUrl = app.request.uri %}
+    {% set redirectUrlQueryParam = app.request.getQueryString() ?: '' %}
+    {% if redirectUrlQueryParam %}
+        {% set redirectUrl = redirectUrl ~ '?' ~ redirectUrlQueryParam %}
+    {% endif %}
+    {% set loginUrlWithRedirect = loginUrl ~ '?redirect=' ~ redirectUrl %}
+    <a href="{{ loginUrlWithRedirect }}" ><button type="button" class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;" >
+												
 												<i class="fas fa-plus" style="padding-right:3px"></i>
 												Participer
-											</button>
+											
+											</button></a>
+{% else %}
 
+											<button type="button" class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;" {% if app.user.idUtilisateur in competition.listePaticipants|json_encode %} data-toggle="modal" data-target="#modal-notification" {% else %} data-toggle="modal" data-target="#confirmModal" {% endif %}>
+												
+												<i class="fas fa-plus" style="padding-right:3px"></i>
+												Participer
+											
+											</button>
+	{% endif %}
 
 											<!-- Modal Content -->
 											<div class="modal fade" id="modal-notification" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-hidden="true">
