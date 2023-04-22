@@ -22,12 +22,12 @@
 					</h1>
 					<br>
 					<h1 id="home-heading-2">
-						 votre
-						<span>fidelite</span>
+						 les
+						<span>offres disponibles</span>
 					</h1>
 				</div>
 				<div id="home-text">
-					<p>consulter votre fidelite et Découvrir les avantages de chaque fidelite
+					<p>consulter les offres et les bon prix 
 					</p>
 				</div>
 				<!-- Arrow down-->
@@ -37,6 +37,10 @@
 			</div>
 		</div>
 	</section>
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
 	<section id="evenements" style="background-color:#e9ecef">
 
     <br><br>
@@ -47,29 +51,35 @@
 
 					<img src="{{asset('Back/img/icons/fidelite.png')}}" width="50" height="50" class="icon icon-s me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
 
-				</span>Fidelite : {{ fidelite.idfidelite }}</h1>
+				</span>Offre : </h1>
 
 		</div>
 	</div>
 <table class="table">
-        <tbody>
-            <tr>
-                <th class="text-primary fw-bold">Nom</th>
-                <td>{{ user.nom }}</td>
-            </tr>
-      
-            <tr>
-                <th class="text-primary fw-bold">prénom</th>
-                <td>{{ user.prenom }}</td>
-            </tr>
-            <tr>
-                <th class="text-primary fw-bold">totalachat</th>
-                <td>{{ fidelite.totalachat }}</td>
-            </tr>
-            <tr>
-                <th class="text-primary fw-bold">typefidelite</th>
-                <td>{{ fidelite.type }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <thead>
+        <tr>
+            <th class="text-primary fw-bold">NomLivre</th>
+            <th class="text-primary fw-bold">prixinitial</th>
+            <th class="text-primary fw-bold">pourcentageSolde</th>
+            <th class="text-primary fw-bold">prixsoldé</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for offre in resultat %}
+        <tr>
+            <td>{{ offre.titre }}</td>
+            <td>{{ offre.prix }}</td>
+            <td>{{ offre.pourcentageSolde }}</td>
+            <td>{{ offre.prixSolde }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+
+
+
+
+
 {% endblock %}

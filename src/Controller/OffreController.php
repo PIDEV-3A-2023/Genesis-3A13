@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Offre;
+use App\Entity\Livre;
+
 use App\Form\OffreType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -80,5 +82,31 @@ class OffreController extends AbstractController
         }
 
         return $this->redirectToRoute('app_offre_index', [], Response::HTTP_SEE_OTHER);
+    }
+    #[Route('/calcul-prix-solde/${prixInit}/${pourcentage}')]
+    public function calculprixsolde(float $prixinit ,string $pourcentage) : float
+    {
+        $pourcentageVal = (float) trim($pourcentage, '%');
+        $pourcentageDec = $pourcentageVal / 100;
+        $prixAvecSolde = $prixInit * (1 - $pourcentageDec);
+        $prixApresSolde = $prixInit - $prixAvecSolde;
+        return $prixApresSolde;
+
+    }
+    #[Route('/findbyid/${idLivre}')]
+    public function getPrixLivre($idLivre) : float
+    {
+        // Crée un QueryBuilder pour la table Livre
+        $qb = $this->entityManager->createQueryBuilder();
+        $qb->select('l.prix')
+            ->from('Entity\Livre', 'l')
+            ->where('l.idLivre = :idLivre')
+            ->setParameter('idLivre', $idLivre);
+
+        // Exécute la requête et récupère le prix
+        $prix = $qb->getQuery()->getSingleScalarResult();
+
+        // Retourne le prix dans une réponse JSON
+        return $prix;
     }
 }
