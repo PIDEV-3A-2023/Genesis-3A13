@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Question;
 use App\Form\QuestionType;
 use App\Repository\QuestionRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,10 +15,18 @@ use Symfony\Component\Routing\Annotation\Route;
 class QuestionController extends AbstractController
 {
     #[Route('/', name: 'app_question_index', methods: ['GET'])]
-    public function index(QuestionRepository $questionRepository): Response
+    public function index(Request $request,QuestionRepository $repo,PaginatorInterface $paginator): Response
     {
+        $query = $repo->createQueryBuilder('q')
+        ->getQuery();
+
+    $questions = $paginator->paginate(
+        $query,
+        $request->query->getInt('page', 1), // Current page number, defaults to 1
+        10 // Number of items per page
+    );
         return $this->render('question/index.html.twig', [
-            'questions' => $questionRepository->findAll(),
+            'questions' => $questions,
         ]);
     }
 
