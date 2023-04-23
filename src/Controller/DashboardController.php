@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\CompetitionRepository;
+use App\Repository\EvenementRepository;
 use App\Repository\ResultatQuizRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,7 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class DashboardController extends AbstractController
 {
     #[Route('/dashboard', name: 'app_dashboard')]
-    public function index(Request $request,CompetitionRepository $repocomp, ResultatQuizRepository $repoResultat): Response
+    public function index(Request $request,CompetitionRepository $repocomp,EvenementRepository $repoevent, ResultatQuizRepository $repoResultat): Response
     {
 
         $competitions = $repocomp->findAll();
@@ -28,12 +29,14 @@ class DashboardController extends AbstractController
         
             
         }*/
-      
+      $evenements = $repoevent->findAll();
+        $nbevenements = count($evenements);
 
         return $this->render('dashboard/index.html.twig', [
             'nbcompetitions' => $nbcompetitions,
             'competitions' => $competitions,
             'chartData' => json_encode($chartData),
+            'nbevenements' => $nbevenements,
             'controller_name' => 'DashboardController',
            
         ]);

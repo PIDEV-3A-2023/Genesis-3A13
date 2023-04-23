@@ -4,7 +4,9 @@ namespace App\Repository;
 
 use App\Entity\Commentaire;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Query\Expression\ExpressionBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\ExpressionLanguage\Expression;
 
 /**
  * @extends ServiceEntityRepository<Commentaire>
@@ -47,6 +49,16 @@ class CommentaireRepository extends ServiceEntityRepository
         ->getQuery()
         ->getResult();
     }
+    public function findRandomComments()
+    {
+        return $this->createQueryBuilder('c')
+       
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult();
+    }
+    
+
 
 //    /**
 //     * @return Commentaire[] Returns an array of Commentaire objects
