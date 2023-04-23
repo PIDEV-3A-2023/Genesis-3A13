@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Quiz;
 use App\Form\QuizType;
 use App\Repository\QuizRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,10 +15,18 @@ use Symfony\Component\Routing\Annotation\Route;
 class QuizController extends AbstractController
 {
     #[Route('/', name: 'app_quiz_index', methods: ['GET'])]
-    public function index(QuizRepository $quizRepository): Response
+    public function index(Request $request,QuizRepository $repo,PaginatorInterface $paginator): Response
     {
+        $query = $repo->createQueryBuilder('q')
+        ->getQuery();
+
+    $quizzes = $paginator->paginate(
+        $query,
+        $request->query->getInt('page', 1), // Current page number, defaults to 1
+        10 // Number of items per page
+    );
         return $this->render('quiz/index.html.twig', [
-            'quizzes' => $quizRepository->findAll(),
+            'quizzes' => $quizzes,
         ]);
     }
 

@@ -57,6 +57,11 @@
 
 	<br>
 	<div class="card border-0 shadow mb-4">
+	<div class="d-flex justify-content-end" style="padding-top: 15px;padding-right: 25px;" >
+			<a href="{{ path('app_question_download') }}" class="btn btn-danger d-inline-flex align-items-center">
+				<i class="fas fa-file-pdf" style="padding-right:3px"></i>
+				PDF</a>
+		</div>
 		<div class="card-body">
 			<div class="table-responsive table-centered table-nowrap mb-0 rounded" id="myTable">
 				<table class="table">
@@ -89,11 +94,13 @@
 							</tr>
 						{% else %}
 							<tr>
-								<td colspan="7">Aucun enregistrement trouvé</td>
+								<td colspan="8">Aucun enregistrement trouvé</td>
 							</tr>
 						{% endfor %}
 					</tbody>
 				</table>
+				<br>
+				{{ knp_pagination_render(questions, 'knp_pagination_bootstrap.html.twig') }}
 			</div>
 		</div>
 	</div>
