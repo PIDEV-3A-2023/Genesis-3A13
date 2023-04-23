@@ -2,7 +2,6 @@
 
 
 namespace App\Controller;
-require_once __DIR__.'/../../vendor/autoload.php';
 
 
 use App\Entity\Competition;
@@ -12,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Dompdf\Dompdf;
-use Dompdf\DompdfOptions as Options;
+use Dompdf\Options;
 
 
 #[Route('/competition')]
@@ -35,14 +34,16 @@ class CompetitionBackController extends AbstractController
             'competitions' => $resultat,
         ]);
     }
-   /* #[Route('/download', name: 'app_competition_download', methods: ['GET'])]
-    public function download(Request $request,CompetitionRepository $repo): Response
+    #[Route('/pdf', name: 'app_competition_download', methods: ['GET'])]
+    public function pdf(CompetitionRepository $repo): Response
     {
         //définir les options
         $pdfOptions = new Options();
+
         //police par défaut
         $pdfOptions->set('defaultFont', 'Arial');
         $pdfOptions->set('isRemoteEnabled', TRUE);
+        $pdfOptions->setChroot('');
 
         //instancier Dompdf
         $pdf = new Dompdf($pdfOptions);
@@ -56,23 +57,30 @@ class CompetitionBackController extends AbstractController
         $pdf->setHttpContext($context);
 
         //générer le html
-        $competitions = $repo->findAll();
-        $html=$this->renderView('competition/download.html.twig', [
-            'competitions' => $competitions,
-        ]);
+        $img = file_get_contents('Front/images/logo/maktabti.jpg');
+        $imgData = base64_encode($img);
+        $imgSrc = 'data:image/jpeg;base64,' . $imgData;
 
+        $competitions = $repo->findAll();
+        $html=$this->renderView('competition/pdf.html.twig', [
+            'competitions' => $competitions,
+            'img' => $imgSrc
+        ]);
+      
         $pdf->loadHtml($html);
         $pdf->setPaper('A4', 'portrait');
         $pdf->render();
 
-        //générer nom de fichier
-        $fichier = 'maktabti-competitions.pdf';
+       
+        $pdfData = $pdf->output();
+
+        // Return the PDF as a Response object
+        $headers = [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="MaktabtiDashboard-competitions.pdf"',
+        ];
         
-        //envoyer le fichier
-        $pdf->stream($fichier, [
-            "Attachment" => true
-        ]);
-        return new Response();
-    }*/
+        return new Response($pdfData, 200, $headers);
+    }
 
 }

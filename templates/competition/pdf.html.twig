@@ -1,0 +1,39 @@
+{% extends 'basePDF.html.twig' %}
+{% block title %}Liste des Compétitions
+{% endblock %}
+{% block header %}Liste des Compétitions
+{% endblock %}
+{% block content %}
+	<table class=" table-bordered  table-striped text-center">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Nom</th>
+				<th>Livre</th>
+				<th>Lien Compétition</th>
+				<th>Recompense</th>
+				<th>Date Debut</th>
+				<th>Date Fin</th>
+
+			</tr>
+		</thead>
+		<tbody>
+			{% for competition in competitions %}
+				<tr>
+					<td>{{ competition.idCompetition }}</td>
+					<td>{{ competition.nom }}</td>
+					<td>{{ competition.idlivre.titre }}</td>
+					<td>{{ competition.lienCompetition }}</td>
+					<td>{{ competition.recompense }}</td>
+					<td>{{ competition.dateDebut ? competition.dateDebut|date('Y-m-d') : '' }}</td>
+					<td>{{ competition.dateFin ? competition.dateFin|date('Y-m-d') : '' }}</td>
+
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="8">Aucun enregistrement trouvé</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}
