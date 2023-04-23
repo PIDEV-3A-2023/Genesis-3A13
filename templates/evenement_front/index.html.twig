@@ -13,6 +13,13 @@
 		</video>
 		<!-- Overlay -->
 		<div id="home_overlay"></div>
+		{% for type, messages in app.flashes %}
+			{% for message in messages %}
+				<div class="alert alert-{{ type }} alert-dismissible fade show">{{ message }}
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+			{% endfor %}
+		{% endfor %}
 		<!-- Home content -->
 		<div id="home-content">
 			<div id="content-inner" class="text-center">
@@ -22,7 +29,7 @@
 					</h1>
 					<br>
 					<h1 id="home-heading-2">
-						 Nos
+						Nos
 						<span>Evenements</span>
 					</h1>
 				</div>
@@ -45,46 +52,49 @@
 					<div class="col-4">
 						<div class="card border-0 shadow mb-4">
 
-								
+
 							<img src="{{asset('Front/images/evenement/quiz.png')}}" class="card-img-top" alt="..." style="border-radius: 10%;padding-top:15px;padding-left:15px;padding-right:15px">
 
 							<div class="card-body">
 								<h5 class="card-title">{{evenement.nom}}</h5>
-                                 <p class="card-text"><i class="fas fa-book-open"></i> {{evenement.idlivre.titre}}</p>
-								<p class="card-text"><i class="fas fa-calendar-alt"></i>
+								<p class="card-text">
+									<i class="fas fa-book-open"></i>
+									{{evenement.idlivre.titre}}</p>
+								<p class="card-text">
+									<i class="fas fa-calendar-alt"></i>
 									{{ evenement.date ? evenement.date|date('Y-m-d') : '' }}</p>
-								<p class="card-text"><i class="fas fa-clock"></i>
+								<p class="card-text">
+									<i class="fas fa-clock"></i>
 									{{ evenement.heure ? evenement.heure|date('H:i:s') : '' }}</p>
-                                     
-                                    
-                                    
+
+
 							</div>
 							<div class="card-footer">
-						<div class="d-flex justify-content-between w-100 flex-wrap">
-                            <div>
-							
-								{% if evenement.date <  date('now') %}
-									<button class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;" disabled>
-										<i class="fas fa-plus" style="padding-right:3px"></i>
+								<div class="d-flex justify-content-between w-100 flex-wrap">
+									<div>
 
-										Reserver
-									</button>
-								
-								{% else %}
-									<a href="{{ path('reservation',{'idevenement': evenement.idevenement}) }}" class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;">
-										<i class="fas fa-plus" style="padding-right:3px"></i>
-										Reserver
-									</a>
-								{% endif %}
-								
+										{% if evenement.date <  date('now') %}
+											<span class="badge bg-danger" style="color:white">Evenement fermée</span>
+										{% elseif evenement.nbticket == 0 %}
+										<span class="badge bg-danger" style="color:white">Ticket hors stock</span>
+										{% else  %}
+											<a href="{% if app.user %} {{ path('reservation',{'idEvenement' : evenement.idevenement})}} {% else  %} {{ path('app_login')}} {% endif %}" class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;">
+												<i class="fas fa-plus" style="padding-right:3px"></i>
+												Reserver
+											</a>
+										{% endif %}
 
-							</div>
-							<div>
-								<a href="{{ path('app_evenement_show_front', {'idEvenement': evenement.idevenement}) }}"><i class="fas fa-info-circle text-info"></i></a>
+
+									</div>
+									
+									<div>
+										<a href="{{ path('app_evenement_show_front', {'idEvenement': evenement.idevenement}) }}">
+											<i class="fas fa-info-circle text-info"></i>
+										</a>
+									</div>
 								</div>
+							</div>
 						</div>
-						</div>
-					</div>
 					</div>
 				{% else %}
 
