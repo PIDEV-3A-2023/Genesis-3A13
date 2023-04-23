@@ -40,28 +40,19 @@
 				<th class="text-primary fw-bold">Description</th>
 				<td>{{ evenement.description }}</td>
 			</tr>
-			<tr>
-				<th class="text-primary fw-bold">NbTicket</th>
-				<td>{{ evenement.nbTicket }}</td>
-			</tr>
+			
 		</tbody>
 	</table>
 	<div class="row">
 		<div class="col-md-2">
 			{% if evenement.date <  date('now') %}
-				<div style="padding-left:10px;padding-bottom:10px">
-					<button class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;" disabled>
-						<i class="fas fa-plus" style="padding-right:3px"></i>
-						Reserver
-					</button>
-				</div>
+				<span class="badge bg-danger" style="color:white">Evenement fermée</span>
+
 			{% else %}
-				<div style="padding-left:10px;padding-bottom:10px">
-					<a href="{{ path('reservation',{'idevenement':evenement.idevenement}) }}" class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;">
-						<i class="fas fa-plus" style="padding-right:3px"></i>
-						Reserver
-					</a>
-				</div>
+				<a href="{{ path('reservation',{'idEvenement' : evenement.idevenement})}}" class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;">
+					<i class="fas fa-plus" style="padding-right:3px"></i>
+					Reserver
+				</a>
 			{% endif %}
 		</div>
 

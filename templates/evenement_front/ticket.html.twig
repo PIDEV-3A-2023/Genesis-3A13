@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Maktabti - Ticket</title>
+	<style>
+			/*body {
+				background-image: url({{ img }});
+				background-size: cover;
+			}*/
+		</style>
+
+	</head>
+
+<body>
+		<section class="ticket">
+			<h1>{{ evenement.nom }}</h1>
+			<h2>{{ evenement.lieu }}</h2>	
+			<p>{{ evenement.date|date('Y-m-d') ~ ' ' ~ evenement.heure|date('H:i:s') }}</p>
+			<!-- Add more event information here -->
+		</section>
+	
+
+		<img src="{{ img }}" height="30" width="60">
+
+		
+
+	</body>
+</html>
