@@ -1,0 +1,41 @@
+{% extends 'basePDF.html.twig' %}
+{% block title %}Liste des Evenements
+{% endblock %}
+{% block header %}Liste des Evenements
+{% endblock %}
+{% block content %}
+
+	<table class=" table-bordered  table-striped text-center">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Nom</th>
+				<th>Livre</th>
+				<th>Date</th>
+				<th>Heure</th>
+				<th>Lieu</th>
+				<th>Description</th>
+                <th>NbreTicket</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for evenement in evenements %}
+				<tr>
+					<td>{{ evenement.idevenement }}</td>
+					<td>{{ evenement.nom }}</td>
+					<td>{{ evenement.idlivre.titre }}</td>
+					<td>{{ evenement.date ? evenement.date|date('Y-m-d') : '' }}</td>
+					<td>{{ evenement.heure ? evenement.heure|date('H:i:s') : '' }}</td>
+					<td>{{ evenement.lieu }}</td>
+                    <td>{{ evenement.description }}</td>
+                    <td>{{ evenement.nbTicket }}</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="7">Aucun enregistrement trouvé</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+{% endblock %}
