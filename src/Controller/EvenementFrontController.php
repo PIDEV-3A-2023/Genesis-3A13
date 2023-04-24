@@ -119,7 +119,8 @@ class EvenementFrontController extends AbstractController
         $repoticket->save($ticket, true);
         
         $evenement = $repo->findOneBy(array('idEvenement' => $idEvenement));
-        $nbticket = $evenement->getNbTicket() - $request->get('nbrTickets');
+        if($evenement->getNbTicket()>0){
+             $nbticket = $evenement->getNbTicket() - $request->get('nbrTickets');
 
         $reservation = new Reservation();
         $evenement->setnbticket($nbticket);
@@ -132,6 +133,13 @@ class EvenementFrontController extends AbstractController
 
         $pdfResponse = $this->reserveTicket($evenement);
         return $pdfResponse;
+        }else{
+            $this->addFlash('danger', 'Tickets indisponible !');
+            $evenements = $repo->findAll();
+        
+            return $this->render('evenement_front/index.html.twig', ['evenements' => $evenements]);
+        }
+       
 
 
         //$this->addFlash('success', 'reservation est effectué avec succés!');
@@ -139,6 +147,8 @@ class EvenementFrontController extends AbstractController
         
         //return $this->render('evenement_front/index.html.twig', ['evenements' => $evenements]);
     }
+
+    
     public function reserveTicket(Evenement $evenement)
     {
        //définir les options
