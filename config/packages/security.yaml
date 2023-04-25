@@ -19,6 +19,7 @@ security:
         main:
             lazy: true
             provider: users_in_memory
+            entry_point: App\Security\AppAuthenticator
             logout:
                 path: app_logout
             custom_authenticator: App\Security\AppAuthenticator
