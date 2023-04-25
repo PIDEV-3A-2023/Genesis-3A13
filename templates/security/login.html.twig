@@ -96,6 +96,14 @@
 										</span>
 										<input type="password" name="password" id="inputPassword" placeholder="Votre mot de passe" class="form-control" autocomplete="current-password" required>
 									</div>
+									
+									<div>
+										
+										<a href="{{path('forgotten_password')}}" class="small text-right float-end">Mot de passe oublié ?</a>
+									
+									</div>
+									<br><br>
+
 									<input
 									type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
@@ -109,8 +117,10 @@
 																																																            </label>
 																																																        </div>
 																																																    #}
-
+<div class="d-grid">
 									<button type="submit" class="btn btn-primary float-end" style="background-color:#00377E;">Se connecter</button>
+
+</div>
 								</form>
 								<br><br>
 								<div class="d-flex justify-content-center align-items-center mt-4">
@@ -118,7 +128,9 @@
 										Vous n'avez pas de compte ?
 										<a href="{{path('app_register')}}" class="fw-bold">Créer un compte</a>
 									</span>
+							
 								</div>
+																
                                 <br>
 								<!-- Footer-->
 								<footer class="text-center">
