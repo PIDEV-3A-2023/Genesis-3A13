@@ -15,33 +15,6 @@
 	<br>
 
     {{ include('offre/_form.html.twig') }}
-{% block javascripts %}
-    <script>
 
-      function calculatePrice() {
-    let pourcentage = document.getElementById("offre_pourcentageSolde").value;
-    let idLivre = document.getElementById("offre_idLivre").value;
-
-    fetch(`/findbyid/${idLivre}`)
-        .then(response => response.json())
-        .then(offre => {
-            let prixInit = offre.livre.prix;
-			
-            fetch(`/calcul-prix-solde/${prixInit}/${pourcentage}`)
-                .then(response => response.json())
-                .then(prixAvecSolde => {
-                    let prixSoldeLabel = document.getElementById("offre_prixSolde");
-                    prixSoldeLabel.innerText = prixAvecSolde;
-                })
-                .catch(error => console.error(error));
-        })
-        .catch(error => console.error(error));
-}
-
-document.getElementById("offre_pourcentageSolde").addEventListener("input", calculatePrice);
-document.getElementById("offre_idLivre").addEventListener("change", calculatePrice);
-
-    </script>
-{% endblock %}
 
 {% endblock %}
