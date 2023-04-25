@@ -83,6 +83,14 @@ class Utilisateur implements UserInterface , PasswordAuthenticatedUserInterface
      */
     private $roles;
 
+        /**
+     * @var string|null
+     *
+     * @ORM\Column(name="resetToken", type="text", length=0, nullable=false)
+     */
+    private $resetToken;
+
+
     public function getIdUtilisateur(): ?int
     {
         return $this->idUtilisateur;
@@ -226,6 +234,17 @@ class Utilisateur implements UserInterface , PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+    public function getResetToken(): ?string
+    {
+        return $this->resetToken;
+    }
+
+    public function setResetToken(?string $resetToken): self
+    {
+        $this->resetToken = $resetToken;
+
+        return $this;
     }
 
 
