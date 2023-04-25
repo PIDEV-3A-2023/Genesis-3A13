@@ -23,6 +23,7 @@ class OffreFrontController extends AbstractController
         $resultat = $qb->select('livre.titre, livre.prix, offre.pourcentageSolde, offre.prixSolde')
             ->from(Livre::class, 'livre')
             ->leftJoin(Offre::class, 'offre', 'WITH', 'livre.idLivre = offre.idLivre')
+            ->where('offre.idLivre IS NOT NULL')
             ->getQuery()
             ->getResult();
 
