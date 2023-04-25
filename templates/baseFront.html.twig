@@ -96,21 +96,26 @@
 
 						{% if app.user %}
 						<ul class="d-flex ml-auto navbar-nav">
-						<li class="nav-item">
-							<a class="nav-link" style="color:#D4A373;" >
+					
+						<div class="dropdown nav-item" >
+ 		 				<button style="background-color: transparent" class="nav-link btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    						<a class="nav-link" style="color:#D4A373;" >
 							<h6>
 							<img src="{{asset('Back/img/icons/account.png')}}"height="25" width="25">
-								{{app.user.nom}} {{app.user.prenom}} |
+								{{app.user.nom}} {{app.user.prenom}} 
 							</h6>
 							</a>
-						</li>
-						<li class="nav-item">						
-						<a class="nav-link" style="color:#D4A373;" href="{{ path('app_logout') }}">
-						<h6>
-						Logout
-						</h6>
+  						</button>
+						<div style="background-color: transparent" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+									 <div class="dropdown-divider"></div>		
+						<a  class="nav-link" style="color:#D4A373;" href="{{ path('app_logout') }}"><i class="fas fa-sign-out"></i>
+						Déconnecter
 						</a>
-						</li>
+						 							
+						</div>
+						</div>
+
+
 						</ul>
 						{% else %}
 						<ul class="d-flex ml-auto navbar-nav">
