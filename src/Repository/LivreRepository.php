@@ -53,14 +53,25 @@ class LivreRepository extends ServiceEntityRepository
 //            ->getResult()
 //        ;
 //    }
+   public function trier(): array
+   {
+       return $this->createQueryBuilder('l')
+          
+         
+           ->orderBy('l.prix', 'ASC')
+           ->setMaxResults(10)
+           ->getQuery()
+           ->getResult()
+       ;
+   }
 
-//    public function findOneBySomeField($value): ?Livre
-//    {
-//        return $this->createQueryBuilder('l')
-//            ->andWhere('l.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+   public function findOneBySomeField($value): ?array
+   {
+       return $this->createQueryBuilder('l')
+           ->andWhere('l.titre = :val')
+           ->setParameter('val', $value)
+           ->getQuery()
+           ->getResult()
+       ;
+   }
 }

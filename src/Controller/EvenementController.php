@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Evenement;
 use App\Form\EvenementType;
 use App\Repository\CommentaireRepository;
+use App\Repository\EvenementRepository;
 use App\Repository\UtilisateurRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,17 +15,26 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Address;
+use Knp\Component\Pager\PaginatorInterface;
 
 
 #[Route('/evenement')]
 class EvenementController extends AbstractController
 {
     #[Route('/', name: 'app_evenement_index', methods: ['GET'])]
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(EntityManagerInterface $entityManager, Request $request, PaginatorInterface $paginator, EvenementRepository $repo): Response
     {
         $evenements = $entityManager
             ->getRepository(Evenement::class)
             ->findAll();
+        $query = $repo->createQueryBuilder('c')
+            ->getQuery();
+
+        $evenements = $paginator->paginate(
+            $query,
+            $request->query->getInt('page', 1), // Current page number, defaults to 1
+            10 // Number of items per page
+        );
 
         return $this->render('evenement/index.html.twig', [
             'evenements' => $evenements,

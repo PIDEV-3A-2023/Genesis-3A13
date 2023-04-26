@@ -19,6 +19,9 @@ use Symfony\Component\Security\Core\Security;
 use Doctrine\ORM\EntityManagerInterface;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\Mime\Address;
 
 
 #[Route('/evenements')]
@@ -111,7 +114,7 @@ class EvenementFrontController extends AbstractController
         return $this->render('evenement_front/reservation.html.twig', ['evenement' => $evenement]);
     }
     #[Route('/ajouterreservation/{idEvenement}', name: 'reservationajout')]
-    public function ajoutreservation(EvenementRepository $repo, $idEvenement, Request $request, ReservationRepository $resrepo, UtilisateurRepository $repouser, TicketRepository $repoticket)
+    public function ajoutreservation(Security $security, EvenementRepository $repo, $idEvenement, Request $request, ReservationRepository $resrepo, UtilisateurRepository $repouser, TicketRepository $repoticket,MailerInterface $mailer)
     {
         $ticket = new Ticket();
         $ticket->setType('VIP');
@@ -130,6 +133,28 @@ class EvenementFrontController extends AbstractController
         $reservation->setEtat('reserver');
         $reservation->setIdTicket($ticket);
         $resrepo->save($reservation, true);
+        // Send an email of confirmation to the connected user
+        $Client = $security->getUser();
+        $idRes = array('idUtilisateur' => $Client);
+        $idClient = $repouser->findOneBy($idRes);
+        $email = (new Email())
+                    ->from(new Address('maktabti10@gmail.com', 'Maktabti Application'))
+                    ->to($idClient ->getEmail())
+                    ->subject("Confirmation de réservation pour l'événement ".$evenement->getNom())
+                    ->text(sprintf("Bonjour ". $idClient ->getNom()." ".$idClient ->getPrenom().",\n" .
+                    "\n" .
+                    "Nous vous remercions de votre réservation pour l'événement " . $evenement->getNom() ." , qui aura lieu le " .$evenement->getDate()->format('Y-m-d'). " " .$evenement->getHeure()->format('H:i:s') ." à ".$evenement->getLieu().". Nous sommes ravis de vous accueillir parmi nous et de vous offrir une expérience mémorable.\n" .
+                    "\n" .
+                    "Votre réservation a bien été enregistrée, et nous confirmons par la présente que votre place est réservée pour l'événement. Nous vous rappelons que le paiement sera exigé lors de votre arrivée à l'événement.\n" .
+                    "\n" ."Vous avez réservé ". $evenement->getNbTicket() ." places pour l'événement.\n"."\n".
+                    "Si vous avez des questions ou des préoccupations, n'hésitez pas à nous contacter .\n" .
+                    "\n" .
+                    "Nous avons hâte de vous voir à l'événement !\n" .
+                    "\n" .
+                    "Cordialement,". "\n\n-- \nMaktabti Application \nNuméro de téléphone : +216 52 329 813 \nAdresse e-mail : maktabti10@gmail.com \nSite web : www.maktabti.com"));
+
+            
+        $mailer->send($email);
 
         $pdfResponse = $this->reserveTicket($evenement);
         return $pdfResponse;

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Categorie;
 use App\Form\CategorieType;
+use App\Repository\CategorieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -81,5 +82,12 @@ class CategorieController extends AbstractController
         }
         $this->addFlash('success', 'Categorie deleted successfully!');
         return $this->redirectToRoute('app_categorie_index', [], Response::HTTP_SEE_OTHER);
+    }
+    #[Route('/trier', name: 'app_categorie_trier', methods: ['GET'])]
+    public function trier(CategorieRepository $categorieRepository): Response
+    {
+        return $this->render('categorie/index.html.twig', [
+            'categories' => $categorieRepository->trier(),
+        ]);
     }
 }
