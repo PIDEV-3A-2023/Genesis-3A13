@@ -12,6 +12,6 @@
 {{form_widget(form.idLivre)}}
 {{form_errors(form.idLivre,{'attr': {'class': 'invalid-feedback'}})}}
 <br>
-    <button class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;">{{ button_label|default('Enregistrer') }}</button>
+    <button class="btn btn-primary d-inline-flex align-items-center" id="submit_button" style="background-color:#00377E;">{{ button_label|default('Enregistrer') }}</button>
 
 {{ form_end(form) }}
