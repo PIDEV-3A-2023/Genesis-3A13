@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Repository\CategorieRepository;
 use App\Repository\CompetitionRepository;
 use App\Repository\EvenementRepository;
+use App\Repository\LivreRepository;
 use App\Repository\ResultatQuizRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,14 +17,16 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class DashboardController extends AbstractController
 {
     #[Route('/dashboard', name: 'app_dashboard')]
-    public function index(Request $request,CompetitionRepository $repocomp,EvenementRepository $repoevent, ResultatQuizRepository $repoResultat): Response
+    public function index(Request $request,LivreRepository $repolivre,CompetitionRepository $repocomp,CategorieRepository $repocat,EvenementRepository $repoevent, ResultatQuizRepository $repoResultat): Response
     {
 
         $competitions = $repocomp->findAll();
         $nbcompetitions = count($competitions);
         $chartData = [];
+        $categoryData=[];
         $nom = 'nn';
         $chartData = $this->getChartDataForCompetition($nom, $repoResultat);
+        $categoryData = $this->categoriesPerBook($repocat);
        /* if ($request->getMethod() === 'POST') {
             $nom = $request->request->get('competition');
    // replace with the competition name you want to display
@@ -32,11 +36,16 @@ class DashboardController extends AbstractController
       $evenements = $repoevent->findAll();
         $nbevenements = count($evenements);
 
+        $livres = $repolivre->findAll();
+        $nblivres = count($livres);
+
         return $this->render('dashboard/index.html.twig', [
             'nbcompetitions' => $nbcompetitions,
             'competitions' => $competitions,
             'chartData' => json_encode($chartData),
+            'categoryData' => json_encode($categoryData),
             'nbevenements' => $nbevenements,
+            'nblivres' => $nblivres,
             'controller_name' => 'DashboardController',
            
         ]);
@@ -95,4 +104,45 @@ public function chartData(Request $request, ResultatQuizRepository $repoResultat
         ];
         return $chartData;
     }
+
+       /**
+     * @Route("/categories-per-book", name="categories_per_book")
+     */
+    public function categoriesPerBook(CategorieRepository $repocat)
+    {
+        $categoryData = $repocat->getCatgoriePerBook();
+
+        // Format the data for use in Chart.js
+        $chartData = [
+            'labels' => [],
+            'data' => [],
+            'colors' => []
+        ];
+        $totalBooks = 0;
+    foreach ($categoryData as $data) {
+        $totalBooks += $data['count'];
+    }
+
+    foreach ($categoryData as $data) {
+        $chartData['labels'][] = $data['category'];
+        $percentage = round(($data['count'] / $totalBooks) * 100);
+        $chartData['data'][] = $percentage;
+        $chartData['colors'][] = $this->getRandomColor();
+    }
+
+        // Render the template with the chart data
+        return $chartData;
+    }
+
+    private function getRandomColor()
+    {
+        $letters = '0123456789ABCDEF';
+        $color = '#';
+        for ($i = 0; $i < 6; $i++) {
+            $color .= $letters[rand(0, 15)];
+        }
+        return $color;
+    }
+
+
 }

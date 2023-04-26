@@ -15,6 +15,18 @@
 				</span>Liste des Livres</h1>
 
 		</div>
+		</div>
+		<div class="d-flex justify-content-between w-100 flex-wrap">
+		<div class="mb-3 mb-lg-0">
+		<form action="{{ path('app_livre_recherche') }}" style="padding-top: 10px;" class="navbar-search form-inline">
+		 <div class="input-group input-group-merge search-bar">
+		<input placeholder="search" name ="q" class="form-control" >
+		
+		<button type ="submit" class="btn btn-primary">Rechercher</button>
+		</div>
+		</form>
+		</div>
+
 		<div style="padding-top: 10px;">
 
 			<a href="{{ path('app_livre_new') }}" class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;">
@@ -41,6 +53,16 @@
 
 	<br>
 	<div class="card border-0 shadow mb-4">
+		<div class="d-flex justify-content-end" style="padding-top: 15px;padding-right: 25px;">
+			<a href="{{ path('app_livre_download') }}" class="btn btn-danger d-inline-flex align-items-center">
+				<i class="fas fa-file-pdf" style="padding-right:3px"></i>
+				PDF</a>
+		</div>
+		<script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=6404e28ea0932a001aed0d3f&product=inline-share-buttons&source=platform" async="async"></script>
+		<!-- ShareThis BEGIN --><div class="sharethis-inline-share-buttons"></div><!-- ShareThis END -->
+		
+		
+		
 		<div class="card-body">
 			<div class="table-responsive" id="myTable">
 				<table class="table table-centered table-nowrap mb-0 rounded">

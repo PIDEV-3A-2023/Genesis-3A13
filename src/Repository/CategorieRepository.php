@@ -63,4 +63,20 @@ class CategorieRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+public function trier(): array
+{
+    return $this->createQueryBuilder('c')
+        ->orderBy('c.nom', 'ASC')
+        ->getQuery()
+        ->getResult()
+    ;
+}
+public function getCatgoriePerBook(){
+    return $this->createQueryBuilder('c')
+    ->select('c.nom AS category, COUNT(l.idCategorie) AS count')
+    ->innerJoin('App\Entity\Livre', 'l', 'WITH', 'l.idCategorie = c.idCategorie')
+    ->groupBy('c.idCategorie')
+    ->getQuery()
+    ->getResult();
+}
 }
