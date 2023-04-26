@@ -3,6 +3,7 @@ namespace App\Entity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UtilisateurRepository;
+use Scheb\TwoFactorBundle\Model\Email\TwoFactorInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -16,7 +17,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
  */
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
-class Utilisateur implements UserInterface , PasswordAuthenticatedUserInterface
+class Utilisateur implements UserInterface , PasswordAuthenticatedUserInterface , TwoFactorInterface
 {
     /**
      * @var int
@@ -82,6 +83,22 @@ class Utilisateur implements UserInterface , PasswordAuthenticatedUserInterface
      * @ORM\Column(name="roles", type="text", length=0, nullable=true)
      */
     private $roles;
+
+        /**
+     * @var string|null
+     *
+     * @ORM\Column(name="resetToken", type="text", length=0, nullable=false)
+     */
+    private $resetToken;
+
+    
+        /**
+     * @var string|null
+     *
+     * @ORM\Column(name="authCode", type="text", length=0, nullable=false)
+     */
+    private $authCode;
+
 
     public function getIdUtilisateur(): ?int
     {
@@ -227,6 +244,47 @@ class Utilisateur implements UserInterface , PasswordAuthenticatedUserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
+    public function getResetToken(): ?string
+    {
+        return $this->resetToken;
+    }
 
+    public function setResetToken(?string $resetToken): self
+    {
+        $this->resetToken = $resetToken;
+
+        return $this;
+    }
+
+     /**
+     * Return true if the user should do two-factor authentication.
+     */
+    public function isEmailAuthEnabled(): bool{
+        return true;
+    }
+
+    /**
+     * Return user email address.
+     */
+    public function getEmailAuthRecipient(): string{
+        return $this->email;
+    }
+
+    /**
+     * Return the authentication code.
+     */
+    public function getEmailAuthCode(): string{
+        if (null == $this->authCode){
+            throw new \LogicException('The emailauthentification was not set');
+        }
+        return $this->authCode;
+    }
+
+    /**
+     * Set the authentication code.
+     */
+    public function setEmailAuthCode(string $authCode): void{
+        $this->authCode = $authCode;
+    }
 
 }

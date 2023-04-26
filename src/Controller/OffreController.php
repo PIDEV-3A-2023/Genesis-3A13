@@ -11,6 +11,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\LivreRepository;
+use App\Repository\OffreRepository;
 
 #[Route('/offre')]
 class OffreController extends AbstractController
@@ -28,15 +30,27 @@ class OffreController extends AbstractController
     }
 
     #[Route('/new', name: 'app_offre_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager,OffreRepository $repo): Response
     {
         $offre = new Offre();
         $form = $this->createForm(OffreType::class, $offre);
         $form->handleRequest($request);
+        $offres=$repo->findAll();
+        $offresIds = array_column($offres, 'idLivre');
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($offre);
-            $entityManager->flush();
+            $bookId = $form->get('idLivre')->getData();
+            $offret = $repo->findOneBy(['idLivre' => $bookId]);
+
+            if ($offret == null) {
+                    
+                $entityManager->persist($offre);
+                $entityManager->flush();
+                $this->addFlash('success', 'offre ajouter avec succés.'.implode(', ', $offresIds));
+            } else {
+                var_dump('test');
+                $this->addFlash('danger', 'le livre slectionner a deja un offre.');
+            }
 
             return $this->redirectToRoute('app_offre_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -83,6 +97,8 @@ class OffreController extends AbstractController
 
         return $this->redirectToRoute('app_offre_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
     #[Route('/calcul-prix-solde/${prixInit}/${pourcentage}')]
     public function calculprixsolde(float $prixinit ,string $pourcentage) : float
     {
@@ -93,20 +109,17 @@ class OffreController extends AbstractController
         return $prixApresSolde;
 
     }
-    #[Route('/findbyid/${idLivre}')]
-    public function getPrixLivre($idLivre) : float
+    
+    #[Route('/findbyid/${idLivre}', methods: ['GET'])]
+    public function getPrixLivre($idLivre,LivreRepository $repo) : float
     {
-        // Crée un QueryBuilder pour la table Livre
-        $qb = $this->entityManager->createQueryBuilder();
-        $qb->select('l.prix')
-            ->from('Entity\Livre', 'l')
-            ->where('l.idLivre = :idLivre')
-            ->setParameter('idLivre', $idLivre);
+        $Livre = $repo->find($idLivre);
 
-        // Exécute la requête et récupère le prix
-        $prix = $qb->getQuery()->getSingleScalarResult();
-
-        // Retourne le prix dans une réponse JSON
+       $prix=$Livre->getPrix();
         return $prix;
     }
+
+  
+
+
 }
