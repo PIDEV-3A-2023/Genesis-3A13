@@ -9,15 +9,29 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 #[Route('/commentaire')]
 class CommentaireController extends AbstractController
 {
     #[Route('/', name: 'app_commentaire_index', methods: ['GET'])]
-    public function index(CommentaireRepository $commentaireRepository): Response
-    {
+    public function index(CommentaireRepository $commentaireRepository,PaginatorInterface $paginator,Request $request,EntityManagerInterface $entityManager): Response
+    {   
+            $commentaires = $entityManager
+        ->getRepository(Commentaire::class)
+        ->findAll();
+    $commentaires = $entityManager
+        ->getRepository(Commentaire::class)
+        ->findAll();
+    $query = $commentaireRepository->createQueryBuilder('c')
+        ->getQuery();
+    $commentaires = $paginator->paginate(
+        $query,
+        $request->query->getInt('page', 1), // Current page number, defaults to 1
+        10 );// Number of items per 
         return $this->render('commentaire/index.html.twig', [
-            'commentaires' => $commentaireRepository->findAll(),
+            'commentaires' => $commentaires,
         ]);
     }
 
