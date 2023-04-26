@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Repository\CategorieRepository;
 use App\Repository\CompetitionRepository;
 use App\Repository\EvenementRepository;
+use App\Repository\UtilisateurRepository;
 use App\Repository\LivreRepository;
 use App\Repository\ResultatQuizRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,7 +18,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class DashboardController extends AbstractController
 {
     #[Route('/dashboard', name: 'app_dashboard')]
-    public function index(Request $request,LivreRepository $repolivre,CompetitionRepository $repocomp,CategorieRepository $repocat,EvenementRepository $repoevent, ResultatQuizRepository $repoResultat): Response
+    public function index(Request $request,LivreRepository $repolivre,UtilisateurRepository $Userrepo,CompetitionRepository $repocomp,CategorieRepository $repocat,EvenementRepository $repoevent, ResultatQuizRepository $repoResultat): Response
     {
 
         $competitions = $repocomp->findAll();
@@ -30,9 +31,14 @@ class DashboardController extends AbstractController
        /* if ($request->getMethod() === 'POST') {
             $nom = $request->request->get('competition');
    // replace with the competition name you want to display
+
+
         
             
         }*/
+        $utilisateurs = $Userrepo->findAll();
+        $nbutilisateurs = count($utilisateurs);
+
       $evenements = $repoevent->findAll();
         $nbevenements = count($evenements);
 
@@ -46,6 +52,7 @@ class DashboardController extends AbstractController
             'categoryData' => json_encode($categoryData),
             'nbevenements' => $nbevenements,
             'nblivres' => $nblivres,
+            'nbutilisateurs' => $nbutilisateurs,
             'controller_name' => 'DashboardController',
            
         ]);
