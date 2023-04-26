@@ -14,6 +14,9 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\Mime\Address;
 
 #[Route('/competitions')]
 class CompetitionFrontController extends AbstractController
@@ -52,7 +55,7 @@ class CompetitionFrontController extends AbstractController
         ]);
     }
     #[Route('/quiz/participer/{comp}', name: 'app_competition_participer_front')]
-    public function participate(Request $request, QuestionRepository $repo, $comp, UtilisateurRepository $repouser, ResultatQuizRepository $repores, QuizRepository $repoQuiz, competitionRepository $repoComp, Security $security): Response
+    public function participate(Request $request, QuestionRepository $repo, $comp, UtilisateurRepository $repouser, ResultatQuizRepository $repores, QuizRepository $repoQuiz, competitionRepository $repoComp, Security $security, MailerInterface $mailer): Response
     {
         $Client = $security->getUser();
         $idComp = array('idUtilisateur' => $Client);
@@ -119,6 +122,29 @@ class CompetitionFrontController extends AbstractController
             // Update the competition with the new list of participants
             $competition->setListePaticipants($participantsArray);
             $repoComp->save($competition, true);
+
+            $email = (new Email())
+            ->from(new Address('maktabti10@gmail.com', 'Maktabti Application'))
+            ->to($idClient->getEmail())
+            ->subject("Confirmation de participation a la compétition : ".$competition->getNom())
+            ->text("Cher/Chère ".$idClient->getNom()." ".$idClient->getPrenom().",\n" .
+            "\n" .
+            "Nous tenons à vous remercier d'avoir participé à notre compétition. "
+                             . "Nous sommes ravis que vous ayez décidé de participer et nous espérons que vous avez trouvé l'expérience enrichissante.\n" .
+            "\n" .
+            "Nous sommes heureux de vous informer que vos réponses ont été enregistrées avec succès. "
+                             . "Nous avons reçu votre formulaire de réponse et nous sommes impatients de vous donner les résultats dès que possible."
+                             . " Nous vous contacterons dès que nous aurons terminé d'évaluer toutes les réponses.\n" .
+            "\n" .
+            "Encore une fois, merci d'avoir participé et d'avoir montré votre intérêt pour notre entreprise. "
+                             . "Nous espérons que vous avez apprécié l'expérience et nous sommes impatients de vous proposer d'autres activités intéressantes à l'avenir.\n" .
+            "\n" .
+            "Sincèrement,\n"."\n". "\n\n-- \nMaktabti Application \nNuméro de téléphone : +216 52 329 813 \nAdresse e-mail : maktabti10@gmail.com \nSite web : www.maktabti.com");
+
+        $mailer->send($email);
+
+
+
             $this->addFlash('success', 'votre participation est enregistée avec succés !');
         }
 
