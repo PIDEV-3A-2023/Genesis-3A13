@@ -5,7 +5,7 @@
         "This file is @generated automatically"
     ],
 
-    "content-hash": "33bff8ed2a0cd02eb7c29fe7662e7a7d",
+    "content-hash": "4baa651c3bf8368577aedd3cf639593c",
 
     "packages": [
         {
@@ -1458,26 +1458,26 @@
         },
         {
             "name": "egulias/email-validator",
-            "version": "4.0.1",
+            "version": "3.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/egulias/EmailValidator.git",
-                "reference": "3a85486b709bc384dae8eb78fb2eec649bdb64ff"
+                "reference": "b531a2311709443320c786feb4519cfaf94af796"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/3a85486b709bc384dae8eb78fb2eec649bdb64ff",
-                "reference": "3a85486b709bc384dae8eb78fb2eec649bdb64ff",
+                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/b531a2311709443320c786feb4519cfaf94af796",
+                "reference": "b531a2311709443320c786feb4519cfaf94af796",
                 "shasum": ""
             },
             "require": {
-                "doctrine/lexer": "^2.0 || ^3.0",
-                "php": ">=8.1",
-                "symfony/polyfill-intl-idn": "^1.26"
+                "doctrine/lexer": "^1.2|^2",
+                "php": ">=7.2",
+                "symfony/polyfill-intl-idn": "^1.15"
             },
             "require-dev": {
-                "phpunit/phpunit": "^9.5.27",
-                "vimeo/psalm": "^4.30"
+                "phpunit/phpunit": "^8.5.8|^9.3.3",
+                "vimeo/psalm": "^4"
             },
             "suggest": {
                 "ext-intl": "PHP Internationalization Libraries are required to use the SpoofChecking validation"
@@ -1485,7 +1485,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.0.x-dev"
+                    "dev-master": "3.0.x-dev"
                 }
             },
             "autoload": {
@@ -1513,7 +1513,7 @@
             ],
             "support": {
                 "issues": "https://github.com/egulias/EmailValidator/issues",
-                "source": "https://github.com/egulias/EmailValidator/tree/4.0.1"
+                "source": "https://github.com/egulias/EmailValidator/tree/3.2.5"
             },
             "funding": [
                 {
@@ -1521,7 +1521,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-01-14T14:17:03+00:00"
+            "time": "2023-01-02T17:26:14+00:00"
         },
         {
             "name": "knplabs/knp-components",
@@ -2653,6 +2653,7 @@
         },
         {
             "name": "swiftmailer/swiftmailer",
+
             "version": "v5.4.12",
             "source": {
                 "type": "git",
@@ -2671,11 +2672,14 @@
             "require-dev": {
                 "mockery/mockery": "~0.9.1",
                 "symfony/phpunit-bridge": "~3.2"
+
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
+
                     "dev-master": "5.4-dev"
+
                 }
             },
             "autoload": {
@@ -2705,10 +2709,12 @@
             ],
             "support": {
                 "issues": "https://github.com/swiftmailer/swiftmailer/issues",
+
                 "source": "https://github.com/swiftmailer/swiftmailer/tree/v5.4.12"
             },
             "abandoned": "symfony/mailer",
             "time": "2018-07-31T09:26:32+00:00"
+
         },
         {
             "name": "symfony/amqp-messenger",
@@ -7418,6 +7424,7 @@
             "time": "2023-03-14T06:11:53+00:00"
         },
         {
+
             "name": "symfony/swiftmailer-bridge",
             "version": "v2.8.52",
             "source": {
@@ -7442,11 +7449,14 @@
             "extra": {
                 "branch-alias": {
                     "dev-master": "2.8-dev"
+
                 }
             },
             "autoload": {
                 "psr-4": {
+
                     "Symfony\\Bridge\\Swiftmailer\\": ""
+
                 },
                 "exclude-from-classmap": [
                     "/Tests/"
@@ -7463,6 +7473,7 @@
                 },
                 {
                     "name": "Symfony Community",
+
                     "homepage": "https://symfony.com/contributors"
                 }
             ],
@@ -7535,6 +7546,7 @@
             },
             "abandoned": "symfony/mailer",
             "time": "2014-12-01T17:44:50+00:00"
+
         },
         {
             "name": "symfony/translation",
