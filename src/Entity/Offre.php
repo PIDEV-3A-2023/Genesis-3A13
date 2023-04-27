@@ -43,7 +43,6 @@ class Offre
      *
      * @ORM\Column(name="prix_solde", type="float", precision=10, scale=0, nullable=false)
      */
-    #[Assert\NotBlank(message: 'prix soldé est obligatoire!')]
 
     private $prixSolde;
 

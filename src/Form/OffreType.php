@@ -23,7 +23,7 @@ class OffreType extends AbstractType
                     '%class%' => 'is-invalid',
                 ],
             ])
-            ->add('prixSolde')
+            //->add('prixSolde')
             ->add('idLivre', EntityType::class, [
                 'label'=>'Livre',
                 'class' => Livre::class,

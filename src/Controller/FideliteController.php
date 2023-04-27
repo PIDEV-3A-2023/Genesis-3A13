@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Fidelite;
+use App\Entity\Utilisateur;
+
 use App\Form\FideliteType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,6 +23,24 @@ class FideliteController extends AbstractController
             ->getRepository(Fidelite::class)
             ->findAll();
 
+
+        /*$usernonfidelite=$repo->getUtilisateursSansFidelite();
+        foreach ($usernonfidelite as $usernon){
+            $totalAchat = $repo->calculateTotalAchatByIdClient($usernon);
+            $totalAchatInt = intval($totalAchat);
+
+            $type=$this->tyyype($totalAchatInt);
+            $fideliteabc = new Fidelite();
+            $fideliteabc->setTotalachat($totalAchatInt);
+            $fideliteabc->settype($type);
+            $fideliteabc->setIdClient($usernon);
+            $entityManager->persist($fidelite);
+            $entityManager->flush();
+
+
+        }
+
+*/
             foreach ($fidelites as $fideliteee) {
 
             //$fidelite = $repo->findFideliteByIdClient($fideliteee->getIdClient());

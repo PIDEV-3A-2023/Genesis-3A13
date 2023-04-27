@@ -6,6 +6,7 @@ use App\Entity\Fidelite;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Commande;
+use App\Entity\Utilisateur;
 
 /**
  * @extends ServiceEntityRepository<Fidelite>
@@ -105,6 +106,28 @@ public function checkUserFidelite(int $userId): bool
     }
 
     return true;
+}
+public function findAllClients()
+{
+    $queryBuilder = $this->createQueryBuilder('f');
+    $queryBuilder->select('u')
+        ->innerJoin('App\Entity\Utilisateur', 'u', 'WITH', 'f.idClient = u.idUtilisateur');
+
+    $result = $queryBuilder->getQuery()->getResult();
+
+    return $result;
+}
+
+public function getUtilisateursSansFidelite()
+{
+   return $this->createQueryBuilder('f')
+    ->leftJoin('Fidelite as f', 'c.idClient', '=', 'f.idClient')
+    ->select('c.idClient')
+    ->whereNull('f.idClient')
+    ->distinct()
+    ->get();
+
+
 }
 
 }
