@@ -41,6 +41,16 @@ class DashboardController extends AbstractController
         $utilisateurs = $Userrepo->findAll();
         $nbutilisateurs = count($utilisateurs);
 
+        $Admins=$Userrepo->getUserWithRole("Administrateur");
+        $nbadmins = count($Admins);
+
+        $Auteurs=$Userrepo->getUserWithRole("Auteur");
+        $nbaauteurs = count($Auteurs);
+
+        $Clients=$Userrepo->getUserWithRole("Client");
+        $nbaclients = count($Clients);
+        
+
       $evenements = $repoevent->findAll();
         $nbevenements = count($evenements);
 
