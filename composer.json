@@ -7,7 +7,7 @@
         "php": ">=7.2.5",
         "ext-ctype": "*",
         "ext-iconv": "*",
-        "bacon/bacon-qr-code": "1.0.*",
+        "bacon/bacon-qr-code": "1.0.0",
         "doctrine/annotations": "^2.0",
         "doctrine/doctrine-bundle": "^2.8",
         "doctrine/doctrine-migrations-bundle": "^3.2",

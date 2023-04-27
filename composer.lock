@@ -4,28 +4,24 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a42ef2e596873abc9ccce864cb830387",
+    "content-hash": "0baf4469f906885645f0475d2ffbc533",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
-            "version": "1.0.2",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Bacon/BaconQrCode.git",
-                "reference": "448ee9929aece0e86f0e2b926e636f9b53d03ce1"
+                "reference": "0537ed27917f5ae26e5837ac4bfd837171d0b848"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Bacon/BaconQrCode/zipball/448ee9929aece0e86f0e2b926e636f9b53d03ce1",
-                "reference": "448ee9929aece0e86f0e2b926e636f9b53d03ce1",
+                "url": "https://api.github.com/repos/Bacon/BaconQrCode/zipball/0537ed27917f5ae26e5837ac4bfd837171d0b848",
+                "reference": "0537ed27917f5ae26e5837ac4bfd837171d0b848",
                 "shasum": ""
             },
             "require": {
-                "ext-iconv": "*",
                 "php": ">=5.3.3"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^4.8"
             },
             "suggest": {
                 "ext-gd": "to generate QR code images"
@@ -54,7 +50,7 @@
                 "issues": "https://github.com/Bacon/BaconQrCode/issues",
                 "source": "https://github.com/Bacon/BaconQrCode/tree/master"
             },
-            "time": "2016-11-26T13:57:10+00:00"
+            "time": "2013-08-27T10:20:42+00:00"
         },
         {
             "name": "doctrine/annotations",

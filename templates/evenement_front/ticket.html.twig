@@ -15,6 +15,8 @@
 				margin: 50px auto;
 				max-width: 600px;
 				box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+				display: flex;
+				align-items: center;
 			}
 			h1,
 			h2,
@@ -38,26 +40,40 @@
 				margin-bottom: 10px;
 			}
 			.qr-code {
-				display: block;
-				margin: 50px auto;
+				
+				margin-right: 20px;
 				max-width: 300px;
+			}
+			.ticket-content {
+				display: flex;
+				justify-content: space-between;
+			}
+			.ticket-info {
+				flex: 1;
+			}
+			.ticket-image {
+				display: flex;
+				justify-content: flex-end;
 			}
 		</style>
 	</head>
 	<body>
-	{% for i in range(1,nbticket) %}
-		<section class="ticket">
-			<img src="{{ img }}" height="30" width="60">
-			<h1>{{ evenement.nom }}</h1>
-			<h2>{{ evenement.lieu }}</h2>
-			<p>{{ evenement.date|date('Y-m-d') ~ ' ' ~ evenement.heure|date('H:i:s') }}</p>
-			<!-- Add more event information here -->
-			{# <img class="qr-code" src="data:image/png;base64,{{ qr_code }}" alt="QR Code"> #}
-		</section>
-		<br>
-		<br>
-		
-	{% endfor %}
-		
+		{% for i in range(1,nbticket) %}
+			<section class="ticket">
+				<div class="ticket-content">
+					<div class="ticket-info">
+						<img src="{{ img }}" height="30" width="60">
+						<h1>{{ evenement.nom }}</h1>
+						<h2>{{ evenement.lieu }}</h2>
+						<p>{{ evenement.date|date('Y-m-d') ~ ' ' ~ evenement.heure|date('H:i:s') }}</p>
+					</div>
+					<div class="ticket-image">
+						<img class="qr-code" src="{{ qrCode }}" alt="QR Code">
+					</div>
+				</div>
+			</section>
+			<br>
+			<br>
+		{% endfor %}
 	</body>
 </html>

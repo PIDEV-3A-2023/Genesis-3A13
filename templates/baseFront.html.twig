@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Maktabti - 
+		<title>Maktabti -
 			{% block title %}{% endblock %}
 		</title>
 
@@ -50,42 +50,43 @@
 		<!-- End Preloader  -->
 		<header>
 			<nav class="navbar navbar-expand-lg navbar-light  fixed-top">
-				<a class="navbar-brand" href="{{path('index')}}"><img src="{{asset('Front/images/logo/maktabti.png')}}" height="60" width="150" ></a>
+				<img src="{{asset('/Front/images/logo/maktabti.png')}}" onclick="window.location.href = '/';" style="margin-right: 2%;margin-top: 5px;width: 11%;height: 103%; cursor: pointer;" height="60" width="150">
+
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				</button>
 				<div class="collapse navbar-collapse" id="navbarNav" style="padding-top:10px">
 					<ul class="navbar-nav me-auto mb-2 mb-lg-0" style="padding-top:6px">
 						<li class="nav-item">
-							<a class="nav-link" {% if app.request.attributes.get('_route') == 'index'  %}style="color:#00377E;" {% else %}style="color:#D4A373;"{% endif %}  href="{{path('index')}}">
+							<a class="nav-link" {% if app.request.attributes.get('_route') == 'index' %} style="color:#00377E;" {% else %} style="color:#D4A373;" {% endif %} href="{{path('index')}}">
 								<h6>
 									<b>Acceuil</b>
 								</h6>
 							</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" {% if app.request.attributes.get('_route') == 'app_livre_front'  %}style="color:#00377E;" {% else %}style="color:#D4A373;"{% endif %}  href="{{path('app_livre_front')}}">
+							<a class="nav-link" {% if app.request.attributes.get('_route') == 'app_livre_front' %} style="color:#00377E;" {% else %} style="color:#D4A373;" {% endif %} href="{{path('app_livre_front')}}">
 								<h6>
 									<b>Livres</b>
 								</h6>
 							</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link"  {% if app.request.attributes.get('_route') == 'app_competition_front'  %}style="color:#00377E;" {% else %}style="color:#D4A373;"{% endif %} href="{{path('app_competition_front')}}">
+							<a class="nav-link" {% if app.request.attributes.get('_route') == 'app_competition_front' %} style="color:#00377E;" {% else %} style="color:#D4A373;" {% endif %} href="{{path('app_competition_front')}}">
 								<h6>
 									<b>Compétitions</b>
 								</h6>
 							</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" {% if app.request.attributes.get('_route') == 'app_evenement_front'  %}style="color:#00377E;" {% else %}style="color:#D4A373;"{% endif %} href="{{path('app_evenement_front')}}">
+							<a class="nav-link" {% if app.request.attributes.get('_route') == 'app_evenement_front' %} style="color:#00377E;" {% else %} style="color:#D4A373;" {% endif %} href="{{path('app_evenement_front')}}">
 								<h6>
 									<b>Evénements</b>
 								</h6>
 							</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link"  style="color:#D4A373;" href="">
+							<a class="nav-link" style="color:#D4A373;" href="">
 								<h6>
 									<b>Réclamation</b>
 								</h6>
@@ -94,9 +95,8 @@
 					</ul>
 
 
-						{% if app.user %}
+					{% if app.user %}
 						<ul class="d-flex ml-auto navbar-nav">
-					
 						<div class="dropdown nav-item" >
  		 				<button style="background-color: transparent" class="nav-link btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     						<a class="nav-link" style="color:#D4A373;" >
@@ -117,32 +117,30 @@
 						 							
 						</div>
 						</div>
-
-
 						</ul>
-						{% else %}
+					{% else %}
 						<ul class="d-flex ml-auto navbar-nav">
-						<li class="nav-item">
-							<a class="nav-link" style="color:#D4A373;" href="#">
-								<img src="{{asset('Front/images/home/paniers.png')}}" height="25" width="25">
-							</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" style="color:#D4A373;" href="{{path('app_register')}}">
-								<h6>
-									<b>S'inscrire</b>
-								</h6>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" style="color:#D4A373;" href="{{path('app_login')}}">
-								<h6>
-									<b>Se connecter</b>
-								</h6>
-							</a>
-						</li>
+							<li class="nav-item">
+								<a class="nav-link" style="color:#D4A373;" href="#">
+									<img src="{{asset('Front/images/home/paniers.png')}}" height="25" width="25">
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" style="color:#D4A373;" href="{{path('app_register')}}">
+									<h6>
+										<b>S'inscrire</b>
+									</h6>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" style="color:#D4A373;" href="{{path('app_login')}}">
+									<h6>
+										<b>Se connecter</b>
+									</h6>
+								</a>
+							</li>
 						</ul>
-						{% endif %}
+					{% endif %}
 				</div>
 
 			</nav>
@@ -155,10 +153,12 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-md-12">
-						<p>Copyright &copy; 2023 
+						<p>Copyright &copy; 2023
 							<img src="{{asset('Front/images/logo/maktabti.png')}}" height="30" width="60">
-						
-						| made with <i class="fas fa-heart text-danger"></i> by GenesisTeam<img src="{{asset('Front/images/logo/logo-genesis.png')}}" height="30" width="30"></p>
+
+							| made with
+							<i class="fas fa-heart text-danger"></i>
+							by GenesisTeam<img src="{{asset('Front/images/logo/logo-genesis.png')}}" height="30" width="30"></p>
 					</div>
 				</div>
 			</div>
