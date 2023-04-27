@@ -164,7 +164,7 @@ class EvenementFrontController extends AbstractController
 
             $mailer->send($email);
 
-            $pdfResponse = $this->reserveTicket($evenement, $ticket, $idClient,$request->get('nbrTickets'));
+            $pdfResponse = $this->reserveTicket($evenement, $ticket, $idClient, $request->get('nbrTickets'));
             return $pdfResponse;
         } else {
             $this->addFlash('danger', 'Tickets indisponible !');
@@ -182,7 +182,7 @@ class EvenementFrontController extends AbstractController
     }
 
 
-    public function reserveTicket(Evenement $evenement, Ticket $ticket, Utilisateur $Client,int $nbticket)
+    public function reserveTicket(Evenement $evenement, Ticket $ticket, Utilisateur $Client, int $nbticket)
     {
         //définir les options
         $pdfOptions = new Options();
@@ -207,26 +207,25 @@ class EvenementFrontController extends AbstractController
 
 
 
-        // $qrCodeData =
-        //     $Client->getNom() . " " .
-        //     $Client->getPrenom() . " " .
-        //     $evenement->getIdEvenement() . " " .
-        //     $evenement->getNom() . " " .
-        //     $ticket->getIdTicket();
-        // //dd($Client->getNom(),$Client->getPrenom(),$evenement->getIdEvenement(),$evenement->getNom(),$ticket->getIdTicket());
-        // $width = 256;
-        // $height = 256;
-        // $errorCorrectionLevel = ErrorCorrectionLevel::H;
+        $qrCodeData =
+            $Client->getNom() . " " .
+            $Client->getPrenom() . " " .
+            $evenement->getIdEvenement() . " " .
+            $evenement->getNom() . " " .
+            $ticket->getIdTicket();
+        //dd($Client->getNom(),$Client->getPrenom(),$evenement->getIdEvenement(),$evenement->getNom(),$ticket->getIdTicket());
+       
         // // Create a new QrCode object
-        // $qrCode = Encoder::encode($qrCodeData,$errorCorrectionLevel);
-        // $renderer = new Png();
-        // $renderer->setHeight(256);
-        // $renderer->setWidth(256);
-        
+        $qrCode = $qrCodeData;
+        $renderer = new Png();
+        $renderer->setHeight(100);
+        $renderer->setWidth(100);
+
 
         // // Create a new writer and generate the QR code image
-        // $writer = new Writer($renderer);
-        // $qrCodeImage = $writer->writeString($qrCode);
+        $writer = new Writer($renderer);
+        $qrCodeImage = $writer->writeString($qrCode);
+        $qrCodeDataUri="data:image/png;base64,".base64_encode($qrCodeImage);
 
 
         // Render the ticket template using the generated data
@@ -234,8 +233,8 @@ class EvenementFrontController extends AbstractController
             'evenement' => $evenement,
             'ticket' => $ticket,
             'img' => $imgSrc,
-            'nbticket' => $nbticket
-           //xq'qrCode' => $qrCodeImage
+            'nbticket' => $nbticket,
+            'qrCode' => $qrCodeDataUri
         ]);
 
         // Generate the PDF from the HTML using dompdf
