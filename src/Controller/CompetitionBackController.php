@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Dompdf\Dompdf;
 use Dompdf\Options;
-
+use Knp\Component\Pager\PaginatorInterface;
 
 #[Route('/competition')]
 class CompetitionBackController extends AbstractController
@@ -25,13 +25,19 @@ class CompetitionBackController extends AbstractController
         ]);
     }
     #[Route('/search', name: 'app_competition_search', methods: ['GET'])]
-    public function search(Request $request,CompetitionRepository $repo): Response
+    public function search(Request $request,CompetitionRepository $repo, PaginatorInterface $paginator): Response
     {
         $nom = $request->get('nom');
         $resultat = $repo->SearchByNom($nom);
+        $competitions = $paginator->paginate(
+            $resultat,
+            $request->query->getInt('page', 1), 
+            10 
+        );
+
 
         return $this->render('competition/index.html.twig', [
-            'competitions' => $resultat,
+            'competitions' => $competitions,
         ]);
     }
     #[Route('/pdf', name: 'app_competition_download', methods: ['GET'])]
