@@ -19,6 +19,10 @@
 			<a href="{{ path('app_offre_new') }}" class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;">
 				<i class="fas fa-plus" style="padding-right:3px"></i>
 				Créer un nouveau</a>
+                
+    <form method="post" action="{{ path('envoyer_offre_email') }}">
+        <button type="submit" class="btn btn-primary">Envoyer l'offre</button>
+    </form>
 		</div>
 	</div>
 	<br>
