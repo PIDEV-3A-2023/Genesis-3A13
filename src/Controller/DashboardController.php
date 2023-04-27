@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Repository\CategorieRepository;
 use App\Repository\CompetitionRepository;
 use App\Repository\EvenementRepository;
+use App\Repository\UtilisateurRepository;
 use App\Repository\LivreRepository;
 use App\Repository\ResultatQuizRepository;
 use App\Repository\UtilisateurRepository;
@@ -21,7 +22,9 @@ use Symfony\Component\Mime\Address;
 class DashboardController extends AbstractController
 {
     #[Route('/dashboard', name: 'app_dashboard')]
-    public function index(Request $request, LivreRepository $repolivre, CompetitionRepository $repocomp, CategorieRepository $repocat, EvenementRepository $repoevent, ResultatQuizRepository $repoResultat): Response
+
+    public function index(Request $request,LivreRepository $repolivre,UtilisateurRepository $Userrepo,CompetitionRepository $repocomp,CategorieRepository $repocat,EvenementRepository $repoevent, ResultatQuizRepository $repoResultat): Response
+
     {
 
         $competitions = $repocomp->findAll();
@@ -32,9 +35,14 @@ class DashboardController extends AbstractController
         $chartData = $this->getChartDataForCompetition($nom, $repoResultat);
         $categoryData = $this->categoriesPerBook($repocat);
 
+
         $competitionssemaine =$repocomp->findCompetitionsOpenedThisWeek();
 
-        $evenements = $repoevent->findAll();
+    
+        $utilisateurs = $Userrepo->findAll();
+        $nbutilisateurs = count($utilisateurs);
+
+      $evenements = $repoevent->findAll();
         $nbevenements = count($evenements);
 
         $livres = $repolivre->findAll();
@@ -49,6 +57,7 @@ class DashboardController extends AbstractController
             'categoryData' => json_encode($categoryData),
             'nbevenements' => $nbevenements,
             'nblivres' => $nblivres,
+            'nbutilisateurs' => $nbutilisateurs,
             'controller_name' => 'DashboardController',
 
         ]);
