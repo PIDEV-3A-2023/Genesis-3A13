@@ -8,7 +8,6 @@ use App\Repository\EvenementRepository;
 use App\Repository\UtilisateurRepository;
 use App\Repository\LivreRepository;
 use App\Repository\ResultatQuizRepository;
-use App\Repository\UtilisateurRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
