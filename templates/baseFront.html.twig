@@ -107,11 +107,12 @@
 							</a>
   						</button>
 						<div style="background-color: transparent" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-						<a  class="nav-link" style="color:#D4A373;" href="{{ path('app_fidelite_front') }}"><i class="far fa-id-card"></i> Fidelité</a>
-						<a  class="nav-link" style="color:#D4A373;" href="{{ path('app_offre_front') }}"><i class="fas fa-percent"></i> Offre</a>
+						<a  class="nav-link" style="color:#D4A373;" href="{{ path('app_profile_edit',{'idUtilisateur': app.user.idUtilisateur}) }}"><i class="fa fa-user"></i>  Mon Profile</a>
+						<a  class="nav-link" style="color:#D4A373;" href="{{ path('app_fidelite_front') }}"><i class="far fa-id-card"></i>  Fidelité</a>
+						<a  class="nav-link" style="color:#D4A373;" href="{{ path('app_offre_front') }}"><i class="fas fa-percent"></i>  Offre</a>
+									 
 									 <div class="dropdown-divider"></div>		
-						<a  class="nav-link" style="color:#D4A373;" href="{{ path('app_logout') }}"><i class="fas fa-sign-out-alt"></i>
-						Déconnecter
+						<a  class="nav-link" style="color:#D4A373;" href="{{ path('app_logout') }}"><i class="fas fa-sign-out-alt"></i>  Déconnecter
 						</a>
 						 							
 						</div>
