@@ -95,6 +95,21 @@
 
 <div class="row">
 	<div class="col-12 col-sm-5 col-xl-8  mb-4">
+	{% for type, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="alert alert-{{ type }} alert-dismissible fade show d-flex align-items-center">
+		{% if type == 'success'%}
+		<i class="fas fa-check-circle"style="padding-right: 10px"></i>
+		{% elseif type == 'danger'%}
+		<i class="fas fa-times-circle"style="padding-right: 10px"></i>
+		{% endif %}
+		<div>
+		{{ message }}
+		</div>
+         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+{% endfor %}
 		<div class="col-12 px-0 mb-4">
 			<div class="card border-0 shadow">
 				<div class="card-header d-flex flex-row align-items-center flex-0 border-bottom">
@@ -109,11 +124,14 @@
 
 
 					</div>
+					<div class="d-block">
+						<a href="{{path('mail_winner')}}">envoyermail</a>
+					</div>
 					<div class="d-block ms-auto">
 						<select class="form-select" name="competition" aria-label="selectionner la competition">
 							<option selected>selectionner la competition</option>
 
-							{% for competition in competitions%}
+							{% for competition in competitionssemaine %}
 								<option value="{{competition.nom}}">{{competition.nom}}</option>
 							{% endfor %}
 						</select>
