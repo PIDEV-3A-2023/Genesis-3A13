@@ -262,8 +262,8 @@
 						</a>
 					</li>
 
-					<li class="nav-item">
-						<a href="" class="nav-link d-flex align-items-center btn-upgrade-pro">
+					<li class="nav-item {% if app.request.attributes.get('_route') == 'app_logout'  %}active{% endif %}">
+						<a href="{{ path('app_logout') }}" class="nav-link d-flex align-items-center btn-upgrade-pro">
 							<span class="sidebar-icon">
 
 								<img src="{{asset('Back/img/icons/turn-off.png')}}" class="icon icon-xs me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
