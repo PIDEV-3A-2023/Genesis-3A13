@@ -9,6 +9,7 @@ use App\Repository\EvenementRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use Knp\Component\Pager\PaginatorInterface;
 
 class EvenementBackController extends AbstractController
 {
@@ -21,13 +22,18 @@ class EvenementBackController extends AbstractController
     }
     #[Route('/search', name: 'search')]
     
-    public function evenementsByLocation(Request $request, EvenementRepository $repo): Response
+    public function evenementsByLocation(Request $request, EvenementRepository $repo,PaginatorInterface $paginator): Response
     {
         $lieu = $request->get('lieu');
         $resultat = $repo->SearchByLieu($lieu);
+        $evenements = $paginator->paginate(
+            $resultat,
+            $request->query->getInt('page', 1), 
+            10 
+        );
 
         return $this->render('evenement/index.html.twig', [
-            'evenements' => $resultat,
+            'evenements' => $evenements,
         ]);
     }
     #[Route('/pdf', name: 'app_evenement_download', methods: ['GET'])]

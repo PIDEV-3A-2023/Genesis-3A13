@@ -47,7 +47,7 @@ class CommentaireRepository extends ServiceEntityRepository
         ->where('evenement.nom LIKE :m')
         ->setParameter('m', '%' . $nom . '%')
         ->getQuery()
-        ->getResult();
+        ;
     }
     public function findRandomComments()
     {

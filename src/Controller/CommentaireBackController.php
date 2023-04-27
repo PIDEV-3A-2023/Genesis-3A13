@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\CommentaireRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,13 +21,18 @@ class CommentaireBackController extends AbstractController
     }
     #[Route('/search', name: 'searchcommentaire')]
     
-    public function commentairesByNom(Request $request, CommentaireRepository $repo): Response
+    public function commentairesByNom(Request $request, CommentaireRepository $repo,PaginatorInterface $paginator): Response
     {
         $nom = $request->get('nom');
         $resultat = $repo->SearchByNom($nom);
+        $commentaires = $paginator->paginate(
+            $resultat,
+            $request->query->getInt('page', 1), 
+            10 
+        );
 
         return $this->render('commentaire/index.html.twig', [
-            'commentaires' => $resultat,
+            'commentaires' => $commentaires,
         ]);
     }
 }

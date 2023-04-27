@@ -10,6 +10,7 @@ use App\Repository\EvenementRepository;
 use App\Entity\Evenement;
 use App\Entity\Reservation;
 use App\Entity\Ticket;
+use App\Entity\Utilisateur;
 use App\Repository\CommentaireRepository;
 use App\Repository\ReservationRepository;
 use App\Repository\TicketRepository;
@@ -22,6 +23,13 @@ use Dompdf\Options;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Address;
+use BaconQrCode\Common\ErrorCorrectionLevel;
+use BaconQrCode\Encoder\QrCode;
+use BaconQrCode\Renderer\Image\Png;
+use BaconQrCode\Writer;
+use BaconQrCode\Encoder\Encoder;
+
+
 
 
 #[Route('/evenements')]
@@ -114,93 +122,120 @@ class EvenementFrontController extends AbstractController
         return $this->render('evenement_front/reservation.html.twig', ['evenement' => $evenement]);
     }
     #[Route('/ajouterreservation/{idEvenement}', name: 'reservationajout')]
-    public function ajoutreservation(Security $security, EvenementRepository $repo, $idEvenement, Request $request, ReservationRepository $resrepo, UtilisateurRepository $repouser, TicketRepository $repoticket,MailerInterface $mailer)
+    public function ajoutreservation(Security $security, EvenementRepository $repo, $idEvenement, Request $request, ReservationRepository $resrepo, UtilisateurRepository $repouser, TicketRepository $repoticket, MailerInterface $mailer)
     {
         $ticket = new Ticket();
         $ticket->setType('VIP');
         $ticket->setPrix(100);
         $repoticket->save($ticket, true);
-        
+
         $evenement = $repo->findOneBy(array('idEvenement' => $idEvenement));
-        if($evenement->getNbTicket()>0){
-             $nbticket = $evenement->getNbTicket() - $request->get('nbrTickets');
+        if ($evenement->getNbTicket() > 0) {
+            $nbticket = $evenement->getNbTicket() - $request->get('nbrTickets');
 
-        $reservation = new Reservation();
-        $evenement->setnbticket($nbticket);
-        $repo->save($evenement, true);
+            $reservation = new Reservation();
+            $evenement->setnbticket($nbticket);
+            $repo->save($evenement, true);
 
-        $reservation->setIdEvenement($evenement);
-        $reservation->setEtat('reserver');
-        $reservation->setIdTicket($ticket);
-        $resrepo->save($reservation, true);
-        // Send an email of confirmation to the connected user
-        $Client = $security->getUser();
-        $idRes = array('idUtilisateur' => $Client);
-        $idClient = $repouser->findOneBy($idRes);
-        $email = (new Email())
-                    ->from(new Address('maktabti10@gmail.com', 'Maktabti Application'))
-                    ->to($idClient ->getEmail())
-                    ->subject("Confirmation de réservation pour l'événement ".$evenement->getNom())
-                    ->text(sprintf("Bonjour ". $idClient ->getNom()." ".$idClient ->getPrenom().",\n" .
+            $reservation->setIdEvenement($evenement);
+            $reservation->setEtat('reserver');
+            $reservation->setIdTicket($ticket);
+            $resrepo->save($reservation, true);
+            // Send an email of confirmation to the connected user
+            $Client = $security->getUser();
+            $idRes = array('idUtilisateur' => $Client);
+            $idClient = $repouser->findOneBy($idRes);
+            $email = (new Email())
+                ->from(new Address('maktabti10@gmail.com', 'Maktabti Application'))
+                ->to($idClient->getEmail())
+                ->subject("Confirmation de réservation pour l'événement " . $evenement->getNom())
+                ->text(sprintf("Bonjour " . $idClient->getNom() . " " . $idClient->getPrenom() . ",\n" .
                     "\n" .
-                    "Nous vous remercions de votre réservation pour l'événement " . $evenement->getNom() ." , qui aura lieu le " .$evenement->getDate()->format('Y-m-d'). " " .$evenement->getHeure()->format('H:i:s') ." à ".$evenement->getLieu().". Nous sommes ravis de vous accueillir parmi nous et de vous offrir une expérience mémorable.\n" .
+                    "Nous vous remercions de votre réservation pour l'événement " . $evenement->getNom() . " , qui aura lieu le " . $evenement->getDate()->format('Y-m-d') . " " . $evenement->getHeure()->format('H:i:s') . " à " . $evenement->getLieu() . ". Nous sommes ravis de vous accueillir parmi nous et de vous offrir une expérience mémorable.\n" .
                     "\n" .
                     "Votre réservation a bien été enregistrée, et nous confirmons par la présente que votre place est réservée pour l'événement. Nous vous rappelons que le paiement sera exigé lors de votre arrivée à l'événement.\n" .
-                    "\n" ."Vous avez réservé ". $evenement->getNbTicket() ." places pour l'événement.\n"."\n".
+                    "\n" . "Vous avez réservé " . $request->get('nbrTickets') . " places pour l'événement.\n" . "\n" .
                     "Si vous avez des questions ou des préoccupations, n'hésitez pas à nous contacter .\n" .
                     "\n" .
                     "Nous avons hâte de vous voir à l'événement !\n" .
                     "\n" .
-                    "Cordialement,". "\n\n-- \nMaktabti Application \nNuméro de téléphone : +216 52 329 813 \nAdresse e-mail : maktabti10@gmail.com \nSite web : www.maktabti.com"));
+                    "Cordialement," . "\n\n-- \nMaktabti Application \nNuméro de téléphone : +216 52 329 813 \nAdresse e-mail : maktabti10@gmail.com \nSite web : www.maktabti.com"));
 
-            
-        $mailer->send($email);
 
-        $pdfResponse = $this->reserveTicket($evenement);
-        return $pdfResponse;
-        }else{
+            $mailer->send($email);
+
+            $pdfResponse = $this->reserveTicket($evenement, $ticket, $idClient,$request->get('nbrTickets'));
+            return $pdfResponse;
+        } else {
             $this->addFlash('danger', 'Tickets indisponible !');
             $evenements = $repo->findAll();
-        
+
             return $this->render('evenement_front/index.html.twig', ['evenements' => $evenements]);
         }
-       
+
 
 
         //$this->addFlash('success', 'reservation est effectué avec succés!');
         //$evenements = $repo->findAll();
-        
+
         //return $this->render('evenement_front/index.html.twig', ['evenements' => $evenements]);
     }
 
-    
-    public function reserveTicket(Evenement $evenement)
-    {
-       //définir les options
-       $pdfOptions = new Options();
-       //police par défaut
-       $pdfOptions->set('defaultFont', 'Arial');
-       $pdfOptions->set('isRemoteEnabled', TRUE);
-       $pdfOptions->setChroot('');
 
-       //instancier Dompdf
-       $pdf = new Dompdf($pdfOptions);
-       $context = stream_context_create([
-           'ssl' => [
-               'verify_peer' => FALSE,
-               'verify_peer_name' => FALSE,
-               'allow_self_signed'=> TRUE
-           ]
-       ]);
-       $pdf->setHttpContext($context);
-       $img = file_get_contents('Front/images/competition/competition-img.jpg');
-       $imgData = base64_encode($img);
-       $imgSrc = 'data:image/jpeg;base64,' . $imgData;       
+    public function reserveTicket(Evenement $evenement, Ticket $ticket, Utilisateur $Client,int $nbticket)
+    {
+        //définir les options
+        $pdfOptions = new Options();
+        //police par défaut
+        $pdfOptions->set('defaultFont', 'Arial');
+        $pdfOptions->set('isRemoteEnabled', TRUE);
+        $pdfOptions->setChroot('');
+
+        //instancier Dompdf
+        $pdf = new Dompdf($pdfOptions);
+        $context = stream_context_create([
+            'ssl' => [
+                'verify_peer' => FALSE,
+                'verify_peer_name' => FALSE,
+                'allow_self_signed' => TRUE
+            ]
+        ]);
+        $pdf->setHttpContext($context);
+        $img = file_get_contents('Front/images/logo/maktabti.jpg');
+        $imgData = base64_encode($img);
+        $imgSrc = 'data:image/jpeg;base64,' . $imgData;
+
+
+
+        // $qrCodeData =
+        //     $Client->getNom() . " " .
+        //     $Client->getPrenom() . " " .
+        //     $evenement->getIdEvenement() . " " .
+        //     $evenement->getNom() . " " .
+        //     $ticket->getIdTicket();
+        // //dd($Client->getNom(),$Client->getPrenom(),$evenement->getIdEvenement(),$evenement->getNom(),$ticket->getIdTicket());
+        // $width = 256;
+        // $height = 256;
+        // $errorCorrectionLevel = ErrorCorrectionLevel::H;
+        // // Create a new QrCode object
+        // $qrCode = Encoder::encode($qrCodeData,$errorCorrectionLevel);
+        // $renderer = new Png();
+        // $renderer->setHeight(256);
+        // $renderer->setWidth(256);
+        
+
+        // // Create a new writer and generate the QR code image
+        // $writer = new Writer($renderer);
+        // $qrCodeImage = $writer->writeString($qrCode);
+
 
         // Render the ticket template using the generated data
         $html = $this->renderView('evenement_front/ticket.html.twig', [
             'evenement' => $evenement,
-            'img'=>$imgSrc
+            'ticket' => $ticket,
+            'img' => $imgSrc,
+            'nbticket' => $nbticket
+           //xq'qrCode' => $qrCodeImage
         ]);
 
         // Generate the PDF from the HTML using dompdf
