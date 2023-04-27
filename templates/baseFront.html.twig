@@ -97,34 +97,26 @@
 
 					{% if app.user %}
 						<ul class="d-flex ml-auto navbar-nav">
-
-							<div class="dropdown nav-item">
-								<button style="background-color: transparent" class="nav-link btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									<a class="nav-link" style="color:#D4A373;">
-										<h6>
-											<img src="{{asset('Back/img/icons/account.png')}}" height="25" width="25">
-											{{app.user.nom}}
-											{{app.user.prenom}}
-										</h6>
-									</a>
-								</button>
-								<div style="background-color: transparent" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-									<a class="nav-link" style="color:#D4A373;" href="{{ path('app_fidelite_front') }}">
-										<i class="far fa-id-card"></i>
-										Fidelité</a>
-									<a class="nav-link" style="color:#D4A373;" href="{{ path('app_offre_front') }}">
-										<i class="fas fa-percent"></i>
-										Offre</a>
-									<div class="dropdown-divider"></div>
-									<a class="nav-link" style="color:#D4A373;" href="{{ path('app_logout') }}">
-										<i class="fas fa-sign-out-alt"></i>
-										Déconnecter
-									</a>
-
-								</div>
-							</div>
-
-
+						<div class="dropdown nav-item" >
+ 		 				<button style="background-color: transparent" class="nav-link btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    						<a class="nav-link" style="color:#D4A373;" >
+							<h6>
+							<img src="{{asset('Back/img/icons/account.png')}}"height="25" width="25">
+								{{app.user.nom}} {{app.user.prenom}} 
+							</h6>
+							</a>
+  						</button>
+						<div style="background-color: transparent" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+						<a  class="nav-link" style="color:#D4A373;" href="{{ path('app_profile_edit',{'idUtilisateur': app.user.idUtilisateur}) }}"><i class="fa fa-user"></i>  Mon Profile</a>
+						<a  class="nav-link" style="color:#D4A373;" href="{{ path('app_fidelite_front') }}"><i class="far fa-id-card"></i>  Fidelité</a>
+						<a  class="nav-link" style="color:#D4A373;" href="{{ path('app_offre_front') }}"><i class="fas fa-percent"></i>  Offre</a>
+									 
+									 <div class="dropdown-divider"></div>		
+						<a  class="nav-link" style="color:#D4A373;" href="{{ path('app_logout') }}"><i class="fas fa-sign-out-alt"></i>  Déconnecter
+						</a>
+						 							
+						</div>
+						</div>
 						</ul>
 					{% else %}
 						<ul class="d-flex ml-auto navbar-nav">

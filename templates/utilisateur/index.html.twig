@@ -61,7 +61,6 @@
 		<table class="table table-centered table-nowrap mb-0 rounded">
         <thead>
             <tr>
-                <th class="border-0 rounded-start">Id Utilisateur</th>
                 <th class="border-0">Nom</th>
                 <th class="border-0">Prénom</th>
                 <th class="border-0">Email</th>
@@ -73,7 +72,6 @@
         <tbody>
         {% for utilisateur in utilisateurs %}
             <tr>
-                <td>{{ utilisateur.idUtilisateur }}</td>
                 <td>{{ utilisateur.nom }}</td>
                 <td>{{ utilisateur.prenom }}</td>
                 <td>{{ utilisateur.email }}</td>
