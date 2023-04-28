@@ -5,7 +5,10 @@
 
 {% block body %}
     <h1>Reclamation index</h1>
-
+<form action="{{ path('app_reclamation_search') }}" method="get" class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
     <table class="table">
         <thead>
             <tr>
@@ -27,7 +30,7 @@
                 <td>
                     <a href="{{ path('app_reclamation_show', {'idReclamation': reclamation.idReclamation}) }}">show</a>
                     <a href="{{ path('app_reclamation_edit', {'idReclamation': reclamation.idReclamation}) }}">edit</a>
-                    <a href="{{ path('app_messagerie_new', {'userId': reclamation.user.idUtilisateur}) }}">respond</a>
+                    <a class="btn btn-outline-success my-2 my-sm-0" href="{{ path('app_messagerie_new', {'userId': reclamation.user.idUtilisateur}) }}">respond</a>
                 </td>
             </tr>
         {% else %}
@@ -37,6 +40,18 @@
         {% endfor %}
         </tbody>
     </table>
+<a href="{{ path('app_reclamation_index', {'sort': 'feedback'}) }}"class="btn btn-primary">Sort</a>
+<form method="POST" action="{{ path('app_sms') }}">
+    <div class="form-group">
+        <label for="toPhoneNumber">Enter a phone number:</label>
+        <input type="text" name="toPhoneNumber" id="toPhoneNumber" class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="smsBody">Enter the SMS message:</label>
+        <textarea name="smsBody" id="smsBody" class="form-control"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Send SMS</button>
+</form>
 
-    <a href="{{ path('app_reclamation_new') }}">Create new</a>
+    {# <a href="{{ path('app_reclamation_new') }}">Create new</a> #}
 {% endblock %}
