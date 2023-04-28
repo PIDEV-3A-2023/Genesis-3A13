@@ -99,6 +99,13 @@ class Utilisateur implements UserInterface , PasswordAuthenticatedUserInterface 
      */
     private $authCode;
 
+        /**
+     * @var \DateTime|null
+     *
+     * @ORM\Column(name="lastConnection", type="datetime", nullable=true)
+     */
+    private $lastconnection;
+
 
     public function getIdUtilisateur(): ?int
     {
@@ -285,6 +292,18 @@ class Utilisateur implements UserInterface , PasswordAuthenticatedUserInterface 
      */
     public function setEmailAuthCode(string $authCode): void{
         $this->authCode = $authCode;
+    }
+
+    public function setLastConnection(\DateTimeInterface $lastConnection): self
+    {
+        $this->lastconnection = $lastConnection;
+
+        return $this;
+    }
+
+    public function getLastConnection(): ?\DateTimeInterface
+    {
+        return $this->lastconnection;
     }
 
 }
