@@ -1,3 +1,9 @@
 index:
   path: /
   controller: App\Controller\HomeController::index
+
+# routes.yaml
+app_offre_send_email:
+    path: /offre/send-email
+    controller: App\Controller\OffreController::sendEmail
+    methods: [POST]

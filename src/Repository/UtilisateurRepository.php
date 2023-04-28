@@ -39,6 +39,16 @@ class UtilisateurRepository extends ServiceEntityRepository
         }
     }
 
+    public function findOneByEmail($getData)
+    {
+        $q = $this->createQueryBuilder('c')
+            ->where('c.email = :email')
+            ->setParameter('email', $getData)
+            ->getQuery();
+        return $q->getOneOrNullResult(); // will return only one result or null 'getResult' will return a collection
+
+    }
+
     public function getUserWithRole($role)
     {
         return $this->createQueryBuilder('u')

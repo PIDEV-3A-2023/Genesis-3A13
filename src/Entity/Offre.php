@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\OffreRepository;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Offre
@@ -30,7 +32,10 @@ class Offre
      * @ORM\Column(name="pourcentage_solde", type="string", length=255, nullable=false)
      */
     #[Assert\NotBlank(message: 'pourcentage du solde est obligatoire!')]
-     #[Assert\Length(max: 3)]
+    #[Assert\Length(max:3, maxMessage:'La pourcentage du solde ne peut pas dépasser {{ limit }} caractères et se termine par un "%".')]
+    #[Assert\Length(min:2, minMessage:'La pourcentage du solde doit au minimum avoir {{ limit }} caractères et se termine par un "%".')]
+    #[Assert\Regex(pattern:"/%$/", message:"La pourcentage du solde doit se terminer par un '%'")]
+
     private $pourcentageSolde;
 
     /**
@@ -38,7 +43,6 @@ class Offre
      *
      * @ORM\Column(name="prix_solde", type="float", precision=10, scale=0, nullable=false)
      */
-    #[Assert\NotBlank(message: 'prix soldé est obligatoire!')]
 
     private $prixSolde;
 

@@ -1,0 +1,11 @@
+/* Define styles for dark mode */
+body.dark-mode {
+    background-color: #495057;
+    color: #fff;
+  }
+  
+  .dark-mode .navbar {
+    background-color: #333;
+    color: #fff;
+  }
+  

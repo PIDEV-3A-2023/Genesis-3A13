@@ -39,6 +39,19 @@ class PanierRepository extends ServiceEntityRepository
         }
     }
 
+    public function findAllWithLivres(): array
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT p, l
+            FROM App\Entity\Panier p
+            JOIN p.idLivre l'
+        );
+
+        return $query->getResult();
+    }
+
 //    /**
 //     * @return Panier[] Returns an array of Panier objects
 //     */

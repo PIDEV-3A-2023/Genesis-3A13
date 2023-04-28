@@ -10,8 +10,9 @@
 		</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<meta name="title" content="Maktabti Dashboard">
-		<meta
-		name="author" content="GenesisTeam">
+		<meta name="author" content="GenesisTeam">
+		<link
+		rel="stylesheet" href="{{ asset('Back/css/dark-mode.css') }}" media="(prefers-color-scheme: dark)">
 
 
 		<!-- Favicon -->
@@ -80,8 +81,8 @@
 							<span class="sidebar-text">Dashboard</span>
 						</a>
 					</li>
-					<li class="nav-item">
-						<a href="" class="nav-link d-flex justify-content-between">
+					<li class="nav-item  {% if app.request.attributes.get('_route') == 'app_livre_index'  %}active{% endif %}">
+						<a href="{{path('app_livre_index')}}" class="nav-link d-flex justify-content-between">
 							<span>
 								<span class="sidebar-icon">
 									<span class="sidebar-icon">
@@ -107,8 +108,8 @@
 							<span class="sidebar-text">Catégories</span>
 						</a>
 					</li>
-					<li class="nav-item ">
-						<a href="" class="nav-link">
+					<li class="nav-item {% if app.request.attributes.get('_route') == 'app_quiz_index'  %}active{% endif %}">
+						<a href="{{path('app_quiz_index')}}" class="nav-link">
 							<span class="sidebar-icon">
 								<span class="sidebar-icon">
 
@@ -116,7 +117,19 @@
 
 								</span>
 							</span>
-							<span class="sidebar-text">Quiz</span>
+							<span class="sidebar-text">Quizzes</span>
+						</a>
+					</li>
+					<li class="nav-item {% if app.request.attributes.get('_route') == 'app_question_index'  %}active{% endif %}">
+						<a href="{{path('app_question_index')}}" class="nav-link">
+							<span class="sidebar-icon">
+								<span class="sidebar-icon">
+
+									<img src="{{asset('Back/img/icons/ideas.png')}}" class="icon icon-xs me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
+
+								</span>
+							</span>
+							<span class="sidebar-text">Questions</span>
 						</a>
 					</li>
 					<li class="nav-item {% if app.request.attributes.get('_route') == 'app_offre_index'  %}active{% endif %}">
@@ -173,6 +186,21 @@
 
 						</a>
 					</li>
+					<li class="nav-item {% if app.request.attributes.get('_route') == 'app_commentaire_index'  %}active{% endif %}">
+						<a href="{{path('app_commentaire_index')}}" class="nav-link d-flex justify-content-between">
+							<span>
+								<span class="sidebar-icon">
+									<span class="sidebar-icon">
+
+										<img src="{{asset('Back/img/icons/Calendar.png')}}" class="icon icon-xs me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
+
+									</span>
+								</span>
+								<span class="sidebar-text">Commentaires</span>
+							</span>
+
+						</a>
+					</li>
 					<li class="nav-item {% if app.request.attributes.get('_route') == 'app_commande_index'  %}active{% endif %}">
 						<a href="{{path('app_commande_index')}}" class="nav-link d-flex justify-content-between">
 							<span>
@@ -206,8 +234,10 @@
 
 
 					<li role="separator" class="dropdown-divider mt-4 mb-3 border-gray-700"></li>
-					<li class="nav-item">
+
+					<li class="nav-item  {% if app.request.attributes.get('_route') == 'app_messagerie_index'  %}active{% endif %}">
 						<a href="{{path('app_reclamation_index')}}" class="nav-link d-flex align-items-center">
+
 							<span class="sidebar-icon">
 								<span class="sidebar-icon">
 
@@ -234,8 +264,8 @@
 						</a>
 					</li>
 
-					<li class="nav-item">
-						<a href="" class="nav-link d-flex align-items-center btn-upgrade-pro">
+					<li class="nav-item {% if app.request.attributes.get('_route') == 'app_logout'  %}active{% endif %}">
+						<a href="{{ path('app_logout') }}" class="nav-link d-flex align-items-center btn-upgrade-pro">
 							<span class="sidebar-icon">
 
 								<img src="{{asset('Back/img/icons/turn-off.png')}}" class="icon icon-xs me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
@@ -253,12 +283,35 @@
 
 		<main class="content">
 
+
 			<div class="media d-flex align-items-center justify-content-end" style="padding-top:20px;padding-bottom: 20px;padding-right: 15px;">
-				<img class="avatar " alt="user" src="{{asset('Back/img/icons/account.png')}}">
-				<div class="media-body ms-2 text-dark align-items-center d-none d-lg-block">
-					<span class="mb-0 font-medium fw-bold text-gray-900">Melek Labidi</span>
+				<div>
+					<div class="form-check form-switch">
+						<input class="form-check-input" type="checkbox" id="dark-mode-toggle">
+						<label class="form-check-label" for="dark-mode-toggle">
+							<i class="bi bi-moon"></i>
+						</label>
+					</div>
+
+					<script>
+						const toggle = document.querySelector('#dark-mode-toggle');
+toggle.addEventListener('change', () => {
+document.body.classList.toggle('dark-mode');
+});
+					</script>
+
 				</div>
+				{% if app.user %}
+					<img class="avatar " alt="user" src="{{asset('Back/img/icons/account.png')}}">
+					<div class="media-body ms-2 text-dark align-items-center d-none d-lg-block">
+						<span class="mb-0 font-medium fw-bold text-blue-900">{{app.user.nom}}
+							{{app.user.prenom}}</span>
+					</div>
+				{% endif %}
+
+
 			</div>
+
 
 			{% block body %}{% endblock %}
 
@@ -266,70 +319,44 @@
 			<footer class="bg-white rounded shadow p-5 mb-4 mt-4">
 				<div class="row">
 					<div class="col-12 col-md-4 col-xl-6 mb-4 mb-md-0">
-						<p class="mb-0 text-center text-lg-start">©
+						<p class="mb-0 text-center text-lg-start">Copyright ©
 							<span class="current-year"></span>
 							<a class="text-primary fw-normal" href="" target="_blank">
-								<a class="text-primary fw-normal" href="" target="_blank">GenesisTeam-MaktabtiDashboard</a>
-							</p>
+								| made with
+								<i class="fas fa-heart text-danger"></i>
+								by GenesisTeam<img src="{{asset('Back/img/brand/logo-genesis.png')}}" height="30" width="30">
+							</a>
 						</p>
-					</div>
-					<div
-						class="col-12 col-md-8 col-xl-6 text-center text-lg-start">
-						<!-- List -->
-						<ul class="list-inline list-group-flush list-group-borderless text-md-end mb-0">
-							<li class="list-inline-item px-0 px-sm-2">
-
-								<a href="mailto:maktabti10@gmail.com">
-									<span class="sidebar-icon">
-
-										<img src="{{asset('Back/img/icons/gmail.png')}}" class="icon icon-xs me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
-
-									</span>
-
-									Maktabti Application</a>
-							</li>
-							<li class="list-inline-item px-0 px-sm-2">
-								<a href="tel:+21652329813">
-									<span class="sidebar-icon">
-
-										<img src="{{asset('Back/img/icons/phone-call.png')}}" class="icon icon-xs me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
-
-									</span>
-									WhatsApp</a>
-							</li>
-
-						</ul>
-					</div>
+					</p>
 				</div>
-			</footer>
-		</main>
-		<!-- Core -->
-		<script src="{{asset('Back/librairies/@popperjs/core/dist/umd/popper.min.js')}}"></script>
-		<script src="{{asset('Back/librairies/bootstrap/dist/js/bootstrap.min.js')}}"></script>
-		<!-- Vendor JS -->
-		<script src="{{asset('Back/librairies/onscreen/dist/on-screen.umd.min.js')}}"></script>
-		<!-- Slider -->
-		<script src="{{asset('Back/librairies/nouislider/distribute/nouislider.min.js')}}"></script>
-		<!-- Smooth scroll -->
-		<script src="{{asset('Back/librairies/smooth-scroll/dist/smooth-scroll.polyfills.min.js')}}"></script>
-		<!-- Charts -->
-		<script src="{{asset('Back/librairies/chartist/dist/chartist.min.js')}}"></script>
-		<script src="{{asset('Back/librairies/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js')}}"></script>
-		<!-- Datepicker -->
-		<script src="{{asset('Back/librairies/vanillajs-datepicker/dist/js/datepicker.min.js')}}"></script>
-		<!-- Sweet Alerts 2 -->
-		<script src="{{asset('Back/librairies/sweetalert2/dist/sweetalert2.all.min.js')}}"></script>
-		<!-- Moment JS -->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
-		<!-- Vanilla JS Datepicker -->
-		<script src="{{asset('Back/librairies/vanillajs-datepicker/dist/js/datepicker.min.js')}}"></script>
-		<!-- Notyf -->
-		<script src="{{asset('Back/librairies/notyf/notyf.min.js')}}"></script>
-		<!-- Simplebar -->
-		<script src="{{asset('Back/librairies/simplebar/dist/simplebar.min.js')}}"></script>
-		<!-- Github buttons -->
-		<script async defer src="https://buttons.github.io/buttons.js"></script>
-		<!-- Volt JS -->
-		<script src="{{asset('Back/js/volt.js')}}"></script>
+				<div
+					class="col-12 col-md-8 col-xl-6 text-center text-lg-start">
+					<!-- List -->
+					<ul class="list-inline list-group-flush list-group-borderless text-md-end mb-0">
+						<li class="list-inline-item px-0 px-sm-2">
+
+							<a href="mailto:maktabti10@gmail.com">
+								<span class="sidebar-icon">
+
+									<img src="{{asset('Back/img/icons/gmail.png')}}" class="icon icon-xs me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
+
+								</span>
+
+								Maktabti Application</a>
+						</li>
+						<li class="list-inline-item px-0 px-sm-2">
+							<a href="tel:+21652329813">
+								<span class="sidebar-icon">
+
+									<img src="{{asset('Back/img/icons/phone-call.png')}}" class="icon icon-xs me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
+
+								</span>
+								WhatsApp</a>
+						</li>
+
+					</ul>
+				</div>
+			</div>
+		</footer>
 	</body>
-</html></body></html>
+</html></main><!-- Core --><script src="{{asset('Back/librairies/@popperjs/core/dist/umd/popper.min.js')}}"></script><script src="{{asset('Back/librairies/bootstrap/dist/js/bootstrap.min.js')}}"></script><!-- Vendor JS --><script src="{{asset('Back/librairies/onscreen/dist/on-screen.umd.min.js')}}"></script><!-- Slider --><script src="{{asset('Back/librairies/nouislider/distribute/nouislider.min.js')}}"></script><!-- Smooth scroll --><script src="{{asset('Back/librairies/smooth-scroll/dist/smooth-scroll.polyfills.min.js')}}"></script><!-- Charts --><script src="{{asset('Back/librairies/chartist/dist/chartist.min.js')}}"></script><script src="{{asset('Back/librairies/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js')}}"></script><!-- Datepicker --><script src="{{asset('Back/librairies/vanillajs-datepicker/dist/js/datepicker.min.js')}}"></script><!-- Sweet Alerts 2 --><script src="{{asset('Back/librairies/sweetalert2/dist/sweetalert2.all.min.js')}}"></script><!-- Moment JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script><!-- Vanilla JS Datepicker --><script src="{{asset('Back/librairies/vanillajs-datepicker/dist/js/datepicker.min.js')}}"></script><!-- Notyf --><script src="{{asset('Back/librairies/notyf/notyf.min.js')}}"></script><!-- Simplebar --><script src="{{asset('Back/librairies/simplebar/dist/simplebar.min.js')}}"></script><!-- Github buttons --><script async defer src="https://buttons.github.io/buttons.js"></script><!-- Volt JS --><script src="{{asset('Back/js/volt.js')}}"></script></body></html></body></html>

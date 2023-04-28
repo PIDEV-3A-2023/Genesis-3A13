@@ -1,0 +1,48 @@
+{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+{{form_label(form.titre)}}
+{{form_widget(form.titre)}}
+{{form_errors(form.titre,{'attr': {'class': 'invalid-feedback'}})}}
+<br>
+{{form_label(form.datePub)}}
+{{form_widget(form.datePub)}}
+{{form_errors(form.datePub,{'attr': {'class': 'invalid-feedback'}})}}
+<br>
+{{form_label(form.langue)}}
+{{form_widget(form.langue)}}
+{{form_errors(form.langue,{'attr': {'class': 'invalid-feedback'}})}}
+<br>
+{{form_label(form.isbn)}}
+{{form_widget(form.isbn)}}
+{{form_errors(form.isbn,{'attr': {'class': 'invalid-feedback'}})}}
+<br>
+{{form_label(form.nbPages)}}
+{{form_widget(form.nbPages)}}
+{{form_errors(form.nbPages,{'attr': {'class': 'invalid-feedback'}})}}
+<br>
+{{form_label(form.resume)}}
+{{form_widget(form.resume)}}
+{{form_errors(form.resume,{'attr': {'class': 'invalid-feedback'}})}}
+<br>
+{{form_label(form.prix)}}
+{{form_widget(form.prix)}}
+{{form_errors(form.prix,{'attr': {'class': 'invalid-feedback'}})}}
+<br>
+{{form_label(form.image)}}
+{{form_widget(form.image)}}
+{{form_errors(form.image,{'attr': {'class': 'invalid-feedback'}})}}
+<br>
+
+{{form_label(form.idAuteur)}}
+{{form_widget(form.idAuteur)}}
+{{form_errors(form.idAuteur,{'attr': {'class': 'invalid-feedback'}})}}
+<br>
+
+{{form_label(form.idCategorie)}}
+{{form_widget(form.idCategorie)}}
+{{form_errors(form.idCategorie,{'attr': {'class': 'invalid-feedback'}})}}
+<br>
+
+
+<button class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;">{{ button_label|default('Enregistrer') }}</button>
+{{ form_end(form) }}

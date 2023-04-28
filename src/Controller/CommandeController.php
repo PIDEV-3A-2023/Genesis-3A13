@@ -9,16 +9,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\CommandeRepository;
+
 
 #[Route('/commande')]
 class CommandeController extends AbstractController
 {
     #[Route('/', name: 'app_commande_index', methods: ['GET'])]
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(CommandeRepository $repo): Response
     {
-        $commandes = $entityManager
-            ->getRepository(Commande::class)
-            ->findAll();
+        $commandes = $repo->findAll();
 
         return $this->render('commande/index.html.twig', [
             'commandes' => $commandes,
@@ -26,15 +26,14 @@ class CommandeController extends AbstractController
     }
 
     #[Route('/new', name: 'app_commande_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, CommandeRepository $repo): Response
     {
         $commande = new Commande();
         $form = $this->createForm(CommandeType::class, $commande);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($commande);
-            $entityManager->flush();
+           $repo->save($commande,true);
             $this->addFlash('success', 'Commande ajoutée avec succés!');
             return $this->redirectToRoute('app_commande_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -72,13 +71,18 @@ class CommandeController extends AbstractController
     }
 
     #[Route('/{idCommande}', name: 'app_commande_delete', methods: ['POST'])]
-    public function delete(Request $request, Commande $commande, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, Commande $commande, CommandeRepository $repo): Response
     {
         if ($this->isCsrfTokenValid('delete'.$commande->getIdCommande(), $request->request->get('_token'))) {
-            $entityManager->remove($commande);
-            $entityManager->flush();
+            
+        if ($commande->getEtat()=='encours' || $commande->getEtat()=='livre') {
+                $this->addFlash('danger', 'Impossible de supprimer la commande car elle est en cours ou déja livrée!');
+            } else {
+                $repo->remove($commande, true);
+                $this->addFlash('success', 'Commande supprimée avec succès!');
+            }
         }
-        $this->addFlash('success', 'Commande supprimé avec succés!');
+       
         return $this->redirectToRoute('app_commande_index', [], Response::HTTP_SEE_OTHER);
     }
 }

@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+
+<title>New Panierlivre</title>
+
+{% block body %}
+    <h1>Create new Panierlivre</h1>
+
+    {{ include('panierlivre/_form.html.twig') }}
+
+    <a href="{{ path('app_panierlivre_index') }}">back to list</a>
+{% endblock %}

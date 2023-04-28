@@ -1,0 +1,83 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}Commentaire
+{% endblock %}
+
+{% block body %}
+	<div class="d-flex justify-content-between w-100 flex-wrap">
+		<div class="mb-3 mb-lg-0">
+			<h1>
+				<span class="sidebar-icon">
+
+					<img src="{{asset('Back/img/icons/Event.png')}}" class="icon icon-s me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
+
+				</span>Liste des Commentaire</h1>
+
+		</div>
+
+	</div>
+	<div class="d-flex justify-content-between w-100 flex-wrap">
+		<div
+			class="mb-3 mb-lg-0">
+			<!-- Search form -->
+			<form action="{{path('searchcommentaire')}}" class="navbar-search form-inline" id="navbar-search-main" style="padding-top: 10px;">
+				<div class="input-group input-group-merge search-bar">
+					<span class="input-group-text" id="topbar-addon">
+						<svg class="icon icon-xs" x-description="Heroicon name: solid/search" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor" aria-hidden="true">
+							<path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+						</svg>
+					</span>
+					<input type="text" class="form-control" id="nom" name="nom" placeholder="Rechercher" aria-label="Search" aria-describedby="topbar-addon">
+				</div>
+			</form>
+			<!-- / Search form -->
+		</div>
+		
+	</div>
+    <br>
+
+	<div class="card border-0 shadow mb-4">
+		<div class="card-body">
+			<div class="table-responsive" id="myTable">
+				<table class="table table-centered table-nowrap mb-0 rounded">
+					<thead class="thead-light">
+						<tr>
+							<th>#</th>
+							<th>Evenement</th>
+							<th>Client</th>
+							<th>Commentaire</th>
+							<th>actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for commentaire in commentaires %}
+							<tr>
+								<td>{{ commentaire.idCommentaire }}</td>
+								<td>{{ commentaire.idevenement.nom }}</td>
+								<td>{{ commentaire.idclient.nom }}
+									{{commentaire.idclient.prenom}}</td>
+								<td>{{ commentaire.commentaire }}</td>
+								<td>
+									<a href="{{ path('app_commentaire_show', {'idCommentaire': commentaire.idCommentaire}) }}">
+										<i class="fas fa-info-circle text-info"></i>
+									</a>
+
+								</td>
+							</tr>
+						{% else %}
+							<tr>
+								<td colspan="3">no records found</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+				<br>
+				{{ knp_pagination_render(commentaires, 'knp_pagination_bootstrap.html.twig') }}
+				
+                
+                                </div>
+                                            </div>
+                                        </div>
+
+
+			{% endblock %}

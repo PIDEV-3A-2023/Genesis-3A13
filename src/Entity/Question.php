@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\QuestionRepository;
 /**
  * Question
@@ -21,41 +22,58 @@ class Question
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $idQuestion;
+/**
+ * @var string
+ *
+ * @ORM\Column(name="question", type="string", length=255, nullable=false)
+ * @Assert\NotBlank(message="Le champ question est obligatoire")
+ * @Assert\Length(
+ *      min = 10,
+ *      max = 255,
+ *      minMessage = "Le champ question doit contenir au moins {{ limit }} caractères",
+ *      maxMessage = "Le champ question doit contenir moins de {{ limit }} caractères"
+ * )
+ * @Assert\Regex(
+ *      pattern="/\?$/",
+ *      match=true,
+ *      message="La question doit se terminer par un point d'interrogation"
+ * )
+ */
+private $question;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="question", type="string", length=255, nullable=false)
-     */
-    private $question;
+/**
+ * @var string
+ *
+ * @ORM\Column(name="choix1", type="string", length=255, nullable=false)
+ * @Assert\NotBlank(message="Le champ choix1 est obligatoire")
+ */
+private $choix1;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="choix1", type="string", length=255, nullable=false)
-     */
-    private $choix1;
+/**
+ * @var string
+ *
+ * @ORM\Column(name="choix2", type="string", length=255, nullable=false)
+ * @Assert\NotBlank(message="Le champ choix2 est obligatoire")
+ */
+private $choix2;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="choix2", type="string", length=255, nullable=false)
-     */
-    private $choix2;
+/**
+ * @var string
+ *
+ * @ORM\Column(name="choix3", type="string", length=255, nullable=false)
+ * @Assert\NotBlank(message="Le champ choix3 est obligatoire")
+ */
+private $choix3;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="choix3", type="string", length=255, nullable=false)
-     */
-    private $choix3;
+/**
+ * @var string
+ *
+ * @ORM\Column(name="reponse_correct", type="string", length=255, nullable=false)
+ * @Assert\NotBlank(message="Le champ réponse correcte est obligatoire")
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="reponse_correct", type="string", length=255, nullable=false)
-     */
-    private $reponseCorrect;
+ */
+private $reponseCorrect;
+
 
     /**
      * @var Quiz
