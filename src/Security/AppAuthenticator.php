@@ -18,7 +18,9 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
-
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 class AppAuthenticator extends AbstractLoginFormAuthenticator
 {
     use TargetPathTrait;
@@ -26,14 +28,17 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
     public const LOGIN_ROUTE = 'app_login';
     private $passwordEncoder;
     private $userRepository;
+    private $tokenStorage;
+    private $entityManager;
 
     
 
-    public function __construct(private UrlGeneratorInterface $urlGenerator,UserPasswordEncoderInterface $passwordEncoder, UtilisateurRepository $userRepository)
+    public function __construct(private UrlGeneratorInterface $urlGenerator,UserPasswordEncoderInterface $passwordEncoder, UtilisateurRepository $userRepository,TokenStorageInterface $tokenStorage, EntityManagerInterface $entityManager)
     {
         $this->passwordEncoder = $passwordEncoder;
         $this->userRepository = $userRepository;
-
+        $this->tokenStorage = $tokenStorage;
+        $this->entityManager = $entityManager;
 
     }
 
@@ -72,6 +77,9 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
+        $user = $this->tokenStorage->getToken()->getUser();
+
+  
 
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
@@ -81,6 +89,11 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
        // Get the user from your User repository or database
        $user = $this->userRepository->findOneBy(['email' => $email]);
        $role=$user->getRole();
+
+       $lastcnx=$user->setLastConnection(new \DateTime());
+        // Save the changes to the database
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
 
         if ($role=='Auteur') {
             // Redirect to the admin dashboard
