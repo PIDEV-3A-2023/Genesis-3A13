@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Entity;
-
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -22,10 +22,16 @@ class Reclamation
      */
     private $idReclamation;
 
-    /**
+   /**
      * @var string
      *
      * @ORM\Column(name="message", type="text", length=65535, nullable=false)
+     * @Assert\NotBlank
+     * @Assert\Regex(
+     *     pattern="/badword1|badword2|badword3/i",
+     *     match=false,
+     *     message="The message contains inappropriate words."
+     * )
      */
     private $message;
 
