@@ -12,6 +12,7 @@
                 <th>IdMessagerie</th>
                 <th>Message</th>
                 <th>DateHeure</th>
+                <th>nom utilisateur</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -21,6 +22,7 @@
                 <td>{{ messagerie.idMessagerie }}</td>
                 <td>{{ messagerie.message }}</td>
                 <td>{{ messagerie.dateHeure|date('Y-m-d H:i:s') }}</td>
+                <td>{{ messagerie.idDestinataire.nom}}</td>
                 <td>
                     <a href="{{ path('app_messagerie_show', {'idMessagerie': messagerie.idMessagerie}) }}">show</a>
                     <a href="{{ path('app_messagerie_edit', {'idMessagerie': messagerie.idMessagerie}) }}">edit</a>
