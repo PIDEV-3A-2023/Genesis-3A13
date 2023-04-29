@@ -53,7 +53,9 @@ class DashboardController extends AbstractController
 
         $Clients=$Userrepo->getUserWithRole("Client");
         $nbaclients = count($Clients);
-        
+
+        $doughnutDataUtilisateurs = $this->doughnutChartUsers($Userrepo);
+
 
       $evenements = $repoevent->findAll();
         $nbevenements = count($evenements);
@@ -68,6 +70,7 @@ class DashboardController extends AbstractController
             'competitionssemaine' => $competitionssemaine,
             'chartData' => json_encode($chartData),
             'doughnutDataCompetition' => json_encode($doughnutDataCompetition),
+            'doughnutDataUtilisateurs' => json_encode($doughnutDataUtilisateurs),
             'categoryData' => json_encode($categoryData),
             'nbevenements' => $nbevenements,
             'nblivres' => $nblivres,
@@ -178,6 +181,36 @@ class DashboardController extends AbstractController
             'value' => $result['nbCompetitions'],
         ];
     }
+
+    return $data;
+}
+public function doughnutChartUsers(UtilisateurRepository $repository)
+{
+    // Récupérer le nombre d'utilisateurs pour chaque rôle
+    $Admins=$repository->getUserWithRole("Administrateur");
+    $nbAdmins = count($Admins);
+
+    $Auteurs=$repository->getUserWithRole("Auteur");
+    $nbAuteurs = count($Auteurs);
+
+    $Clients=$repository->getUserWithRole("Client");
+    $nbClients = count($Clients);
+
+    // Convertir les données en format compréhensible par Chart.js
+    $data = [
+        [
+            'label' => 'Administrateurs',
+            'value' => $nbAdmins,
+        ],
+        [
+            'label' => 'Auteurs',
+            'value' => $nbAuteurs,
+        ],
+        [
+            'label' => 'Clients',
+            'value' => $nbClients,
+        ],
+    ];
 
     return $data;
 }
