@@ -1,3 +1,9 @@
 index:
   path: /
   controller: App\Controller\HomeController::index
+
+ajax_search:
+    path: /search
+    defaults: { _controller: AppBundle:ReclamationController:search }
+    
+ 

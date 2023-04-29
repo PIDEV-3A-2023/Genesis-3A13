@@ -39,19 +39,18 @@ class ReclamationRepository extends ServiceEntityRepository
         }
     }
     // recherche
-    public function searchByTerm($term)
+    public function findBySearchQuery(string $query)
     {
-        $qb = $this->createQueryBuilder('r');
-        $qb->where(
-            $qb->expr()->orX(
-                $qb->expr()->like('r.message', ':term'),
-                $qb->expr()->like('r.feedback', ':term'),
-                $qb->expr()->like('r.idReclamation', ':term')                
-            )
-        );
-        $qb->setParameter('term', '%'.$term.'%');
+        $qb = $this->createQueryBuilder('r')
+            ->where('r.message LIKE :query')
+            ->orWhere('r.idReclamation LIKE :query')
+            ->orWhere('r.feedback LIKE :query')
+            ->orWhere('r.user.nom LIKE :query')
+            ->setParameter('query', '%'.$query.'%')
+            ->orderBy('r.feedback', 'DESC')
+            ->getQuery();
     
-        return $qb->getQuery()->getResult();
+        return $qb->getResult();
     }
     // tri
     public function findAllOrderedByFeedback()

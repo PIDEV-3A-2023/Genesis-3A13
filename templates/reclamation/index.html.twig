@@ -5,10 +5,49 @@
 
 {% block body %}
     <h1>Reclamation index</h1>
-<form action="{{ path('app_reclamation_search') }}" method="get" class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
+<form>
+  <div class="form-group">
+    <label for="search">Search</label>
+    <input type="text" class="form-control" id="search" placeholder="Enter a search term">
+  </div>
+</form>
+
+<br><br><br><br>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+
+<div id="search-results"></div>
+
+<script>
+$(function() {
+  $('#search').on('input', function() {
+    var query = $(this).val();
+
+    $.ajax({
+      url: '{{ path('app_reclamation_search') }}',
+      data: { q: query },
+      dataType: 'json',
+      success: function(results) {
+        $('#search-results').empty();
+        if (results.length > 0) {
+          $.each(results, function(i, result) {
+            $('#search-results').append('<div><a href="/reclamation/' + result.idReclamation + '">' + result.feedback + '</a></div>');
+          });
+        } else {
+          $('#search-results').append('<div>No results found.</div>');
+        }
+      },
+      error: function(xhr, textStatus, errorThrown) {
+        console.log(xhr.responseText);
+      }
+    });
+  });
+});
+</script>
+
     <table class="table">
         <thead>
             <tr>

@@ -85,19 +85,24 @@ class ReclamationController extends AbstractController
         return $this->redirectToRoute('app_reclamation_index', [], Response::HTTP_SEE_OTHER);
     }
 
+    #[Route('/search', name: 'app_reclamation_search', methods: ['GET', 'POST'])]
+    public function search(Request $request, ReclamationRepository $reclamationRepository): JsonResponse
+    {
+        $query = $request->get('query');
+        $reclamations = $reclamationRepository->findBySearchQuery($query);
+    
+        $data = [];
+        foreach ($reclamations as $reclamation) {
+            $data[] = [
+                'id' => $reclamation->getIdReclamation(),
+                'message' => $reclamation->getMessage(),
+                'feedback' => $reclamation->getFeedback(),
+                'user' => $reclamation->getUser(),
 
-    /**
- * @Route("/reclamation/search", name="app_reclamation_search")
- */
-public function search(Request $request, ReclamationRepository $reclamationRepository)
-{
-    $searchTerm = $request->query->get('search');
-
-    $reclamations = $reclamationRepository->searchByTerm($searchTerm);
-
-    return $this->render('reclamation/index.html.twig', [
-        'reclamations' => $reclamations,
-    ]);
-}
+            ];
+        }
+    
+        return new JsonResponse($data);
+    }
 
 }
