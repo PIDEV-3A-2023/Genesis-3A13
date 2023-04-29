@@ -63,4 +63,24 @@ class QuizRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+function searchByCompetitionName($nom)
+{
+    return $this->createQueryBuilder('q')
+        ->join('q.idCompetition', 'competition')
+        ->where('competition.nom LIKE :m')
+        ->setParameter('m', '%' . $nom . '%')
+        ->getQuery()
+        ->getResult();
+}
+
+function findQuizByCompetitionId($idCompetition)
+{
+    return $this->createQueryBuilder('q')
+        ->where('q.idCompetition = :idComp')
+        ->setParameter('idComp', $idCompetition)
+        ->getQuery()
+        ->getResult();
+}
+
+
 }

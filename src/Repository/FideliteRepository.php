@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Fidelite;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\Commande;
+use App\Entity\Utilisateur;
 
 /**
  * @extends ServiceEntityRepository<Fidelite>
@@ -63,4 +65,69 @@ class FideliteRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+public function findOneByIdClient(int $idClient): ?Fidelite
+{
+    return $this->createQueryBuilder('f')
+        ->andWhere('f.idClient = :idClient')
+        ->setParameter('idClient', $idClient)
+        ->getQuery()
+        ->getOneOrNullResult();
+}
+
+public function calculateTotalAchatByIdClient($idClient)
+{
+    $qb = $this->getEntityManager()->createQueryBuilder();
+
+    $qb->select('SUM(c.montant) as total_achat')
+       ->from('App\Entity\Commande', 'c')
+       ->where('c.idClient = :id_client')
+       ->setParameter('id_client', $idClient);
+
+    $result = $qb->getQuery()->getSingleScalarResult();
+
+    return $result;
+}
+public function findFideliteByIdClient($idClient)
+    {
+        return $this->createQueryBuilder('f')
+            ->where('f.idClient = :idClient')
+            ->setParameter('idClient', $idClient)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+public function checkUserFidelite(int $userId): bool
+{
+    $fideliteRepository = $this->entityManager->getRepository(Fidelite::class);
+    $userFidelite = $fideliteRepository->findOneBy(['user' => $userId]);
+
+    if ($userFidelite === null) {
+        return false;
+    }
+
+    return true;
+}
+public function findAllClients()
+{
+    $queryBuilder = $this->createQueryBuilder('f');
+    $queryBuilder->select('u')
+        ->innerJoin('App\Entity\Utilisateur', 'u', 'WITH', 'f.idClient = u.idUtilisateur');
+
+    $result = $queryBuilder->getQuery()->getResult();
+
+    return $result;
+}
+
+public function getUtilisateursSansFidelite()
+{
+   return $this->createQueryBuilder('f')
+    ->leftJoin('Fidelite as f', 'c.idClient', '=', 'f.idClient')
+    ->select('c.idClient')
+    ->whereNull('f.idClient')
+    ->distinct()
+    ->get();
+
+
+}
+
 }

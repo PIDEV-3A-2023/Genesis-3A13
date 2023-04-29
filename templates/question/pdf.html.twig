@@ -1,0 +1,42 @@
+{% extends 'basePDF.html.twig' %}
+{% block title %}Liste des Questions
+{% endblock %}
+{% block header %}Liste des Questions
+{% endblock %}
+{% block content %}
+
+	<table class=" table-bordered  table-striped text-center">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Competition</th>
+				<th>Question</th>
+				<th>Choix1</th>
+				<th>Choix2</th>
+				<th>Choix3</th>
+				<th>Reponse Correct</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for question in questions %}
+				<tr>
+					<td>{{ question.idQuestion }}</td>
+					<td>{{ question.idQuiz.idCompetition.nom }}</td>
+					<td>{{ question.question }}</td>
+					<td>{{ question.choix1 }}</td>
+					<td>{{ question.choix2 }}</td>
+					<td>{{ question.choix3 }}</td>
+					<td>
+						<span class="badge-pill iq-bg-success">{{ question.reponseCorrect }}</span>
+					</td>
+
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="7">Aucun enregistrement trouvé</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+{% endblock %}

@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Evenement;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use DoctrineExtensions\Query\Mysql\DateFormat;
 
 /**
  * @extends ServiceEntityRepository<Evenement>
@@ -38,6 +39,30 @@ class EvenementRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function SearchByLieu($lieu)
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.lieu = :location')
+            ->setParameter('location', $lieu)
+            ->getQuery()
+            ->getResult();
+    }
+    public function countEventsPerMonth() 
+{
+    $year = date('Y');
+
+    $query = $this->createQueryBuilder('e')
+        ->select("DATE_FORMAT(e.date, '%Y-%m') as month, COUNT(e.idEvenement) as numEvents")
+        ->where("DATE_FORMAT(e.date, '%Y') = :year")
+        ->setParameter('year', $year)
+        ->groupBy('month')
+        ->getQuery();
+
+    return $query->getResult();
+}
+
+
+
 
 //    /**
 //     * @return Evenement[] Returns an array of Evenement objects

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Maktabti - Ticket</title>
+		<style>
+			body {
+				background-color: #f7f7f7;
+				font-family: Arial, sans-serif;
+			}
+			.ticket {
+				background-color: white;
+				border: 2px solid #333;
+				border-radius: 10px;
+				padding: 20px;
+				margin: 50px auto;
+				max-width: 600px;
+				box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+				display: flex;
+				align-items: center;
+			}
+			h1,
+			h2,
+			p {
+				margin: 0;
+				padding: 0;
+			}
+			h1 {
+				font-size: 36px;
+				color: #333;
+				margin-bottom: 10px;
+			}
+			h2 {
+				font-size: 24px;
+				color: #666;
+				margin-bottom: 20px;
+			}
+			p {
+				font-size: 18px;
+				color: #999;
+				margin-bottom: 10px;
+			}
+			.qr-code {
+				
+				margin-right: 20px;
+				max-width: 300px;
+			}
+			.ticket-content {
+				display: flex;
+				justify-content: space-between;
+			}
+			.ticket-info {
+				flex: 1;
+			}
+			.ticket-image {
+				display: flex;
+				justify-content: flex-end;
+			}
+		</style>
+	</head>
+	<body>
+		{% for i in range(1,nbticket) %}
+			<section class="ticket">
+				<div class="ticket-content">
+					<div class="ticket-info">
+						<img src="{{ img }}" height="30" width="60">
+						<h1>{{ evenement.nom }}</h1>
+						<h2>{{ evenement.lieu }}</h2>
+						<p>{{ evenement.date|date('Y-m-d') ~ ' ' ~ evenement.heure|date('H:i:s') }}</p>
+					</div>
+					<div class="ticket-image">
+						<img class="qr-code" src="{{ qrCode }}" alt="QR Code">
+					</div>
+				</div>
+			</section>
+			<br>
+			<br>
+		{% endfor %}
+	</body>
+</html>

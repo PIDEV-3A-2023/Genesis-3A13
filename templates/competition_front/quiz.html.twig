@@ -1,0 +1,100 @@
+{% extends 'baseFront.html.twig' %}
+
+
+{% block title %}Quiz
+{% endblock %}
+
+{% block body %}
+	<div class="container mt-sm-5 my-1">
+
+		<div class="d-flex justify-content-center">
+			<div class="mb-3 mb-lg-0">
+				<h1>
+					<span class="sidebar-icon">
+
+						<img src="{{asset('Back/img/icons/ideas.png')}}" width="30" height="30" class="icon icon-s me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
+
+					</span>Quiz</h1>
+
+			</div>
+		</div>
+		{% for type, messages in app.flashes %}
+			{% for message in messages %}
+				<div class="alert alert-{{ type }} alert-dismissible fade show d-flex align-items-center">
+					{% if type == 'success'%}
+						<i class="fas fa-check-circle" style="padding-right: 10px"></i>
+					{% elseif type == 'danger'%}
+						<i class="fas fa-times-circle" style="padding-right: 10px"></i>
+					{% endif %}
+					<div>
+						{{ message }}
+					</div>
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+			{% endfor %}
+		{% endfor %}
+		<form id="quiz-form" action="{{path('app_competition_participer_front', {'comp': comp})}}">
+			{% for question in questions %}
+				<div class="form-group form-check">
+					<label>
+						<b>Q.
+							{{ question.question }}
+							</b>
+					</label>
+					<div class="radio">
+						<label class="form-check-label"><input class="form-check-input" type="radio" name="question_{{ question.idquestion }}" value="{{ question.choix1 }}">
+							{{ question.choix1  }}</label>
+					</div>
+					<div class="radio">
+						<label class="form-check-label"><input class="form-check-input" type="radio" name="question_{{ question.idquestion }}" value="{{ question.choix2 }}">
+							{{ question.choix2 }}</label>
+					</div>
+					<div class="radio">
+						<label class="form-check-label"><input class="form-check-input" type="radio" name="question_{{ question.idquestion }}" value="{{ question.choix3 }}">
+							{{ question.choix3  }}</label>
+					</div>
+				</div>
+			{% else %}
+
+				<h1>Aucun enregistrement trouvé</h1>
+
+			{% endfor %}
+
+
+			<button type="submit" class="btn btn-success" id="confirm-btn">valider</button>
+		</form>
+
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmModalLabel">Confirmation de participation</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Êtes-vous sûr de vouloir participer à la compétition ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-success" id="confirm-participation">Confirmer</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+$(document).ready(function() {
+  $('#confirm-btn').click(function(e) {
+    e.preventDefault();
+    $('#confirmModal').modal('show');
+  });
+
+  $('#confirm-participation').click(function() {
+    $('#quiz-form').submit();
+  });
+});
+</script>
+
+	</div>
+</div>{% endblock %}

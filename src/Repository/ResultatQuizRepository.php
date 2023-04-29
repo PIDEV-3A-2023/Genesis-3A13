@@ -63,4 +63,26 @@ class ResultatQuizRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+function getRsultbyCompetitionName($nom)
+{
+    $subquery = $this->createQueryBuilder('rq2')
+        ->select('COUNT(rq2.idQuiz)')
+        ->where('rq2.idQuiz = rq.idQuiz')
+        ->andWhere('rq2.score > rq.score')
+        ->getDQL();
+
+    return $this->createQueryBuilder('rq')
+        ->innerJoin('rq.idQuiz', 'q')
+        ->innerJoin('q.idCompetition', 'c')
+        ->where('c.nom = :nom')
+        ->setParameter('nom', $nom)
+        ->andWhere(sprintf('(%s) < :rank', $subquery))
+        ->setParameter('rank', 5)
+        ->orderBy('q.idQuiz', 'ASC')
+        ->addOrderBy('rq.score', 'DESC')
+        ->getQuery()
+        ->getResult();
+}
+
 }

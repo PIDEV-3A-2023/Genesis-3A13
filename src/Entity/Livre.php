@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use App\Repository\LivreRepository;
 
 /**
@@ -11,6 +13,7 @@ use App\Repository\LivreRepository;
  *
  * @ORM\Table(name="livre", indexes={@ORM\Index(name="auteur", columns={"id_auteur"}), @ORM\Index(name="categorie", columns={"id_categorie"})})
  * @ORM\Entity
+ * @UniqueEntity(fields={"titre"}, message="Ce nom est déjà utilisé.")
  * @ORM\Entity(repositoryClass="App\Repository\LivreRepository")
  */
 class Livre
@@ -29,6 +32,9 @@ class Livre
      *
      * @ORM\Column(name="titre", type="string", length=255, nullable=false)
      */
+    #[Assert\NotBlank(message: 'Titre obligatoire!')]
+    #[Assert\Length(max:255, maxMessage:'Le titre ne peut pas dépasser {{ limit }} caractères.')]
+    #[Assert\Length(min:5, minMessage:'Le titre doit au minimum avoir {{ limit }} caractères.')]
     private $titre;
 
     /**
@@ -36,6 +42,7 @@ class Livre
      *
      * @ORM\Column(name="date_pub", type="date", nullable=false)
      */
+    #[Assert\NotBlank(message: 'date de publication obligatoire!')]
     private $datePub;
 
     /**
@@ -43,6 +50,9 @@ class Livre
      *
      * @ORM\Column(name="langue", type="string", length=255, nullable=false)
      */
+    #[Assert\NotBlank(message: 'Langue obligatoire!')]
+    #[Assert\Length(max:255, maxMessage:'La Langue ne peut pas dépasser {{ limit }} caractères.')]
+    #[Assert\Length(min:5, minMessage:'La Langue doit au minimum avoir {{ limit }} caractères.')]
     private $langue;
 
     /**
@@ -50,6 +60,8 @@ class Livre
      *
      * @ORM\Column(name="isbn", type="integer", nullable=false)
      */
+    #[Assert\NotBlank(message: 'le n° de ISBN obligatoire!')]
+    #[Assert\Positive(message : "Le n° de ISBN  doit être positif!")]
     private $isbn;
 
     /**
@@ -57,6 +69,9 @@ class Livre
      *
      * @ORM\Column(name="nb_pages", type="integer", nullable=false)
      */
+    #[Assert\NotBlank(message: 'nombre de pages obligatoire!')]
+    #[Assert\Range(min : 10,max :500, notInRangeMessage:'Le nombre de pages doit être compris entre {{ min }} et {{ max }}!')]
+    #[Assert\Positive(message : "Le nombre de pages doit être positif!")]
     private $nbPages;
 
     /**
@@ -64,6 +79,9 @@ class Livre
      *
      * @ORM\Column(name="resume", type="text", length=65535, nullable=false)
      */
+    #[Assert\NotBlank(message: 'Résumé obligatoire!')]
+    #[Assert\Length(max:255, maxMessage:'La Résumé  ne peut pas dépasser {{ limit }} caractères.')]
+    #[Assert\Length(min:5, minMessage:'La Résumé doit au minimum avoir {{ limit }} caractères.')]
     private $resume;
 
     /**
@@ -71,6 +89,8 @@ class Livre
      *
      * @ORM\Column(name="prix", type="float", precision=10, scale=0, nullable=false)
      */
+    #[Assert\NotBlank(message: 'Prix est obligatoire!')]
+    #[Assert\Positive(message : "Prix doit être positif!")]
     private $prix;
 
     /**
@@ -78,6 +98,7 @@ class Livre
      *
      * @ORM\Column(name="image", type="blob", length=0, nullable=false)
      */
+
     private $image;
 
     /**
@@ -88,6 +109,7 @@ class Livre
      *   @ORM\JoinColumn(name="id_categorie", referencedColumnName="id_categorie")
      * })
      */
+    #[Assert\NotBlank(message: 'Categorie obligatoire!')]
     private $idCategorie;
 
     /**
@@ -98,6 +120,7 @@ class Livre
      *   @ORM\JoinColumn(name="id_auteur", referencedColumnName="id_utilisateur")
      * })
      */
+    #[Assert\NotBlank(message: 'Auteur obligatoire!')]
     private $idAuteur;
 
     public function getIdLivre(): ?int

@@ -1,0 +1,83 @@
+{% extends 'baseFront.html.twig' %}
+
+
+{% block title %}Livres
+{% endblock %}
+
+{% block body %}
+	<section
+		id="home">
+		<!-- Background image -->
+		<video id="home_vedio_bg" poster="{{asset('Front/images/competition/competition-img.jpg')}}" autoplay loop muted>
+			<source src="{{asset('Front/images/livre/video/livre-video.mp4')}}" width="200" height="150" type="video/mp4"/>
+		</video>
+		<!-- Overlay -->
+		<div id="home_overlay"></div>
+		<!-- Home content -->
+		<div id="home-content">
+			<div id="content-inner" class="text-center">
+				<div id="home-heading">
+					<h1 id="home-heading-1">
+						Découvrir
+					</h1>
+					<br>
+					<h1 id="home-heading-2">
+						Nos
+						<span>Livres</span>
+					</h1>
+				</div>
+				<div id="home-text">
+					<p>choisissez vitre livre préféré
+					</p>
+				</div>
+				<!-- Arrow down-->
+				<a href="#livres" title="About" class="smooth-scroll" id="arrow-down">
+					<i class="fas fa-angle-down"></i>
+				</a>
+			</div>
+		</div>
+	</section>
+	<script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=6404e28ea0932a001aed0d3f&product=inline-share-buttons&source=platform" async="async"></script>
+	<!-- ShareThis BEGIN --><div class="sharethis-inline-share-buttons"></div><!-- ShareThis END -->
+	<!-- End Home  --><br>
+	
+	<section id="livres" style="background-color:#e9ecef">
+	<a href ={{ path('app_livre_trier') }} class="btn btn-primary"> Trier par Prix</a>
+		<div class="row">
+			<div class="card-deck" style="padding-top: 15px;padding-left:15px;padding-right: 15px">
+				{% for livre in livres %}
+					<div class="col-4 justify-content-center">
+						<div class="card border-0 shadow mb-4">
+
+
+							<img src="data:image/jpeg;base64,{{ livre.image|blobToBase64 }}" class="card-img-top" style="border-radius: 10%;padding-top:15px;padding-left:15px;padding-right:15px" alt="...">
+
+							<div class="card-body">
+								<h5 class="card-title">{{livre.titre}}</h5>
+								<p class="card-text">
+									<i class="fas fa-user"></i>
+									{{livre.idauteur.nom}} {{livre.idauteur.prenom}}</p>
+								
+									<i class="fas fa-tag"></i>
+									{{livre.prix}} DT</p>
+
+							
+									<a href="#" class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;">
+										<i class="fas fa-cart-plus" style="padding-right:3px"></i>
+										ajouter au panier
+									</a>
+							
+							</div>
+
+
+						</div>
+					</div>
+				{% else %}
+
+					<h1>Aucun livre trouvé</h1>
+
+				{% endfor %}
+			</div>
+		</div>
+	</section>
+{% endblock %}

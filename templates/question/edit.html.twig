@@ -1,0 +1,24 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}Modifier Question
+{% endblock %}
+
+
+{% block body %}
+   <a href="{{ path('app_question_index') }}">
+		<i class="fas fa-arrow-left"></i>
+	</a>
+    
+	<h1>
+		<span class="sidebar-icon">
+			<i class="fas fa-edit" style="padding-right:3px"></i>
+		</span>Modifier Question
+	</h1>
+
+	<br>
+
+    {{ include('question/_form.html.twig', {'button_label': 'Mise à jour'}) }}
+
+
+{% endblock %}
+ 

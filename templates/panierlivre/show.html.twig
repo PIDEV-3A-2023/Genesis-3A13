@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+<title>Panierlivre</title>
+
+{% block body %}
+    <h1>Panierlivre</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>IdPanierLivre</th>
+                <td>{{ panierlivre.idPanierLivre }}</td>
+            </tr>
+            <tr>
+                <th>Quantite</th>
+                <td>{{ panierlivre.quantite }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_panierlivre_index') }}">back to list</a>
+
+    <a href="{{ path('app_panierlivre_edit', {'idPanierLivre': panierlivre.idPanierLivre}) }}">edit</a>
+
+    {{ include('panierlivre/_delete_form.html.twig') }}
+{% endblock %}

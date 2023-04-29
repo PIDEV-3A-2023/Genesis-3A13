@@ -1,7 +1,7 @@
 {{ form_start(form,{'attr': {'novalidate': 'novalidate'}}) }}
-    {{form_label(form.nom)}}
+{{form_label(form.nom)}}
 {{form_widget(form.nom)}}
 {{form_errors(form.nom,{'attr': {'class': 'invalid-feedback'}})}}
-<br>   
-    <button class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;">{{ button_label|default('Enregistrer') }}</button>
+<br>
+<button class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;">{{ button_label|default('Enregistrer') }}</button>
 {{ form_end(form) }}

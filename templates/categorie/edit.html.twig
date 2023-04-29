@@ -1,13 +1,21 @@
-<!DOCTYPE html>
+{% extends 'baseBack.html.twig' %}
 
-<title>Edit Categorie</title>
+{% block title %}Modifier Catégorie
+{% endblock %}
 
 {% block body %}
-    <h1>Edit Categorie</h1>
+	<a href="{{ path('app_categorie_index') }}">
+		<i class="fas fa-arrow-left"></i>
+	</a>
+	<h1>
+		<span class="sidebar-icon">
+			<i class="fas fa-edit" style="padding-right:3px"></i>
+		</span>Modifier Catégorie
+	</h1>
 
-    {{ include('categorie/_form.html.twig', {'button_label': 'Update'}) }}
+	<br>
 
-    <a href="{{ path('app_categorie_index') }}">back to list</a>
+	{{ include('categorie/_form.html.twig', {'button_label': 'Mise à jour'}) }}
 
-    {{ include('categorie/_delete_form.html.twig') }}
+
 {% endblock %}

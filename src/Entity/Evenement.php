@@ -36,8 +36,8 @@ class Evenement
      * 
      */
     #[Assert\NotBlank(message: 'nom obligatoire!')]
-    #[Assert\Length(max:255, maxMessage:'Le nom ne peut pas dépasser {{ limit }} caractères.')]
-    #[Assert\Length(min:5, minMessage:'Le nom ne peut pas etre inférieure {{ limit }} caractères.')]
+    #[Assert\Length(max: 255, maxMessage: 'Le nom ne peut pas dépasser {{ limit }} caractères.')]
+    #[Assert\Length(min: 5, minMessage: 'Le nom ne peut pas etre inférieure {{ limit }} caractères.')]
     private $nom;
 
     /**
@@ -46,8 +46,8 @@ class Evenement
      * @ORM\Column(name="date", type="date", nullable=false)
      */
     #[Assert\NotBlank(message: 'date obligatoire!')]
-    #[Assert\GreaterThanOrEqual("today",message: 'La date doit être supérieure ou égale à la date d\'aujourd\'hui!')]
-    
+    #[Assert\GreaterThanOrEqual("today", message: 'La date doit être supérieure ou égale à la date d\'aujourd\'hui!')]
+
     private $date;
 
     /**
@@ -56,8 +56,8 @@ class Evenement
      * @ORM\Column(name="heure", type="time", nullable=false)
      */
     #[Assert\NotBlank(message: 'heure obligatoire!')]
-    
-    
+
+
     private $heure;
 
     /**
@@ -66,8 +66,8 @@ class Evenement
      * @ORM\Column(name="lieu", type="string", length=255, nullable=false)
      */
     #[Assert\NotBlank(message: 'Lieu obligatoire!')]
-    #[Assert\Length(max:255, maxMessage:'Le lieu ne peut pas dépasser {{ limit }} caractères.')]
-    #[Assert\Length(min:5, minMessage:'Le nom ne peut pas etre inférieure {{ limit }} caractères.')]
+    #[Assert\Length(max: 255, maxMessage: 'Le lieu ne peut pas dépasser {{ limit }} caractères.')]
+    #[Assert\Length(min: 5, minMessage: 'Le lieu ne peut pas etre inférieure {{ limit }} caractères.')]
     private $lieu;
 
     /**
@@ -76,8 +76,8 @@ class Evenement
      * @ORM\Column(name="description", type="string", length=255, nullable=false)
      */
     #[Assert\NotBlank(message: 'Description obligatoire!')]
-    #[Assert\Length(max:255, maxMessage:'La description ne peut pas dépasser {{ limit }} caractères.')]
-    #[Assert\Length(min:5, minMessage:'Le nom ne peut pas etre inférieure {{ limit }} caractères.')]
+    #[Assert\Length(max: 255, maxMessage: 'La description ne peut pas dépasser {{ limit }} caractères.')]
+    #[Assert\Length(min: 50, minMessage: 'La description ne peut pas etre inférieure {{ limit }} caractères.')]
     private $description;
 
     /**
@@ -86,8 +86,8 @@ class Evenement
      * @ORM\Column(name="nb_ticket", type="integer", nullable=false)
      */
     #[Assert\NotBlank(message: 'nombre de ticket obligatoire!')]
-    #[Assert\Range(min : 10,max :500, notInRangeMessage:'Le nombre de ticket doit être compris entre {{ min }} et {{ max }}!')]
-    #[Assert\Positive(message : "Le nombre de ticket doit être positif!")]
+    #[Assert\Range(min: 10, max: 500, notInRangeMessage: 'Le nombre de ticket doit être compris entre {{ min }} et {{ max }}!')]
+    #[Assert\Positive(message: "Le nombre de ticket doit être positif!")]
     private $nbTicket;
 
     /**
@@ -101,6 +101,7 @@ class Evenement
     #[Assert\NotBlank(message: 'Auteur obligatoire!')]
     private $idAuteur;
 
+
     /**
      * @var Livre
      *
@@ -111,6 +112,13 @@ class Evenement
      */
     #[Assert\NotBlank(message: 'Livre obligatoire!')]
     private $idLivre;
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="image", type="blob", length=0, nullable=true)
+     */
+
+    private $image;
 
     public function getIdEvenement(): ?int
     {
@@ -212,6 +220,15 @@ class Evenement
 
         return $this;
     }
+    public function getImage()
+    {
+        return $this->image;
+    }
 
+    public function setImage($image): self
+    {
+        $this->image = $image;
 
+        return $this;
+    }
 }

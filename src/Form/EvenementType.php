@@ -7,6 +7,7 @@ use App\Entity\Livre;
 use App\Entity\Utilisateur;
 use App\Repository\UtilisateurRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -76,6 +77,15 @@ class EvenementType extends AbstractType
                 },
                 'attr' => [
                     'class' => 'form-select',
+                ]
+                
+            ])
+            ->add('image', FileType::class, [
+                'required' => false, 
+                'mapped' => false, 
+                'label' => 'Image (JPG, PNG)', 
+                'attr' => [
+                    'accept' => '.jpg,.jpeg,.png' 
                 ]
             ]);
     }

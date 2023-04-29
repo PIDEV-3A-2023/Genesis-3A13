@@ -232,7 +232,7 @@
                                 </div>
                             </div> <!-- team member 06-->
                             <div class="team-member">
-                                <img src="Front/images/team/wassim.png" alt="team member" class="img-fluid">
+                                <img src="Front/images/team/wassim1.png" alt="team member" class="img-fluid">
                                 <div class="team-member-overlay">
                                     <div class="team-member-info text-center">
                                         <h6>Hachani Wassim</h6>
@@ -510,24 +510,15 @@
                 <div class="col-md-8">
                     <div class="testemonial-slider owl-carousel wow fadeIn" data-wow-duration="2s">
                         <!-- testemonial 01-->
+                        {% for comment in comments %}
                         <div class="testemonial">
                             <div class="row">
                                 <div class="col-md-6 col-6">
-                                    <h3>Nom Evenemnent</h3>
+                                    <h3>{{comment.idEvenement.nom}}</h3>
                                 </div>
-                                <div class="col-md-6 col-6">
-                                    <div class="stars text-right">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                    </div>
-                                </div>
+                                
                             </div>
-                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aperiam, recusandae a totam
-                                sapiente beatae architecto minus laboriosam dicta necessitatibus earum nostrum nihil
-                                fuga quia facilis similique ut ipsa sequi adipisci?</p>
+                            <p>{{comment.commentaire}}</p>
                             <div class="author">
                                 <div class="row">
                                     <div class="col-md-2 col-6">
@@ -535,78 +526,16 @@
                                     </div>
                                     <div class="col-md-10 col-6">
                                         <div class="author-name-desp">
-                                            <p>Joe Steve</p>
+                                            <p>{{comment.idClient.nom}} {{comment.idClient.prenom}}</p>
                                             
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- testemonial 02-->
-                        <div class="testemonial">
-                            <div class="row">
-                                <div class="col-md-6 col-6">
-                                    <h3>Quality Support</h3>
-                                </div>
-                                <div class="col-md-6  col-6">
-                                    <div class="stars text-right">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aperiam, recusandae a totam
-                                sapiente beatae architecto minus laboriosam dicta necessitatibus earum nostrum nihil
-                                fuga quia facilis similique ut ipsa sequi adipisci?</p>
-                            <div class="author">
-                                <div class="row">
-                                    <div class="col-md-2  col-6">
-                                        <img src="solo-images/testimonial/client-2.jpg" alt="author image" class="img-fluid rounded-circle">
-                                    </div>
-                                    <div class="col-md-10  col-6">
-                                        <div class="author-name-desp">
-                                            <p>Joe Steve</p>
-                                            <p>Senior Developper</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> <!-- testemonial 03-->
-                        <div class="testemonial">
-                            <div class="row">
-                                <div class="col-md-6  col-6">
-                                    <h3>Quality Support</h3>
-                                </div>
-                                <div class="col-md-6  col-6">
-                                    <div class="stars text-right">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aperiam, recusandae a totam
-                                sapiente beatae architecto minus laboriosam dicta necessitatibus earum nostrum nihil
-                                fuga quia facilis similique ut ipsa sequi adipisci?</p>
-                            <div class="author">
-                                <div class="row">
-                                    <div class="col-md-2  col-6">
-                                        <img src="solo-images/testimonial/client-3.jpg" alt="author image" class="img-fluid rounded-circle">
-                                    </div>
-                                    <div class="col-md-10  col-6">
-                                        <div class="author-name-desp">
-                                            <p>Joe Steve</p>
-                                            <p>Senior Developper</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        {% endfor %}
+                           
+                        
                     </div>
                 </div>
             </div>
@@ -631,9 +560,9 @@
                     <!-- stats item 01-->
                     <div class="col-md-3  col-6">
                         <div class="stats-item text-center">
-                            <i class="fas fa-chart-bar"></i>
-                            <h3 class="counter">2</h3>
-                            <p>ans d'Experiences</p>
+                            <i class="fas fa-calendar-alt"></i>
+                            <h3 class="counter">{{nbevenements}}</h3>
+                            <p>Evenements</p>
                         </div>
                     </div>
                     <!-- stats item 02-->
@@ -648,7 +577,7 @@
                     <div class="col-md-3  col-6">
                         <div class="stats-item text-center">
                             <i class="fas fa-trophy"></i>
-                            <h3 class="counter">115</h3>
+                            <h3 class="counter">{{nbcompetitions}}</h3>
                             <p>Compétitions</p>
                         </div>
                     </div>
@@ -656,7 +585,7 @@
                     <div class="col-md-3  col-6">
                         <div class="stats-item text-center">
                             <i class="fas fa-users"></i>
-                            <h3 class="counter">275</h3>
+							<h3 class="counter">{{nbutilisateurs}}</h3>
                             <p>Clients Satisfaits</p>
                         </div>
                     </div>

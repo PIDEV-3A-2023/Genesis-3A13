@@ -1,0 +1,60 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}Détails Question
+{% endblock %}
+
+{% block body %}
+   	<a href="{{ path('app_question_index') }}">
+		<i class="fas fa-arrow-left"></i>
+	</a>
+	<div class="d-flex justify-content-between w-100 flex-wrap">
+		<div class="mb-3 mb-lg-0">
+			<h1>
+				<span class="sidebar-icon">
+
+					<img src="{{asset('Back/img/icons/Event.png')}}" class="icon icon-s me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
+
+				</span>Question : {{ question.question }}</h1>
+
+		</div>
+	</div>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th class="text-primary fw-bold">IdQuestion</th>
+                <td>{{ question.idQuestion }}</td>
+            </tr>
+            <tr>
+                <th class="text-primary fw-bold">Question</th>
+                <td>{{ question.question }}</td>
+            </tr>
+            <tr>
+                <th class="text-primary fw-bold">Choix1</th>
+                <td>{{ question.choix1 }}</td>
+            </tr>
+            <tr>
+                <th class="text-primary fw-bold">Choix2</th>
+                <td>{{ question.choix2 }}</td>
+            </tr>
+            <tr>
+                <th class="text-primary fw-bold">Choix3</th>
+                <td>{{ question.choix3 }}</td>
+            </tr>
+            <tr>
+                <th class="text-success fw-bold">ReponseCorrect</th>
+                <td class="text-success">{{ question.reponseCorrect }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="row">
+		<div class="col-md-2">
+			<a href="{{ path('app_question_edit', {'idQuestion': question.idQuestion}) }}" class="btn btn-warning d-inline-flex align-items-center">
+				<i class="fas fa-edit" style="padding-right:3px"></i>Modifier</a>
+		</div>
+		<div class="col-md-2">
+			{{ include('question/_delete_form.html.twig') }}
+		</div>
+	</div>
+{% endblock %}

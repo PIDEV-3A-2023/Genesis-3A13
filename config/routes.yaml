@@ -2,8 +2,11 @@ index:
   path: /
   controller: App\Controller\HomeController::index
 
-ajax_search:
-    path: /search
-    defaults: { _controller: AppBundle:ReclamationController:search }
-    
+
  
+# routes.yaml
+app_offre_send_email:
+    path: /offre/send-email
+    controller: App\Controller\OffreController::sendEmail
+    methods: [POST]
+

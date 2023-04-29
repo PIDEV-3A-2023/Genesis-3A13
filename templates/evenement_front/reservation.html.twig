@@ -1,0 +1,45 @@
+{% extends 'baseFront.html.twig' %}
+
+{% block title %}Reservation
+{% endblock %}
+{% block body %}
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8 offset-md-2">
+				<br>
+				<h2>Reservation Form</h2>
+				<form action="{{path('reservationajout',{'idEvenement':evenement.idEvenement})}}">
+					<div class="form-group">
+						<label for="name">Nom</label>
+						<input type="text" class="form-control" id="name" name="name" value="{{app.user.nom}}" disabled>
+					</div>
+					<div class="form-group">
+						<label for="surname">Prenom</label>
+						<input type="text" class="form-control" id="surname" name="surname" value="{{app.user.prenom}}" disabled>
+					</div>
+					<div class="form-group">
+						<label for="eventName">Nom de l'evenement</label>
+						<input type="text" class="form-control" id="eventName" name="eventName" value="{{evenement.nom}}" disabled>
+					</div>
+					<div class="form-group">
+						<label for="eventDate">Date de l'evenement</label>
+						<input type="date" class="form-control" id="eventDate" name="eventDate" value="{{evenement.date|date('Y-m-d')}}" disabled>
+					</div>
+
+					<div class="form-group">
+						<label for="nbrTickets">Nombre de ticket</label>
+						<input type="number" class="form-control" id="nbrTickets" name="nbrTickets">
+					</div>
+					<button type="submit" class="btn btn-primary">Valider</button>
+				</form>
+				<br>
+				<br>
+
+				{% if confirmMsg is defined %}
+					<div class="alert alert-success">{{ confirmMsg }}</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
