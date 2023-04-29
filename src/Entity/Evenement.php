@@ -113,7 +113,7 @@ class Evenement
     #[Assert\NotBlank(message: 'Livre obligatoire!')]
     private $idLivre;
     /**
-     * @var string
+     * @var string|null
      *
      * @ORM\Column(name="image", type="blob", length=0, nullable=true)
      */

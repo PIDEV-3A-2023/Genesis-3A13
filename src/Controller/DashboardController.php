@@ -37,6 +37,7 @@ class DashboardController extends AbstractController
 
         $competitionssemaine =$repocomp->findCompetitionsOpenedThisWeek();
         $doughnutDataCompetition = $this->doughnutChart($repocomp);
+        $eventsData = $this->chartevent($repoevent);
         
 
 
@@ -72,6 +73,7 @@ class DashboardController extends AbstractController
             'nblivres' => $nblivres,
             'nbutilisateurs' => $nbutilisateurs,
             'controller_name' => 'DashboardController',
+            'eventsData'=>$eventsData
 
         ]);
     }
@@ -179,6 +181,31 @@ class DashboardController extends AbstractController
 
     return $data;
 }
+
+ 
+
+public function chartevent(EvenementRepository $repository)
+{
+    // Call the function to get the number of events per month for the current year
+    $eventsPerMonth = $repository->countEventsPerMonth();
+
+    // Create an array with the number of events per month to pass to Twig
+    $eventsData = [];
+    $monthLabels = [];
+    for ($month = 1; $month <= 12; $month++) {
+        $monthLabel = date("M", strtotime("2000-$month-01"));
+        $eventsData[$monthLabel] = 0;
+        $monthLabels[] = $monthLabel;
+    }
+
+    foreach ($eventsPerMonth as $month) {
+        $monthLabel = date("M", strtotime($month['month'] . '-01'));
+        $eventsData[$monthLabel] = $month['numEvents'];
+    }
+
+    return $eventsData;
+}
+
 
 
 
