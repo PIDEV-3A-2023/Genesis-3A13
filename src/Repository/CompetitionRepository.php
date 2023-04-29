@@ -108,4 +108,26 @@ class CompetitionRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+
+    public function countByMonth()
+    {
+        $currentYear = date('Y');
+        $startDate = new \DateTime("$currentYear-01-01");
+        $endDate = new \DateTime("$currentYear-12-31");
+        $qb = $this->createQueryBuilder('c');
+        $qb->select("COUNT(c.idCompetition) as nbCompetitions, MONTH(c.dateDebut) as month")
+           ->where('c.dateDebut BETWEEN :startDate AND :endDate')
+           ->andWhere('c.dateFin BETWEEN :startDate AND :endDate')
+           ->setParameter('startDate', $startDate)
+           ->setParameter('endDate', $endDate)
+           ->groupBy("month")
+           ->orderBy("month", "ASC");
+    
+        return $qb->getQuery()->getResult();
+    }
+    
+    
+    
+
 }
