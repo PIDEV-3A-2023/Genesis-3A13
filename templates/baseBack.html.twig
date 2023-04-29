@@ -233,6 +233,7 @@
 					</li>
 
 
+
 					<li role="separator" class="dropdown-divider mt-4 mb-3 border-gray-700"></li>
 
 					<li class="nav-item  {% if app.request.attributes.get('_route') == 'app_messagerie_index'  %}active{% endif %}">
@@ -251,7 +252,7 @@
 					</li>
 
 					<li class="nav-item">
-						<a href="" target="_blank" class="nav-link d-flex align-items-center">
+						<a href="{{ path('app_profile_editback',{'idUtilisateur': app.user.idUtilisateur}) }}" target="_blank" class="nav-link d-flex align-items-center">
 							<span class="sidebar-icon">
 								<span class="sidebar-icon">
 
@@ -267,8 +268,10 @@
 					<li class="nav-item {% if app.request.attributes.get('_route') == 'app_logout'  %}active{% endif %}">
 						<a href="{{ path('app_logout') }}" class="nav-link d-flex align-items-center btn-upgrade-pro">
 							<span class="sidebar-icon">
+								<span class="sidebar-icon">
 
 								<img src="{{asset('Back/img/icons/turn-off.png')}}" class="icon icon-xs me-2" fill="currentColor" viewbox="0 0 20 20" class="card-img-top rounded-circle border-white" alt="Logout">
+							</span>
 
 							</span>
 							<span class="sidebar-text ">Déconnecter</span>
