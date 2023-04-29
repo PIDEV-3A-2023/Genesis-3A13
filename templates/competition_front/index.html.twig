@@ -13,7 +13,7 @@
 		</video>
 		<!-- Overlay -->
 		<div id="home_overlay"></div>
-			{% for type, messages in app.flashes %}
+		{% for type, messages in app.flashes %}
 			{% for message in messages %}
 				<div class="alert alert-{{ type }} alert-dismissible fade show d-flex align-items-center">
 					{% if type == 'success'%}
@@ -83,37 +83,39 @@
 										{% if competition.dateDebut > date('now') or competition.dateFin < date('now') %}
 											<span class="badge bg-danger" style="color:white">Compétition fermée</span>
 										{% else %}
-										{% if not app.user %}
-    {# Redirect the user to the login page #}
-    {% set loginUrl = path('app_login') %}
-    {% set redirectUrl = app.request.uri %}
-    {% set redirectUrlQueryParam = app.request.getQueryString() ?: '' %}
-    {% if redirectUrlQueryParam %}
-        {% set redirectUrl = redirectUrl ~ '?' ~ redirectUrlQueryParam %}
-    {% endif %}
-    {% set loginUrlWithRedirect = loginUrl ~ '?redirect=' ~ redirectUrl %}
-    <a href="{{ loginUrlWithRedirect }}" ><button type="button" class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;" >
-												
-												<i class="fas fa-plus" style="padding-right:3px"></i>
-												Participer
-											
-											</button></a>
-{% else %}
+											{% if not app.user %}
+												{# Redirect the user to the login page #}
+												{% set loginUrl = path('app_login') %}
+												{% set redirectUrl = app.request.uri %}
+												{% set redirectUrlQueryParam = app.request.getQueryString() ?: '' %}
+												{% if redirectUrlQueryParam %}
+													{% set redirectUrl = redirectUrl ~ '?' ~ redirectUrlQueryParam %}
+												{% endif %}
+												{% set loginUrlWithRedirect = loginUrl ~ '?redirect=' ~ redirectUrl %}
+												<a href="{{ loginUrlWithRedirect }}">
+													<button type="button" class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;">
 
-											<button type="button" class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;" {% if app.user.idUtilisateur in competition.listePaticipants|json_encode %} data-toggle="modal" data-target="#modal-notification" {% else %} data-toggle="modal" data-target="#confirmModal" {% endif %}>
-												
-												<i class="fas fa-plus" style="padding-right:3px"></i>
-												Participer
-											
-											</button>
-	{% endif %}
+														<i class="fas fa-plus" style="padding-right:3px"></i>
+														Participer
+
+													</button>
+												</a>
+											{% else %}
+
+
+												<button type="button" class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;" {% if app.user.idUtilisateur in competition.listePaticipants|json_encode %} data-toggle="modal" data-target="#modal-notification" {% else %} data-toggle="modal" data-target="#confirmModal{{competition.idCompetition}}" {% endif %}>
+													<i class="fas fa-plus" style="padding-right:3px"></i>
+													Participer
+												</button>
+											{% endif %}
 
 											<!-- Modal Content -->
 											<div class="modal fade" id="modal-notification" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-hidden="true">
 												<div class="modal-dialog modal-warning modal-dialog-centered" role="document">
 													<div class="modal-content bg-gradient-warning" style="background-color:#d7e3fc">
 														<div class="modal-header">
-															<p class="modal-title text-gray-200" id="modal-title-notification"> <i class="fas fa-info-circle" style="padding-right:5px"></i>Participation deja passé</p>
+															<p class="modal-title text-gray-200" id="modal-title-notification">
+																<i class="fas fa-info-circle" style="padding-right:5px"></i>Participation deja passé</p>
 														</div>
 														<div class="modal-body text-blue">
 															<div class="py-3 text-center">
@@ -131,32 +133,29 @@
 
 
 											<!-- Modal Content -->
-											<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+											<div class="modal fade" id="confirmModal{{competition.idCompetition}}" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
 												<div class="modal-dialog modal-dialog-centered" role="document">
 													<div class="modal-content">
 														<div class="modal-header">
-															<h2 class="h6 modal-title"> <i class="fas fa-check-circle" style="padding-right:5px"></i>Confirmation de participation</h2>
-
+															<h2 class="h6 modal-title">
+																<i class="fas fa-check-circle" style="padding-right:5px"></i>Confirmation de participation</h2>
 														</div>
 														<div class="modal-body">
 															<p>Êtes-vous sûr de vouloir participer à cette compétition ?</p>
-															<p>si vous cliquer confirmer, vous etes invité a répoondre a des questions concernant le livre
-															</p>
-															<p>La participation est unique donc refléchissez bien avant de valider</p>
+															<p>Si vous cliquez sur "Confirmer", vous serez invité à répondre à des questions concernant le livre.</p>
+															<p>La participation est unique, donc réfléchissez bien avant de valider.</p>
 														</div>
 														<div class="modal-footer">
-															<a href="{{path('app_competition_quiz_front', {'idCompetition': competition.idCompetition})}}" class="btn btn-success d-inline-flex align-items-center">
-																	
-																	Confirmer
-																</a>
-															<button type="button" class="btn text-gray-600 ms-auto" data-dismiss="modal">Annuler
-																
-															</button>
+															<a href="{{ path("app_competition_quiz_front", {'idCompetition' : competition.idCompetition}) }}" class="btn btn-success d-inline-flex align-items-center" id="confirmButton">
+																Confirmer
+															</a>
+															<button type="button" class="btn text-gray-600 ms-auto" data-dismiss="modal">Annuler</button>
 														</div>
 													</div>
 												</div>
 											</div>
 											<!-- End of Modal Content -->
+
 
 										{% endif %}
 									</div>
