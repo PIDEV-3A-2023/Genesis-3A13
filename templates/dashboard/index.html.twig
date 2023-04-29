@@ -303,4 +303,72 @@ backgroundColor: categoryData.colors
 
 
 	</div>
-</div>{% endblock %}
+</div>
+<div class="row">
+	<div class="col-12 col-sm-5 col-xl-8  mb-4">
+
+		<div style="padding-top:20px">
+			<div class="card border-0 shadow">
+				<div class="card-header border-bottom d-flex align-items-center justify-content-between">
+					<h2 class="fs-5 fw-bold mb-0">Nombre d'utilisateurs selon leurs roles</h2>
+				</div>
+				<div class="card-body">
+
+					<canvas id="doughnutChartUsers" width="400" height="400"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var data = {{ doughnutDataUtilisateurs|raw }};
+
+    var labels = data.map(function(item) {
+        return item.label;
+    });
+
+    var values = data.map(function(item) {
+        return item.value;
+    });
+
+    var doughnutData = {
+        labels: labels,
+        datasets: [{
+            data: values,
+            backgroundColor: [
+                'rgba(213, 245, 227 )',
+                'rgba(232, 218, 239 )',
+                'rgba(246, 221, 204 )',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+
+            ],
+            borderWidth: 0.5
+        }]
+    };
+
+    var chartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+    };
+
+    var myDoughnutChart = new Chart(document.getElementById('doughnutChartUsers'), {
+        type: 'doughnut',
+        data: doughnutData,
+        options: chartOptions
+    });
+</script>
+
+
+
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+</div>
+
+
+
+{% endblock %}
