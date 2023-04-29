@@ -510,23 +510,23 @@
                 <div class="col-md-8">
                     <div class="testemonial-slider owl-carousel wow fadeIn" data-wow-duration="2s">
                         <!-- testemonial 01-->
-                        {% for comment in comments %}
+                        {% for evenement in lastEvents %}
                         <div class="testemonial">
                             <div class="row">
                                 <div class="col-md-6 col-6">
-                                    <h3>{{comment.idEvenement.nom}}</h3>
+                                    <h3>{{evenement.nom}}</h3>
                                 </div>
                                 
                             </div>
-                            <p>{{comment.commentaire}}</p>
+                            <p>{{ evenement.date ? evenement.date|date('Y-m-d') : '' }}</p>
                             <div class="author">
                                 <div class="row">
-                                    <div class="col-md-2 col-6">
+                                    {# <div class="col-md-2 col-6">
                                         <img src="{{asset('Front/images/user/utilisateur.png')}}" alt="author image" class="img-fluid rounded-circle">
-                                    </div>
+                                    </div> #}
                                     <div class="col-md-10 col-6">
                                         <div class="author-name-desp">
-                                            <p>{{comment.idClient.nom}} {{comment.idClient.prenom}}</p>
+                                            {# <p>{{comment.idClient.nom}} {{comment.idClient.prenom}}</p> #}
                                             
                                         </div>
                                     </div>

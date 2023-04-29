@@ -19,7 +19,10 @@ class HomeController extends AbstractController
 
         $evenements = $repoevent->findAll();
         $nbevenements = count($evenements);
-        $comments= $this->comments($repocomm);
+        
+
+        // Call the event function from EvenementRepository to get the last 3 events
+        $lastEvents = $repoevent->event();
 
         $utilisateurs = $Userrepo->findAll();
         $nbutilisateurs = count($utilisateurs);
@@ -28,15 +31,13 @@ class HomeController extends AbstractController
             'nbcompetitions' => $nbcompetitions,
             'nbevenements' => $nbevenements,
             'nbutilisateurs' => $nbutilisateurs,
-            'comments' => $comments,
+           
+            'lastEvents' => $lastEvents, // Pass the last 3 events to the template
             'message' => 'Welcome to my homepage!',
         ]);
     }
 
-    public function comments(CommentaireRepository $repocomm){
-        $comments = $repocomm->findRandomComments();
-        return $comments;
-    }
+   
 }
 
 
