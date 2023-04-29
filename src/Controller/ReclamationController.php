@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Controller;
-
+use App\Entity\Rating;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Entity\Reclamation;
 use App\Form\ReclamationType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -9,16 +10,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\ReclamationRepository;
 
 #[Route('/reclamation')]
 class ReclamationController extends AbstractController
 {
     #[Route('/', name: 'app_reclamation_index', methods: ['GET'])]
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(EntityManagerInterface $entityManager,ReclamationRepository $reclamationRepository): Response
     {
         $reclamations = $entityManager
             ->getRepository(Reclamation::class)
             ->findAll();
+            $reclamations = $reclamationRepository->findAllOrderedByFeedback();
 
         return $this->render('reclamation/index.html.twig', [
             'reclamations' => $reclamations,
@@ -81,5 +84,25 @@ class ReclamationController extends AbstractController
 
         return $this->redirectToRoute('app_reclamation_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/search', name: 'app_reclamation_search', methods: ['GET', 'POST'])]
+    public function search(Request $request, ReclamationRepository $reclamationRepository): JsonResponse
+    {
+        $query = $request->get('query');
+        $reclamations = $reclamationRepository->findBySearchQuery($query);
     
+        $data = [];
+        foreach ($reclamations as $reclamation) {
+            $data[] = [
+                'id' => $reclamation->getIdReclamation(),
+                'message' => $reclamation->getMessage(),
+                'feedback' => $reclamation->getFeedback(),
+                'user' => $reclamation->getUser(),
+
+            ];
+        }
+    
+        return new JsonResponse($data);
+    }
+
 }
