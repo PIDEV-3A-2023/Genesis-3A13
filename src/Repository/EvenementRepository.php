@@ -60,6 +60,18 @@ class EvenementRepository extends ServiceEntityRepository
 
     return $query->getResult();
 }
+public function event()
+{
+    $events = $this->createQueryBuilder('e')
+        ->orderBy('e.date', 'DESC')
+        ->setMaxResults(3)
+        ->getQuery()
+        ->getResult();
+
+    return $events;
+}
+
+
 
 
 
