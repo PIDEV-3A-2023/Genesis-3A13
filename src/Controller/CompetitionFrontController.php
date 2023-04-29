@@ -72,9 +72,10 @@ class CompetitionFrontController extends AbstractController
         foreach ($questions as $question) {
             $userAnswer = $request->get('question_' . $question->getIdQuestion());
             $correctAnswer = $question->getReponseCorrect();
+            $reponseClient .=  $userAnswer . ',';
             if ($userAnswer === $correctAnswer) {
                 $score++;
-                $reponseClient .=  $userAnswer . ',';
+                
             }
             if (!empty($userAnswer)) {
                 $answeredQuestions++;

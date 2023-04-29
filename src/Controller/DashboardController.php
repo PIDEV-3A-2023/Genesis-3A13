@@ -30,7 +30,9 @@ class DashboardController extends AbstractController
         $nbcompetitions = count($competitions);
         $chartData = [];
         $categoryData = [];
-        $nom = 'nn';
+        $nom = 'Prix Langlois';
+        $BestUser = $Userrepo->findBestUserByParticipations();
+   
         $chartData = $this->getChartDataForCompetition($nom, $repoResultat);
         $categoryData = $this->categoriesPerBook($repocat);
 
@@ -69,6 +71,7 @@ class DashboardController extends AbstractController
             'competitions' => $competitions,
             'competitionssemaine' => $competitionssemaine,
             'chartData' => json_encode($chartData),
+            'BestUser' => $BestUser,
             'doughnutDataCompetition' => json_encode($doughnutDataCompetition),
             'doughnutDataUtilisateurs' => json_encode($doughnutDataUtilisateurs),
             'categoryData' => json_encode($categoryData),

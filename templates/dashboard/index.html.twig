@@ -19,7 +19,7 @@
 						<div class="col-12 col-xl-7 px-xl-0">
 							<div class="d-none d-sm-block">
 								<h2 class="h6 text-black-400 mb-0">Utilisateurs</h2>
-								<h4 class="mb-0">{{nbutilisateurs}}</h4>
+								<h3 class="fw-extrabold mb-2">{{nbutilisateurs}}</h3>
 							</div>
 						</div>
 					</div>
@@ -155,7 +155,7 @@ beginAtZero: true
 					</div>
 				</div>
 				<div class="card-body p-2">
-					<canvas id="myChart" width="400" height="250"></canvas>
+					<canvas id="myChart" width="400" height="408"></canvas>
 					{% block javascripts %}
 
 						<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -221,6 +221,33 @@ myChart.update();
 		<div style="padding-top:20px">
 			<div class="card border-0 shadow">
 				<div class="card-header border-bottom d-flex align-items-center justify-content-between">
+					<h2 class="fs-5 fw-bold mb-0"><i class="fas fa-star text-warning"></i> Meilleur utilisateur dans les competitions</h2>
+				</div>
+				<div class="card-body">
+					<div class="d-block">
+						{% if BestUser %}
+							<div class="d-flex align-items-center me-5">
+								<div class="icon-shape icon-sm icon-shape-info rounded me-3">
+									<img src="{{asset('Back/img/icons/account.png')}}" class="icon" fill="currentColor" viewbox="0 0 20 20">
+								</div>
+								<div class="d-block">
+									<h5 class="mb-0">{{BestUser.utilisateur.prenom}}
+										{{BestUser.utilisateur.nom}}</h5>
+									<p class="mb-0">{{BestUser.participations_count}}
+										Participations</p>
+								</div>
+							</div>
+						{% else %}
+							<p>Aucun utilisateur trouvé.</p>
+						{% endif %}
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<div style="padding-top:20px">
+			<div class="card border-0 shadow">
+				<div class="card-header border-bottom d-flex align-items-center justify-content-between">
 					<h2 class="fs-5 fw-bold mb-0">Catégories</h2>
 				</div>
 				<div class="card-body">
@@ -264,54 +291,55 @@ backgroundColor: categoryData.colors
 
 					<canvas id="doughnutChart" width="400" height="400"></canvas>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    var data = {{ doughnutDataCompetition|raw }};
+					<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+					<script>
+						var data = {{ doughnutDataCompetition|raw }};
 
-    var labels = data.map(function(item) {
-        return item.label;
-    });
+var labels = data.map(function (item) {
+return item.label;
+});
 
-    var values = data.map(function(item) {
-        return item.value;
-    });
+var values = data.map(function (item) {
+return item.value;
+});
 
-    var doughnutData = {
-        labels: labels,
-        datasets: [{
-            data: values,
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    };
+var doughnutData = {
+labels: labels,
+datasets: [
+{
+data: values,
+backgroundColor: [
+'rgba(255, 99, 132, 0.2)',
+'rgba(54, 162, 235, 0.2)',
+'rgba(255, 206, 86, 0.2)',
+'rgba(75, 192, 192, 0.2)',
+'rgba(153, 102, 255, 0.2)',
+'rgba(255, 159, 64, 0.2)'
+],
+borderColor: [
+'rgba(255, 99, 132, 1)',
+'rgba(54, 162, 235, 1)',
+'rgba(255, 206, 86, 1)',
+'rgba(75, 192, 192, 1)',
+'rgba(153, 102, 255, 1)',
+'rgba(255, 159, 64, 1)'
+],
+borderWidth: 1
+}
+]
+};
 
-    var chartOptions = {
-        responsive: true,
-        maintainAspectRatio: false,
-    };
+var chartOptions = {
+responsive: true,
+maintainAspectRatio: false
+};
 
-    var myDoughnutChart = new Chart(document.getElementById('doughnutChart'), {
-        type: 'doughnut',
-        data: doughnutData,
-        options: chartOptions
-    });
-</script>
-
+var myDoughnutChart = new Chart(document.getElementById('doughnutChart'), {
+type: 'doughnut',
+data: doughnutData,
+options: chartOptions
+});
+					</script>
 
 
 				</div>
