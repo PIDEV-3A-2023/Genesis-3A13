@@ -74,21 +74,38 @@
 	<div class="card border-0 shadow" style="background-color:#E8CDBE">
 		<div class="card-header d-sm-flex flex-row align-items-center flex-0">
 			<div class="d-block mb-3 mb-sm-0">
-				<div class="fs-5 fw-normal mb-2">Commandes</div>
-				<h2 class="fs-3 fw-extrabold">$10,567</h2>
-				<div class="small mt-2">
-					<span class="fw-normal me-2">Hier</span>
-					<span class="fas fa-angle-up text-success"></span>
-					<span class="text-success fw-bold">10.57%</span>
-				</div>
+				<div class="fs-5 fw-normal mb-2">Nombre des événements par mois</div>
 			</div>
-			<div class="d-flex ms-auto">
-				<a href="#" class="btn btn-secondary text-dark btn-sm me-2">Mois</a>
-				<a href="#" class="btn btn-dark btn-sm me-3">Semaine</a>
-			</div>
+			
 		</div>
 		<div class="card-body p-2">
-			<div class="ct-chart-sales-value ct-double-octave ct-series-g"></div>
+			<canvas id="eventsChart"></canvas>
+			<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+			<script>
+				var eventsData = {{ eventsData|json_encode|raw }};
+var eventsChart = new Chart(document.getElementById('eventsChart'), {
+type: 'line',
+data: {
+
+datasets: [
+{
+label: 'Nombre des événements',
+data: eventsData,
+fill: false,
+borderColor: 'rgb(75, 192, 192)',
+tension: 0.1
+}
+]
+},
+options: {
+scales: {
+y: {
+beginAtZero: true
+}
+}
+}
+});
+			</script>
 		</div>
 	</div>
 </div>

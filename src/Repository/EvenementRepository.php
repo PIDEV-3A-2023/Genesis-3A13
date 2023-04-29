@@ -4,7 +4,6 @@ namespace App\Repository;
 
 use App\Entity\Evenement;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use DoctrineExtensions\Query\Mysql\DateFormat;
 
@@ -48,23 +47,20 @@ class EvenementRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-    public function countEventsPerMonth()
+    public function countEventsPerMonth() 
 {
-    $qb = $this->createQueryBuilder('e');
-    $qb->select("DATE_FORMAT(e.date, '%m-%Y') as month_year, COUNT(e.idEvenement) as num_events")
-       ->where("YEAR(e.date) = YEAR(CURRENT_DATE())")
-       ->groupBy("month_year")
-       ->orderBy("e.date", "ASC");
+    $year = date('Y');
 
-    $query = $qb->getQuery();
-    $query->setHint(\Doctrine\ORM\Query::HINT_INCLUDE_META_COLUMNS, true);
-    $resultSetMapping = new ResultSetMappingBuilder($this->getEntityManager());
-    $resultSetMapping->addScalarResult('month_year', 'month_year');
-    $resultSetMapping->addScalarResult('num_events', 'num_events');
-    $query->setResultSetMapping($resultSetMapping);
+    $query = $this->createQueryBuilder('e')
+        ->select("DATE_FORMAT(e.date, '%Y-%m') as month, COUNT(e.idEvenement) as numEvents")
+        ->where("DATE_FORMAT(e.date, '%Y') = :year")
+        ->setParameter('year', $year)
+        ->groupBy('month')
+        ->getQuery();
 
     return $query->getResult();
 }
+
 
 
 

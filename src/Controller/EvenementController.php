@@ -48,7 +48,13 @@ class EvenementController extends AbstractController
         $form = $this->createForm(EvenementType::class, $evenement);
         $form->handleRequest($request);
 
+
         if ($form->isSubmitted() && $form->isValid()) {
+            $imageFile = $form->get('image')->getData();
+            if ($imageFile) {
+                $imageData = file_get_contents($imageFile);
+                $evenement->setImage($imageData);
+            }
             $entityManager->persist($evenement);
             $entityManager->flush();
             $this->addFlash('success', 'Evenement ajouté avec succés!');
@@ -59,6 +65,7 @@ class EvenementController extends AbstractController
         return $this->renderForm('evenement/new.html.twig', [
             'evenement' => $evenement,
             'form' => $form,
+            
         ]);
     }
 
