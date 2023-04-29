@@ -36,6 +36,9 @@ class DashboardController extends AbstractController
 
 
         $competitionssemaine =$repocomp->findCompetitionsOpenedThisWeek();
+        $doughnutDataCompetition = $this->doughnutChart($repocomp);
+        
+
 
     
         $utilisateurs = $Userrepo->findAll();
@@ -63,6 +66,7 @@ class DashboardController extends AbstractController
             'competitions' => $competitions,
             'competitionssemaine' => $competitionssemaine,
             'chartData' => json_encode($chartData),
+            'doughnutDataCompetition' => json_encode($doughnutDataCompetition),
             'categoryData' => json_encode($categoryData),
             'nbevenements' => $nbevenements,
             'nblivres' => $nblivres,
@@ -159,6 +163,23 @@ class DashboardController extends AbstractController
         ];
         return $chartData;
     }
+    public function doughnutChart(CompetitionRepository $repository)
+{
+    // Récupérer le nombre de compétitions par mois de l'année en cours
+    $competitionsByMonth = $repository->countByMonth();
+
+    // Convertir les données en format compréhensible par Chart.js
+    $data = [];
+    foreach ($competitionsByMonth as $result) {
+        $data[] = [
+            'label' => strftime('%B', mktime(0, 0, 0, $result['month'], 1)),
+            'value' => $result['nbCompetitions'],
+        ];
+    }
+
+    return $data;
+}
+
 
 
 

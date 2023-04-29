@@ -95,21 +95,21 @@
 
 <div class="row">
 	<div class="col-12 col-sm-5 col-xl-8  mb-4">
-	{% for type, messages in app.flashes %}
-    {% for message in messages %}
-        <div class="alert alert-{{ type }} alert-dismissible fade show d-flex align-items-center">
-		{% if type == 'success'%}
-		<i class="fas fa-check-circle"style="padding-right: 10px"></i>
-		{% elseif type == 'danger'%}
-		<i class="fas fa-times-circle"style="padding-right: 10px"></i>
-		{% endif %}
-		<div>
-		{{ message }}
-		</div>
-         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    {% endfor %}
-{% endfor %}
+		{% for type, messages in app.flashes %}
+			{% for message in messages %}
+				<div class="alert alert-{{ type }} alert-dismissible fade show d-flex align-items-center">
+					{% if type == 'success'%}
+						<i class="fas fa-check-circle" style="padding-right: 10px"></i>
+					{% elseif type == 'danger'%}
+						<i class="fas fa-times-circle" style="padding-right: 10px"></i>
+					{% endif %}
+					<div>
+						{{ message }}
+					</div>
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+			{% endfor %}
+		{% endfor %}
 		<div class="col-12 px-0 mb-4">
 			<div class="card border-0 shadow">
 				<div class="card-header d-flex flex-row align-items-center flex-0 border-bottom">
@@ -207,11 +207,11 @@ myChart.update();
 					<h2 class="fs-5 fw-bold mb-0">Catégories</h2>
 				</div>
 				<div class="card-body">
-					
+
 					<canvas id="categoryChart" width="100" height="200"></canvas>
-					
+
 					<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
+					<script>
 						const categoryData = {{ categoryData|raw }};
 
 const ctx2 = document.getElementById('categoryChart').getContext('2d');
@@ -228,10 +228,79 @@ backgroundColor: categoryData.colors
 }
 });
 					</script>
-				
+
 
 				</div>
 			</div>
 		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-12 col-sm-5 col-xl-8  mb-4">
+
+		<div style="padding-top:20px">
+			<div class="card border-0 shadow">
+				<div class="card-header border-bottom d-flex align-items-center justify-content-between">
+					<h2 class="fs-5 fw-bold mb-0">Nombre de competitions par mois</h2>
+				</div>
+				<div class="card-body">
+
+					<canvas id="doughnutChart" width="400" height="400"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var data = {{ doughnutDataCompetition|raw }};
+
+    var labels = data.map(function(item) {
+        return item.label;
+    });
+
+    var values = data.map(function(item) {
+        return item.value;
+    });
+
+    var doughnutData = {
+        labels: labels,
+        datasets: [{
+            data: values,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    };
+
+    var chartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+    };
+
+    var myDoughnutChart = new Chart(document.getElementById('doughnutChart'), {
+        type: 'doughnut',
+        data: doughnutData,
+        options: chartOptions
+    });
+</script>
+
+
+
+				</div>
+			</div>
+		</div>
+
+
 	</div>
 </div>{% endblock %}
