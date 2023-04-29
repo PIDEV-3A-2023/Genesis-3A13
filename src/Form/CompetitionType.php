@@ -6,6 +6,7 @@ use App\Entity\Competition;
 use App\Entity\Livre;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -70,6 +71,14 @@ class CompetitionType extends AbstractType
                 'invalid_message_parameters' => [
                     '%class%' => 'is-invalid',
                 ],
+            ])
+            ->add('image', FileType::class, [
+                'required' => false, 
+                'mapped' => false, 
+                'label' => 'Image (JPG, PNG)', 
+                'attr' => [
+                    'accept' => '.jpg,.jpeg,.png' 
+                ]
             ]);
     }
 
