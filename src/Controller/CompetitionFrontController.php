@@ -9,6 +9,7 @@ use App\Repository\QuestionRepository;
 use App\Repository\QuizRepository;
 use App\Repository\ResultatQuizRepository;
 use App\Repository\UtilisateurRepository;
+use App\Twig\BlobExtension;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,6 +18,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Address;
+use Symfony\Component\Serializer\Normalizer\DataUriNormalizer;
+use Symfony\Component\Serializer\SerializerInterface;
 
 #[Route('/competitions')]
 class CompetitionFrontController extends AbstractController
@@ -30,6 +33,40 @@ class CompetitionFrontController extends AbstractController
             'competitions' => $competitions,
             'controller_name' => 'CompetitionFrontController',
         ]);
+    }
+    #[Route('/get', name: 'app_competition_front_rest')]
+    public function index_rest(CompetitionRepository $repo, BlobExtension $blobExtension): Response
+    {
+        $competitions = $repo->findAll();
+        $data = [];
+        // Loop through each competition and convert the image data to a base64-encoded string
+        foreach ($competitions as $competition) {
+            $imageData = null;
+            if ($competition->getImage() !== null) {
+
+                $imageResource = $competition->getImage();
+                $imageString = stream_get_contents($imageResource);
+                $compressedData = gzcompress($imageString);
+                $imageData = base64_encode($compressedData);
+                $encodedData = urlencode($imageData);
+                $imageUrl =  $encodedData;
+            }
+            $data[] = [
+                'idCompetition' => $competition->getIdCompetition(),
+                'idLivre' => $competition->getIdLivre()->getTitre(),
+                'nom' => $competition->getNom(),
+                'lienCompetition' => $competition->getLienCompetition(),
+                'recompense' => $competition->getRecompense(),
+                'listePaticipants' => $competition->getListePaticipants(),
+                'dateDebut' => $competition->getDateDebut(),
+                'dateFin' => $competition->getDateFin(),
+                'image' => $imageUrl,
+
+            ];
+        }
+
+        // Return the JSON response with the modified competition objects
+        return $this->json($data, 200, ['Content-Type' => 'application/json']);
     }
     #[Route('/{idCompetition}', name: 'app_competition_show_front', methods: ['GET'])]
     public function show(Competition $competition): Response
@@ -75,7 +112,6 @@ class CompetitionFrontController extends AbstractController
             $reponseClient .=  $userAnswer . ',';
             if ($userAnswer === $correctAnswer) {
                 $score++;
-                
             }
             if (!empty($userAnswer)) {
                 $answeredQuestions++;
@@ -125,24 +161,24 @@ class CompetitionFrontController extends AbstractController
             $repoComp->save($competition, true);
 
             $email = (new Email())
-            ->from(new Address('maktabti10@gmail.com', 'Maktabti Application'))
-            ->to($idClient->getEmail())
-            ->subject("Confirmation de participation a la compétition : ".$competition->getNom())
-            ->text("Cher/Chère ".$idClient->getNom()." ".$idClient->getPrenom().",\n" .
-            "\n" .
-            "Nous tenons à vous remercier d'avoir participé à notre compétition. "
-                             . "Nous sommes ravis que vous ayez décidé de participer et nous espérons que vous avez trouvé l'expérience enrichissante.\n" .
-            "\n" .
-            "Nous sommes heureux de vous informer que vos réponses ont été enregistrées avec succès. "
-                             . "Nous avons reçu votre formulaire de réponse et nous sommes impatients de vous donner les résultats dès que possible."
-                             . " Nous vous contacterons dès que nous aurons terminé d'évaluer toutes les réponses.\n" .
-            "\n" .
-            "Encore une fois, merci d'avoir participé et d'avoir montré votre intérêt pour notre entreprise. "
-                             . "Nous espérons que vous avez apprécié l'expérience et nous sommes impatients de vous proposer d'autres activités intéressantes à l'avenir.\n" .
-            "\n" .
-            "Sincèrement,\n"."\n". "\n\n-- \nMaktabti Application \nNuméro de téléphone : +216 52 329 813 \nAdresse e-mail : maktabti10@gmail.com \nSite web : www.maktabti.com");
+                ->from(new Address('maktabti10@gmail.com', 'Maktabti Application'))
+                ->to($idClient->getEmail())
+                ->subject("Confirmation de participation a la compétition : " . $competition->getNom())
+                ->text("Cher/Chère " . $idClient->getNom() . " " . $idClient->getPrenom() . ",\n" .
+                    "\n" .
+                    "Nous tenons à vous remercier d'avoir participé à notre compétition. "
+                    . "Nous sommes ravis que vous ayez décidé de participer et nous espérons que vous avez trouvé l'expérience enrichissante.\n" .
+                    "\n" .
+                    "Nous sommes heureux de vous informer que vos réponses ont été enregistrées avec succès. "
+                    . "Nous avons reçu votre formulaire de réponse et nous sommes impatients de vous donner les résultats dès que possible."
+                    . " Nous vous contacterons dès que nous aurons terminé d'évaluer toutes les réponses.\n" .
+                    "\n" .
+                    "Encore une fois, merci d'avoir participé et d'avoir montré votre intérêt pour notre entreprise. "
+                    . "Nous espérons que vous avez apprécié l'expérience et nous sommes impatients de vous proposer d'autres activités intéressantes à l'avenir.\n" .
+                    "\n" .
+                    "Sincèrement,\n" . "\n" . "\n\n-- \nMaktabti Application \nNuméro de téléphone : +216 52 329 813 \nAdresse e-mail : maktabti10@gmail.com \nSite web : www.maktabti.com");
 
-        $mailer->send($email);
+            $mailer->send($email);
 
 
 
