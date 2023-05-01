@@ -17,10 +17,38 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
+
+    #[Route(path: '/login_rest', name: 'app_login_rest')]
+    public function login_rest(Request $request,AuthenticationUtils $authenticationUtils): Response
+    {
+        // if ($this->getUser()) {
+        //     return $this->redirectToRoute('target_path');
+        // }
+        $email = $request->request->get('_email');
+        $password = $request->request->get('_password');
+        // get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
+        // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
+ 
+        if ($error instanceof AuthenticationException) {
+            return $this->json([
+                'error' => $error->getMessage(),
+            ]);
+        }
+
+        return $this->json([
+            'success' => 'Logged in successfully!',
+            'email' => $email,
+            'password' => $password,
+        ]);
+    }
+
     #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
