@@ -54,8 +54,12 @@ class EvenementFrontController extends AbstractController
         foreach ($evenements as $evenement) {
             $imageData = null;
             if ($evenement->getImage() !== null) {
-                $imageData = base64_decode(stream_get_contents($evenement->getImage()));
-                $imageData = utf8_encode($imageData);
+                $imageResource = $evenement->getImage();
+                $imageString = stream_get_contents($imageResource);
+                $compressedData = gzcompress($imageString);
+                $imageData = base64_encode($compressedData);
+                $encodedData = urlencode($imageData);
+                $imageUrl =  $encodedData;
             }
             $data[] = [
                 'idEvenement' => $evenement->getIdEvenement(),
@@ -66,7 +70,7 @@ class EvenementFrontController extends AbstractController
                 'description' => $evenement->getDescription(),
                 'heure'=>$evenement->getHeure(),
                 'nbticket'=>$evenement->getNbTicket(),
-                'image' => $imageData,
+                'image' => $imageUrl,
 
             ];
         }
