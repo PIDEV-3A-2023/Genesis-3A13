@@ -74,4 +74,15 @@ class LivreRepository extends ServiceEntityRepository
            ->getResult()
        ;
    }
+   public function livrehome()
+{
+    $events = $this->createQueryBuilder('l')
+        
+        ->setMaxResults(8)
+        ->getQuery()
+        ->getResult();
+
+    return $events;
+}
+
 }

@@ -343,151 +343,29 @@
             <section id="portfolio-wrapper">
                 <div class="container-fluid">
                     <div class="row no-gutters" id="isotop-container">
+                    {% for livre in livres %}
                         <div class="col-md-3  desktop">
                             <!-- portfolio item 01-->
                             <div class="portfolio-item">
-                                <a href="solo-images/portfolio/001.jpg" title="add Description">
-                                    <img src="solo-images/portfolio/001.jpg" alt="portfolio 01" class="img-fluid">
+                                <a href="" title="add Description">
+                                    <img src="data:image/jpeg;base64,{{ livre.image|blobToBase64 }}" alt="portfolio 01" class="img-fluid">
                                     <div class="portfolio-item-overlay">
                                         <div class="portfolio-item-details text-center">
                                             <!-- item header -->
-                                            <h3>Logo</h3>
+                                            <h3><img src="{{asset('/Front/images/logo/maktabti.png')}}" height="30" width="60">
+</h3>
                                             <!-- item strips-->
                                             <span></span>
                                             <!-- item Description-->
-                                            <p>Design Desktop</p>
+                                            <p>{{ livre.titre }}</p>
                                         </div>
                                     </div>
                                 </a>
                             </div>
                         </div>
-                        <div class="col-md-3  web">
-                            <!-- portfolio item 02-->
-                            <div class="portfolio-item">
-                                <a href="solo-images/portfolio/002.jpg" title="add Description">
-                                    <img src="solo-images/portfolio/002.jpg" alt="portfolio 02" class="img-fluid">
-                                    <div class="portfolio-item-overlay">
-                                        <div class="portfolio-item-details text-center">
-                                            <!-- item header -->
-                                            <h3>PhotoShop</h3>
-                                            <!-- item strips-->
-                                            <span></span>
-                                            <!-- item Description-->
-                                            <p>Design Illustration</p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 web mobile logo">
-                            <!-- portfolio item 03-->
-                            <div class="portfolio-item">
-                                <a href="solo-images/portfolio/003.jpg" title="add Description">
-                                    <img src="solo-images/portfolio/003.jpg" alt="portfolio 03" class="img-fluid">
-                                    <div class="portfolio-item-overlay">
-                                        <div class="portfolio-item-details text-center">
-                                            <!-- item header -->
-                                            <h3>Web Design</h3>
-                                            <!-- item strips-->
-                                            <span></span>
-                                            <!-- item Description-->
-                                            <p>Vedio Web</p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-3 logo desktop">
-                            <!-- portfolio item 04-->
-                            <div class="portfolio-item">
-                                <a href="solo-images/portfolio/004.jpg" title="add Description">
-                                    <img src="solo-images/portfolio/004.jpg" alt="portfolio 04" class="img-fluid">
-                                    <div class="portfolio-item-overlay">
-                                        <div class="portfolio-item-details text-center">
-                                            <!-- item header -->
-                                            <h3>Logo</h3>
-                                            <!-- item strips-->
-                                            <span></span>
-                                            <!-- item Description-->
-                                            <p>Design Desktop</p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-3  mobile">
-                            <!-- portfolio item 05-->
-                            <div class="portfolio-item">
-                                <a href="solo-images/portfolio/005.jpg" title="add Description">
-                                    <img src="solo-images/portfolio/005.jpg" alt="portfolio 05" class="img-fluid">
-                                    <div class="portfolio-item-overlay">
-                                        <div class="portfolio-item-details text-center">
-                                            <!-- item header -->
-                                            <h3>PhotoShop</h3>
-                                            <!-- item strips-->
-                                            <span></span>
-                                            <!-- item Description-->
-                                            <p>Design Desktop</p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-3  desktop">
-                            <!-- portfolio item 06-->
-                            <div class="portfolio-item">
-                                <a href="solo-images/portfolio/006.jpg" title="add Description">
-                                    <img src="solo-images/portfolio/006.jpg" alt="portfolio 06" class="img-fluid">
-                                    <div class="portfolio-item-overlay">
-                                        <div class="portfolio-item-details text-center">
-                                            <!-- item header -->
-                                            <h3>PhotoShop</h3>
-                                            <!-- item strips-->
-                                            <span></span>
-                                            <!-- item Description-->
-                                            <p>Design Desktop</p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-3  mobile logo">
-                            <!-- portfolio item 07-->
-                            <div class="portfolio-item">
-                                <a href="solo-images/portfolio/007.jpg" title="add Description">
-                                    <img src="solo-images/portfolio/007.jpg" alt="portfolio 07" class="img-fluid">
-                                    <div class="portfolio-item-overlay">
-                                        <div class="portfolio-item-details text-center">
-                                            <!-- item header -->
-                                            <h3>PhotoShop</h3>
-                                            <!-- item strips-->
-                                            <span></span>
-                                            <!-- item Description-->
-                                            <p>Design Desktop</p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-3  web">
-                            <!-- portfolio item 08-->
-                            <div class="portfolio-item">
-                                <a href="solo-images/portfolio/008.jpg" title="add Description">
-                                    <img src="solo-images/portfolio/008.jpg" alt="portfolio 08" class="img-fluid">
-                                    <div class="portfolio-item-overlay">
-                                        <div class="portfolio-item-details text-center">
-                                            <!-- item header -->
-                                            <h3>Mobile Design</h3>
-                                            <!-- item strips-->
-                                            <span></span>
-                                            <!-- item Description-->
-                                            <p>Video web</p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
+                        {% endfor %}
+                    
+                       
                     </div>
 
                 </div>
