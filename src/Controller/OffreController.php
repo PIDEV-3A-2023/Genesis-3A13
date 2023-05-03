@@ -127,7 +127,7 @@ class OffreController extends AbstractController
 
 
                 foreach ($resultat as $res) {
-                    $text .= sprintf(" %s %s %s %s \n", $res['titre'], $res['prix'], $res['pourcentageSolde'], $res['prixSolde']);
+                    $text .= sprintf(" %s prix initial= %s DT solde: %s prix après solde= %s DT \n", $res['titre'], $res['prix'], $res['pourcentageSolde'], $res['prixSolde']);
                 }
                        
             

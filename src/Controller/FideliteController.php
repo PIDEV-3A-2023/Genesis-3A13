@@ -12,12 +12,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\FideliteRepository;
+use App\Repository\CommandeRepository;
+use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
+use CMEN\GoogleChartsBundle\GoogleCharts\Options\ChartOptions;
 
 #[Route('/fidelite')]
 class FideliteController extends AbstractController
 {
     #[Route('/', name: 'app_fidelite_index', methods: ['GET'])]
-    public function index(EntityManagerInterface $entityManager,FideliteRepository $repo): Response
+    public function index(EntityManagerInterface $entityManager,FideliteRepository $repo , CommandeRepository $repcom): Response
     {
         $fidelites = $entityManager
             ->getRepository(Fidelite::class)
@@ -41,6 +44,27 @@ class FideliteController extends AbstractController
         }
 
 */
+            $commandes=$repcom->findAll();
+            foreach ($commandes as $com) {
+                $fid=$repo->findFideliteByIdClient($com->getIdClient()); 
+                if ( $fid ==null){
+                    $fid=new Fidelite();
+                    $totalAchat = $repo->calculateTotalAchatByIdClient($com->getIdClient());
+                     $totalAchatInt = intval($totalAchat);
+
+                     $fid->setTotalachat($totalAchatInt);
+                     $fid->setIdClient($com->getIdClient());
+                     $fid->setType($this->tyyype($totalAchatInt));
+
+                     $entityManager->persist($fid);
+
+                     $entityManager->flush();
+
+
+                }
+            }
+
+
             foreach ($fidelites as $fideliteee) {
 
             //$fidelite = $repo->findFideliteByIdClient($fideliteee->getIdClient());
@@ -51,16 +75,37 @@ class FideliteController extends AbstractController
             $totalAchatInt = intval($totalAchat);
 
                 $fideliteee->setTotalachat($totalAchatInt);
+                $entityManager->persist($fid);
+
+
             $entityManager->flush();
 
-            $fideliteee->settype($this->tyyype($totalAchatInt));
+            $fideliteee->setType($this->tyyype($totalAchatInt));
         }
+
+
 
         return $this->render('fidelite/index.html.twig', [
             'fidelites' => $fidelites,
+            
         ]);
     }
+    #[Route('/stat', name: 'app_stat')]
+    public function displayStats(): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
 
+        $stats = $entityManager->createQueryBuilder()
+        ->select('f.type as nom, COUNT(f.idFidelite) as type')
+
+         ->from(Fidelite::class, 'f')
+        ->groupBy('f.type')
+        ->getQuery()
+        ->getResult();
+        return $this->render('fidelite/statss.html.twig', [
+            'stats' => $stats,
+        ]);
+    }
     #[Route('/new', name: 'app_fidelite_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -123,10 +168,50 @@ class FideliteController extends AbstractController
         if ($total < 1000) {
             return 'bronze';
         } elseif ($total >= 1000 && $total < 2000) {
-            return 'silver';
+            return 'sliver';
         } elseif ($total >= 2000) {
             return 'gold';
         }
     }
+
+
+
+
+    public function stats(Request $request, FideliteRepository $repo): Response
+    {
+        // Get the number of clients for each type of fidelity
+        $bronzeClients = $repo->countClientsByFidelity('bronze');
+        $silverClients = $repo->countClientsByFidelity('silver');
+        $goldClients = $repo->countClientsByFidelity('gold');
+        $chart = new PieChart();
+        $chart->getData()->setArrayToDataTable([
+            ['Type de fidélité', 'Nombre de clients'],
+            ['Bronze', $bronzeClients],
+            ['Silver', $silverClients],
+            ['Gold', $goldClients]
+        ]);
+        var_dump($chart);
+        die();
+        $chart->getOptions()->setTitle('Répartition des clients selon le type de fidélité');
+        $chart->getOptions()->getTitleTextStyle()->setColor('#000000');
+        $chart->getOptions()->getTitleTextStyle()->setBold(true);
+        $chart->getOptions()->getTitleTextStyle()->setItalic(true);
+        $chart->getOptions()->getTitleTextStyle()->setFontName('Arial');
+        $chart->getOptions()->getTitleTextStyle()->setFontSize(20);
+        $chart->getOptions()->getLegend()->getTextStyle()->setColor('#000000');
+        $chart->getOptions()->setHeight(300);
+        $chart->getOptions()->setWidth(600);
+        $chart->getOptions()->setBackgroundColor('#FFFFFF');
+        $chart->getOptions()->setColors(['#FFA07A', '#90EE90', '#FFD700']);
+    
+        return $this->render('fidelite/index.html.twig', [
+            'chart' => $chart,
+            'bronzeClients' => $bronzeClients,
+            'silverClients' => $silverClients,
+            'goldClients' => $goldClients,
+            'chart' => $chart
+        ]);
+    }
+    
     
 }
