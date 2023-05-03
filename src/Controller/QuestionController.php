@@ -17,6 +17,7 @@ class QuestionController extends AbstractController
     #[Route('/', name: 'app_question_index', methods: ['GET'])]
     public function index(Request $request,QuestionRepository $repo,PaginatorInterface $paginator): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $query = $repo->createQueryBuilder('q')
         ->getQuery();
 
@@ -33,6 +34,7 @@ class QuestionController extends AbstractController
     #[Route('/new', name: 'app_question_new', methods: ['GET', 'POST'])]
     public function new(Request $request, QuestionRepository $questionRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $question = new Question();
         $form = $this->createForm(QuestionType::class, $question);
         $form->handleRequest($request);
@@ -52,6 +54,7 @@ class QuestionController extends AbstractController
     #[Route('/{idQuestion}', name: 'app_question_show', methods: ['GET'])]
     public function show(Question $question): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         return $this->render('question/show.html.twig', [
             'question' => $question,
         ]);
@@ -60,6 +63,7 @@ class QuestionController extends AbstractController
     #[Route('/{idQuestion}/edit', name: 'app_question_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Question $question, QuestionRepository $questionRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $form = $this->createForm(QuestionType::class, $question);
         $form->handleRequest($request);
 
@@ -78,6 +82,7 @@ class QuestionController extends AbstractController
     #[Route('/{idQuestion}', name: 'app_question_delete', methods: ['POST'])]
     public function delete(Request $request, Question $question, QuestionRepository $questionRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         if ($this->isCsrfTokenValid('delete'.$question->getIdQuestion(), $request->request->get('_token'))) {
             $questionRepository->remove($question, true);
         }

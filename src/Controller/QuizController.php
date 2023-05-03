@@ -17,6 +17,7 @@ class QuizController extends AbstractController
     #[Route('/', name: 'app_quiz_index', methods: ['GET'])]
     public function index(Request $request,QuizRepository $repo,PaginatorInterface $paginator): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $query = $repo->createQueryBuilder('q')
         ->getQuery();
 
@@ -33,6 +34,7 @@ class QuizController extends AbstractController
     #[Route('/new', name: 'app_quiz_new', methods: ['GET', 'POST'])]
     public function new(Request $request, QuizRepository $quizRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $quiz = new Quiz();
         $form = $this->createForm(QuizType::class, $quiz);
         $form->handleRequest($request);
@@ -52,6 +54,7 @@ class QuizController extends AbstractController
     #[Route('/{idQuiz}', name: 'app_quiz_show', methods: ['GET'])]
     public function show(Quiz $quiz): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         return $this->render('quiz/show.html.twig', [
             'quiz' => $quiz,
         ]);
@@ -59,7 +62,7 @@ class QuizController extends AbstractController
 
     #[Route('/{idQuiz}/edit', name: 'app_quiz_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Quiz $quiz, QuizRepository $quizRepository): Response
-    {
+    { $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $form = $this->createForm(QuizType::class, $quiz);
         $form->handleRequest($request);
 
@@ -78,6 +81,7 @@ class QuizController extends AbstractController
     #[Route('/{idQuiz}', name: 'app_quiz_delete', methods: ['POST'])]
     public function delete(Request $request, Quiz $quiz, QuizRepository $quizRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         if ($this->isCsrfTokenValid('delete'.$quiz->getIdQuiz(), $request->request->get('_token'))) {
             $quizRepository->remove($quiz, true);
         }

@@ -13,7 +13,7 @@ class QuizBackController extends AbstractController
 {
     #[Route('/qu', name: 'app_quiz_back')]
     public function index(): Response
-    {
+    { $this->denyAccessUnlessGranted('ROLE_ADMIN');
         return $this->render('quiz_back/index.html.twig', [
             'controller_name' => 'QuzBackController',
         ]);
@@ -21,6 +21,7 @@ class QuizBackController extends AbstractController
     #[Route('/search', name: 'app_quiz_search', methods: ['GET'])]
     public function search(Request $request,QuizRepository $repo): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $nom = $request->get('nom');
         $resultat = $repo->searchByCompetitionName($nom);
 

@@ -17,6 +17,7 @@ class UtilisateurController extends AbstractController
     #[Route('/', name: 'app_utilisateur_index', methods: ['GET'])]
     public function index(EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $utilisateurs = $entityManager
             ->getRepository(Utilisateur::class)
             ->findAll();
@@ -29,6 +30,7 @@ class UtilisateurController extends AbstractController
     #[Route('/new', name: 'app_utilisateur_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $utilisateur = new Utilisateur();
         $form = $this->createForm(UtilisateurType::class, $utilisateur);
         $form->handleRequest($request);
@@ -49,6 +51,7 @@ class UtilisateurController extends AbstractController
     #[Route('/newrest', name: 'app_utilisateur_new_rest', methods: ['GET', 'POST'])]
     public function newrest(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
+        
         $utilisateur = new Utilisateur();
         $form = $this->createForm(UtilisateurType::class, $utilisateur);
         $form->handleRequest($request);
@@ -76,6 +79,7 @@ class UtilisateurController extends AbstractController
     #[Route('/{idUtilisateur}', name: 'app_utilisateur_show', methods: ['GET'])]
     public function show(Utilisateur $utilisateur): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         return $this->render('utilisateur/show.html.twig', [
             'utilisateur' => $utilisateur,
         ]);
@@ -84,6 +88,7 @@ class UtilisateurController extends AbstractController
     #[Route('/{idUtilisateur}/edit', name: 'app_utilisateur_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Utilisateur $utilisateur, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $form = $this->createForm(UtilisateurType::class, $utilisateur);
         $form->handleRequest($request);
 
@@ -102,6 +107,7 @@ class UtilisateurController extends AbstractController
     #[Route('/{idUtilisateur}', name: 'app_utilisateur_delete', methods: ['POST'])]
     public function delete(Request $request, Utilisateur $utilisateur, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         if ($this->isCsrfTokenValid('delete'.$utilisateur->getIdUtilisateur(), $request->request->get('_token'))) {
             $entityManager->remove($utilisateur);
             $entityManager->flush();

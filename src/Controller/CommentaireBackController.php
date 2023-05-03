@@ -15,6 +15,7 @@ class CommentaireBackController extends AbstractController
     #[Route('/commentaire/back', name: 'app_commentaire_back')]
     public function index(): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         return $this->render('commentaire_back/index.html.twig', [
             'controller_name' => 'CommentaireBackController',
         ]);
@@ -23,6 +24,7 @@ class CommentaireBackController extends AbstractController
     
     public function commentairesByNom(Request $request, CommentaireRepository $repo,PaginatorInterface $paginator): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $nom = $request->get('nom');
         $resultat = $repo->SearchByNom($nom);
         $commentaires = $paginator->paginate(
