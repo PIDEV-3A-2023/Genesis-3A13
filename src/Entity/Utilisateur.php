@@ -78,11 +78,11 @@ class Utilisateur implements UserInterface , PasswordAuthenticatedUserInterface 
     private $role;
 
        /**
-     * @var string|null
+     * @var json|null
      *
      * @ORM\Column(name="roles", type="text", length=0, nullable=true)
      */
-    private $roles;
+    private $roles=[];
 
         /**
      * @var string|null
@@ -207,15 +207,17 @@ class Utilisateur implements UserInterface , PasswordAuthenticatedUserInterface 
      */
     public function getRoles(): array
     {
-        $roles = $this->roles;
+        $roles = is_array($this->roles) ? $this->roles : [$this->roles];
         $roles[] = 'ROLE_USER';
         return array_unique($roles);
-    }
+        }
 
     function setRoles($roles)
     {
-        $this->roles[] = $roles;
-    }
+        $this->roles = $roles;
+
+        return $this;   
+     }
 
     /**
      * @see PasswordAuthenticatedUserInterface

@@ -20,12 +20,14 @@ use Symfony\Component\Mime\Address;
 
 class DashboardController extends AbstractController
 {
+
+
     #[Route('/dashboard', name: 'app_dashboard')]
 
     public function index(Request $request,LivreRepository $repolivre,UtilisateurRepository $Userrepo,CompetitionRepository $repocomp,CategorieRepository $repocat,EvenementRepository $repoevent, ResultatQuizRepository $repoResultat): Response
 
     {
-
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $competitions = $repocomp->findAll();
         $nbcompetitions = count($competitions);
         $chartData = [];
@@ -84,7 +86,9 @@ class DashboardController extends AbstractController
         ]);
     }
     #[Route('/mailwinner', name: 'mail_winner')]
+    
     public function sendMails(CompetitionRepository $repocomp, MailerInterface $mailer,UtilisateurRepository $repouser){
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         $gagnants =$repocomp->findCompetitionsOpenedThisWeekWithWinnersAndRewards();
         foreach ($gagnants as $gagnant){

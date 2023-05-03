@@ -6,6 +6,7 @@ use App\Entity\Utilisateur;
 use App\Form\UtilisateurType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -44,6 +45,33 @@ class UtilisateurController extends AbstractController
             'form' => $form,
         ]);
     }
+
+    #[Route('/newrest', name: 'app_utilisateur_new_rest', methods: ['GET', 'POST'])]
+    public function newrest(Request $request, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $utilisateur = new Utilisateur();
+        $form = $this->createForm(UtilisateurType::class, $utilisateur);
+        $form->handleRequest($request);
+    
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($utilisateur);
+            $entityManager->flush();
+            $data = [
+                'success' => true,
+                'message' => 'Utilisateur ajouté avec succés!',
+                'utilisateur' => $utilisateur,
+            ];
+            return new JsonResponse($data, JsonResponse::HTTP_CREATED);
+        }
+    
+        $data = [
+            'success' => false,
+            'message' => 'Formulaire invalide',
+            'errors' => $form->getErrors(),
+        ];
+        return new JsonResponse($data, JsonResponse::HTTP_BAD_REQUEST);
+    }
+
 
     #[Route('/{idUtilisateur}', name: 'app_utilisateur_show', methods: ['GET'])]
     public function show(Utilisateur $utilisateur): Response
