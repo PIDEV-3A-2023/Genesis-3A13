@@ -25,6 +25,7 @@ class CompetitionController extends AbstractController
     #[Route('/', name: 'app_competition_index', methods: ['GET'])]
     public function index(Request $request, CompetitionRepository $repo, PaginatorInterface $paginator): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $query = $repo->createQueryBuilder('c')
             ->getQuery();
 
@@ -43,6 +44,7 @@ class CompetitionController extends AbstractController
     #[Route('/new', name: 'app_competition_new', methods: ['GET', 'POST'])]
     public function new(Request $request, CompetitionRepository $repo, LivreRepository $livreRepo, MailerInterface $mailer): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $competition = new Competition();
         $form = $this->createForm(CompetitionType::class, $competition);
         $form->handleRequest($request);
@@ -101,6 +103,7 @@ class CompetitionController extends AbstractController
     #[Route('/{idCompetition}', name: 'app_competition_show', methods: ['GET'])]
     public function show(Competition $competition): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         return $this->render('competition/show.html.twig', [
             'competition' => $competition,
         ]);
@@ -109,6 +112,7 @@ class CompetitionController extends AbstractController
     #[Route('/{idCompetition}/edit', name: 'app_competition_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Competition $competition, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $form = $this->createForm(CompetitionType::class, $competition);
         $form->handleRequest($request);
 
@@ -133,6 +137,7 @@ class CompetitionController extends AbstractController
     #[Route('/{idCompetition}', name: 'app_competition_delete', methods: ['POST'])]
     public function delete(Request $request, Competition $competition, CompetitionRepository $repo, QuizRepository $quizRepo): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         if ($this->isCsrfTokenValid('delete' . $competition->getIdCompetition(), $request->request->get('_token'))) {
             $now = new \DateTime();
             if ($now >= $competition->getDateDebut() && $now <= $competition->getDateFin()) {
