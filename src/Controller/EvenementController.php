@@ -45,7 +45,7 @@ class EvenementController extends AbstractController
     }
 
     #[Route('/new', name: 'app_evenement_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager,EvenementRepository $repo): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $evenement = new Evenement();
@@ -58,7 +58,9 @@ class EvenementController extends AbstractController
             if ($imageFile) {
                 $imageData = file_get_contents($imageFile);
                 $evenement->setImage($imageData);
+                
             }
+            $repo->save($evenement, true);
             $entityManager->persist($evenement);
             $entityManager->flush();
             $this->addFlash('success', 'Evenement ajouté avec succés!');
@@ -83,13 +85,19 @@ class EvenementController extends AbstractController
     }
 
     #[Route('/{idEvenement}/edit', name: 'app_evenement_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Evenement $evenement, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Evenement $evenement, EntityManagerInterface $entityManager,EvenementRepository $repo): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $form = $this->createForm(EvenementType::class, $evenement);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $imageFile = $form->get('image')->getData();
+            if ($imageFile) {
+                $imageData = file_get_contents($imageFile);
+                $evenement->setImage($imageData);
+            }
+           
             $entityManager->flush();
             $this->addFlash('success', 'Evenement mise à jour avec succés!');
 
