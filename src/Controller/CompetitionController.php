@@ -117,10 +117,10 @@ class CompetitionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $image = $form->get('image')->getData();
-            if ($image) {
-               
-                $competition->setImage($image);
+            $imageFile = $form->get('image')->getData();
+            if ($imageFile) {
+                $imageData = file_get_contents($imageFile);
+                $competition->setImage($imageData);
             }
             $entityManager->flush();
             $this->addFlash('success', 'Competition est mise à jour avec succés!');
