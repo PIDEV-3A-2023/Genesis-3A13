@@ -6,13 +6,14 @@ use App\Repository\CommentaireRepository;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\CompetitionRepository;
 use App\Repository\EvenementRepository;
+use App\Repository\LivreRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
 class HomeController extends AbstractController
 {
     
-    public function index(CompetitionRepository $repocomp,UtilisateurRepository $Userrepo,EvenementRepository $repoevent,CommentaireRepository $repocomm): Response
+    public function index(CompetitionRepository $repocomp,UtilisateurRepository $Userrepo,EvenementRepository $repoevent,CommentaireRepository $repocomm,LivreRepository $repolivre): Response
     {
         $competitions = $repocomp->findAll();
         $nbcompetitions = count($competitions);
@@ -23,6 +24,7 @@ class HomeController extends AbstractController
 
         // Call the event function from EvenementRepository to get the last 3 events
         $lastEvents = $repoevent->event();
+        $livres=$repolivre->livrehome();
 
         $utilisateurs = $Userrepo->findAll();
         $nbutilisateurs = count($utilisateurs);
@@ -31,6 +33,7 @@ class HomeController extends AbstractController
             'nbcompetitions' => $nbcompetitions,
             'nbevenements' => $nbevenements,
             'nbutilisateurs' => $nbutilisateurs,
+            'livres'=>$livres,
            
             'lastEvents' => $lastEvents, // Pass the last 3 events to the template
             'message' => 'Welcome to my homepage!',
