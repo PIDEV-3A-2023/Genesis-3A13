@@ -20,6 +20,7 @@ class CompetitionBackController extends AbstractController
     #[Route('/com', name: 'app_competition_back')]
     public function index(): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         return $this->render('competition_back/index.html.twig', [
             'controller_name' => 'CompetitionBackController',
         ]);
@@ -27,6 +28,7 @@ class CompetitionBackController extends AbstractController
     #[Route('/search', name: 'app_competition_search', methods: ['GET'])]
     public function search(Request $request,CompetitionRepository $repo, PaginatorInterface $paginator): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $nom = $request->get('nom');
         $resultat = $repo->SearchByNom($nom);
         $competitions = $paginator->paginate(
@@ -42,7 +44,7 @@ class CompetitionBackController extends AbstractController
     }
     #[Route('/pdf', name: 'app_competition_download', methods: ['GET'])]
     public function pdf(CompetitionRepository $repo): Response
-    {
+    {$this->denyAccessUnlessGranted('ROLE_ADMIN');
         //définir les options
         $pdfOptions = new Options();
 

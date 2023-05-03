@@ -16,6 +16,7 @@ class EvenementBackController extends AbstractController
     #[Route('/evenement/back', name: 'app_evenement_back')]
     public function index(): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         return $this->render('evenement_back/index.html.twig', [
             'controller_name' => 'EvenementBackController',
         ]);
@@ -24,6 +25,7 @@ class EvenementBackController extends AbstractController
     
     public function evenementsByLocation(Request $request, EvenementRepository $repo,PaginatorInterface $paginator): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $lieu = $request->get('lieu');
         $resultat = $repo->SearchByLieu($lieu);
         $evenements = $paginator->paginate(
@@ -39,6 +41,7 @@ class EvenementBackController extends AbstractController
     #[Route('/pdf', name: 'app_evenement_download', methods: ['GET'])]
     public function pdf(EvenementRepository $repo): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         //définir les options
         $pdfOptions = new Options();
 
