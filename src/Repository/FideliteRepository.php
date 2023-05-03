@@ -130,4 +130,28 @@ public function getUtilisateursSansFidelite()
 
 }
 
+public function getNumberOfRows()
+{
+    $queryBuilder = $this->createQueryBuilder('fidelite');
+    $queryBuilder->select('COUNT(fidelite.id)');
+
+    return $queryBuilder->getQuery()->getSingleScalarResult();
+}
+
+public function countClientsByFidelity()
+{
+    $qb = $this->createQueryBuilder('f')
+        ->select('f.type, COUNT(f) as count_clients')
+        ->groupBy('f.type');
+
+    $result = $qb->getQuery()->getResult();
+
+    $counts = [];
+
+    foreach ($result as $row) {
+        $counts[$row['type']] = $row['count_clients'];
+    }
+
+    return $counts;
+}
 }

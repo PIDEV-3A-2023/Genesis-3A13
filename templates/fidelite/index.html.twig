@@ -19,6 +19,9 @@
 			<a href="{{ path('app_fidelite_new') }}" class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;">
 				<i class="fas fa-plus" style="padding-right:3px"></i>
 				Créer un nouveau</a>
+                 <form method="post" action="{{ path('app_stat') }}">
+        <button type="submit" class="btn btn-primary">Consulter Stat</button>
+    </form>
 		</div>
 	</div>
 	<br>
@@ -63,4 +66,6 @@
 </div>
         </div>
     </div>
+    
+
 {% endblock %}
