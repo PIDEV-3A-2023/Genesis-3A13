@@ -21,6 +21,7 @@ class LivreController extends AbstractController
     #[Route('/', name: 'app_livre_index', methods: ['GET'])]
     public function index(LivreRepository $livreRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         return $this->render('livre/index.html.twig', [
             'livres' => $livreRepository->findAll(),
         ]);
@@ -28,6 +29,7 @@ class LivreController extends AbstractController
     #[Route('/pdf', name: 'app_livre_download')]
     public function pdf(LivreRepository $repo): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         //définir les options
         $pdfOptions = new Options();
 
@@ -77,6 +79,7 @@ class LivreController extends AbstractController
     #[Route('/trier', name: 'app_livre_trier', methods: ['GET'])]
     public function trier(LivreRepository $livreRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         return $this->render('livre_front/index.html.twig', [
             'livres' => $livreRepository->trier(),
         ]);
@@ -84,6 +87,7 @@ class LivreController extends AbstractController
     #[Route('/rechercher', name: 'app_livre_recherche', methods: ['GET'])]
     public function rechercher(LivreRepository $livreRepository,Request $request): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $name = $request->get('q');
 
         return $this->render('livre/index.html.twig', [
@@ -94,6 +98,7 @@ class LivreController extends AbstractController
     #[Route('/new', name: 'app_livre_new', methods: ['GET', 'POST'])]
     public function new(Request $request, LivreRepository $livreRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $livre = new Livre();
         $form = $this->createForm(LivreType::class, $livre);
         $form->handleRequest($request);
@@ -132,6 +137,7 @@ class LivreController extends AbstractController
     #[Route('/{idLivre}', name: 'app_livre_show', methods: ['GET'])]
     public function show(Livre $livre): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         return $this->render('livre/show.html.twig', [
             'livre' => $livre,
         ]);
@@ -140,6 +146,7 @@ class LivreController extends AbstractController
     #[Route('/{idLivre}/edit', name: 'app_livre_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Livre $livre, LivreRepository $livreRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $form = $this->createForm(LivreType::class, $livre);
         $form->handleRequest($request);
 
@@ -164,6 +171,7 @@ class LivreController extends AbstractController
     #[Route('/{idLivre}', name: 'app_livre_delete', methods: ['POST'])]
     public function delete(Request $request, Livre $livre, LivreRepository $livreRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         if ($this->isCsrfTokenValid('delete'.$livre->getIdLivre(), $request->request->get('_token'))) {
             $livreRepository->remove($livre, true);
         }

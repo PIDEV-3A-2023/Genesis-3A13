@@ -17,7 +17,7 @@ class CommentaireController extends AbstractController
 {
     #[Route('/', name: 'app_commentaire_index', methods: ['GET'])]
     public function index(CommentaireRepository $commentaireRepository,PaginatorInterface $paginator,Request $request,EntityManagerInterface $entityManager): Response
-    {   
+    {    $this->denyAccessUnlessGranted('ROLE_ADMIN');
             $commentaires = $entityManager
         ->getRepository(Commentaire::class)
         ->findAll();
@@ -37,7 +37,7 @@ class CommentaireController extends AbstractController
 
     #[Route('/new', name: 'app_commentaire_new', methods: ['GET', 'POST'])]
     public function new(Request $request, CommentaireRepository $commentaireRepository): Response
-    {
+    { $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $commentaire = new Commentaire();
         $form = $this->createForm(CommentaireType::class, $commentaire);
         $form->handleRequest($request);
@@ -56,7 +56,7 @@ class CommentaireController extends AbstractController
 
     #[Route('/{idCommentaire}', name: 'app_commentaire_show', methods: ['GET'])]
     public function show(Commentaire $commentaire): Response
-    {
+    { $this->denyAccessUnlessGranted('ROLE_ADMIN');
         return $this->render('commentaire/show.html.twig', [
             'commentaire' => $commentaire,
         ]);
@@ -65,6 +65,7 @@ class CommentaireController extends AbstractController
     #[Route('/{idCommentaire}/edit', name: 'app_commentaire_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Commentaire $commentaire, CommentaireRepository $commentaireRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $form = $this->createForm(CommentaireType::class, $commentaire);
         $form->handleRequest($request);
 
@@ -83,6 +84,7 @@ class CommentaireController extends AbstractController
     #[Route('/{idCommentaire}', name: 'app_commentaire_delete', methods: ['POST'])]
     public function delete(Request $request, Commentaire $commentaire, CommentaireRepository $commentaireRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         if ($this->isCsrfTokenValid('delete'.$commentaire->getIdCommentaire(), $request->request->get('_token'))) {
             $commentaireRepository->remove($commentaire, true);
         }

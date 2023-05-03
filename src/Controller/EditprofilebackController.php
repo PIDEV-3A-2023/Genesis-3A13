@@ -14,6 +14,7 @@ class EditprofilebackController extends AbstractController
     #[Route('/editprofileback', name: 'app_editprofileback')]
     public function index(): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         return $this->render('editprofileback/index.html.twig', [
             'controller_name' => 'EditprofilebackController',
         ]);
@@ -22,6 +23,7 @@ class EditprofilebackController extends AbstractController
     #[Route('/{idUtilisateur}/profileeditback', name: 'app_profile_editback', methods: ['GET', 'POST'])]
     public function edit(Request $request, Utilisateur $utilisateur, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $form = $this->createForm(Modifyprofiletype::class, $utilisateur);
         $form->handleRequest($request);
 
