@@ -23,14 +23,14 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends AbstractController
 {
 
-    #[Route(path: '/login_rest', name: 'app_login_rest')]
+    #[Route(path: '/login_rest', name: 'app_login_rest', methods: ['POST'])]
     public function login_rest(Request $request,AuthenticationUtils $authenticationUtils): Response
     {
         // if ($this->getUser()) {
         //     return $this->redirectToRoute('target_path');
         // }
-        $email = $request->request->get('_email');
-        $password = $request->request->get('_password');
+        $email = $request->request->get('email');
+        $password = $request->request->get('password');
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
