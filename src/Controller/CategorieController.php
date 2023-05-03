@@ -25,6 +25,13 @@ class CategorieController extends AbstractController
             'categories' => $categories,
         ]);
     }
+    #[Route('/trier', name: 'app_categorie_trier', methods: ['GET'])]
+    public function trier(CategorieRepository $categorieRepository): Response
+    {
+        return $this->render('categorie/index.html.twig', [
+            'categories' => $categorieRepository->trier(),
+        ]);
+    }
 
     #[Route('/new', name: 'app_categorie_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
@@ -83,11 +90,5 @@ class CategorieController extends AbstractController
         $this->addFlash('success', 'Categorie deleted successfully!');
         return $this->redirectToRoute('app_categorie_index', [], Response::HTTP_SEE_OTHER);
     }
-    #[Route('/trier', name: 'app_categorie_trier', methods: ['GET'])]
-    public function trier(CategorieRepository $categorieRepository): Response
-    {
-        return $this->render('categorie/index.html.twig', [
-            'categories' => $categorieRepository->trier(),
-        ]);
-    }
+   
 }
