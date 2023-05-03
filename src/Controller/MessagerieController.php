@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Messagerie;
 use App\Form\MessagerieType;
+use App\Repository\ReclamationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,6 +15,24 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 #[Route('/messagerie')]
 class MessagerieController extends AbstractController
 {
+    public function myAction(Request $request, ValidatorInterface $validator)
+    {
+        // Create a new Messagerie entity and set its properties
+        $message = new Messagerie();
+        $message->setMessage($request->get('message'));
+
+        // Validate the entity
+        $errors = $validator->validate($message);
+
+        // If there are validation errors, display them
+        if (count($errors) > 0) {
+            foreach ($errors as $error) {
+                echo $error->getMessage();
+            }
+        }
+        
+        // ...
+    }
     #[Route('/', name: 'app_messagerie_index', methods: ['GET'])]
     public function index(EntityManagerInterface $entityManager): Response
     {
@@ -27,26 +46,32 @@ class MessagerieController extends AbstractController
     }
 
     #[Route('/new', name: 'app_messagerie_new', methods: ['GET', 'POST'])]
-public function new(Request $request, EntityManagerInterface $entityManager): Response
-{
-    $messagerie = new Messagerie();
-    $messagerie->setDateHeure(new \DateTime());
-    $form = $this->createForm(MessagerieType::class, $messagerie);
-    $form->handleRequest($request);
-
-    if ($form->isSubmitted() && $form->isValid()) {
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $messagerie = new Messagerie();
+        $messagerie->setDateHeure(new \DateTime());
+    
+    
         
-        $entityManager->persist($messagerie);
-        $entityManager->flush();
-
-        return $this->redirectToRoute('app_messagerie_index', [], Response::HTTP_SEE_OTHER);
+    
+ 
+    
+        $form = $this->createForm(MessagerieType::class, $messagerie);
+        $form->handleRequest($request);
+    
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($messagerie);
+            $entityManager->flush();
+    
+            return $this->redirectToRoute('app_messagerie_index', [], Response::HTTP_SEE_OTHER);
+        }
+    
+        return $this->renderForm('messagerie/new.html.twig', [
+            'messagerie' => $messagerie,
+            'form' => $form,
+        ]);
     }
-
-    return $this->renderForm('messagerie/new.html.twig', [
-        'messagerie' => $messagerie,
-        'form' => $form,
-    ]);
-}
+    
 
     #[Route('/{idMessagerie}', name: 'app_messagerie_show', methods: ['GET'])]
     public function show(Messagerie $messagerie): Response

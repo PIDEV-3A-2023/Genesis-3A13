@@ -48,6 +48,12 @@
                 <th>Role</th>
                 <td>{{ utilisateur.role }}</td>
             </tr>
+            <tr>
+                <th>Date de la derinére Authentification</th>
+                <td>{{ utilisateur.lastconnection|date('Y-m-d H:i:s') }}</td>
+            </tr>
+          
+
         </tbody>
     </table>
 

@@ -66,6 +66,8 @@
                 <th class="border-0">Email</th>
                 <th class="border-0">Numéro de Telephone</th>
                 <th class="border-0">Role</th>
+                <th class="border-0">Date Authentification</th>
+                
                 <th class="border-0 rounded-end">actions</th>
             </tr>
         </thead>
@@ -77,6 +79,9 @@
                 <td>{{ utilisateur.email }}</td>
                 <td>{{ utilisateur.numTelephone }}</td>
                 <td>{{ utilisateur.role }}</td>
+                <td>{{ utilisateur.lastconnection|date('Y-m-d H:i:s') }}</td>
+
+
                 <td>
                     <a href="{{ path('app_utilisateur_show', {'idUtilisateur': utilisateur.idUtilisateur}) }}"><i class="fas fa-info-circle text-info"></i></a>
                     <a href="{{ path('app_utilisateur_edit', {'idUtilisateur': utilisateur.idUtilisateur}) }}"><i class="fas fa-edit text-warning"></i></a>

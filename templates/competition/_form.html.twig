@@ -24,6 +24,10 @@
 {{form_widget(form.dateFin)}}
 {{form_errors(form.dateFin,{'attr': {'class': 'invalid-feedback'}})}}
 <br>
+{{form_label(form.image)}}
+{{form_widget(form.image)}}
+{{form_errors(form.image)}}
+<br>
 
     <button class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;">{{ button_label|default('Enregistrer') }}</button>
 {{ form_end(form) }}
