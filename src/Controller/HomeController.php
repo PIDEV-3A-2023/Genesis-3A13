@@ -20,7 +20,7 @@ class HomeController extends AbstractController
 
         $evenements = $repoevent->findAll();
         $nbevenements = count($evenements);
-        $livresnb = $repoevent->findAll();
+        $livresnb = $repolivre->findAll();
         $nblivres = count($livresnb);
         
 
