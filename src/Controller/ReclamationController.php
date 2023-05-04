@@ -32,6 +32,8 @@ class ReclamationController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $reclamation = new Reclamation();
+        
+        
         $form = $this->createForm(ReclamationType::class, $reclamation);
         $form->handleRequest($request);
     
@@ -44,6 +46,7 @@ class ReclamationController extends AbstractController
             }
                 // Get the current user's ID and set it on the Reclamation entity
             $reclamation->setUser($this->getUser()->getIdUtilisateur());
+           
             $entityManager = $this->getDoctrine()->getManager();
 
             $entityManager->persist($reclamation);

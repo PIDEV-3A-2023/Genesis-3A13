@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ReclamationRepository;
+use App\Entity\Utilisateur;
 
 #[Route('/reclamations')]
 class ReclamationFrontController extends AbstractController
@@ -28,15 +29,18 @@ class ReclamationFrontController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $reclamation = new Reclamation();
+
         $form = $this->createForm(ReclamationType::class, $reclamation);
         $form->handleRequest($request);
     
         $message = null;
     
         if ($form->isSubmitted() && $form->isValid()) {
+            $reclamation->setUser($this->getUser());
             $entityManager->persist($reclamation);
             $entityManager->flush();
-    
+            
+
             $message = 'La Reclamation a ete effectuee avec succes.';
     
             return $this->redirectToRoute('app_reclamation_new', ['message' => $message], Response::HTTP_SEE_OTHER);
