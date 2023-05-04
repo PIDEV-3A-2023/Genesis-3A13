@@ -75,6 +75,42 @@ class CompetitionFrontController extends AbstractController
             'competition' => $competition,
         ]);
     }
+    #[Route('/get/{idCompetition}', name: 'app_competition_show_rest', methods: ['GET'])]
+    public function showRest(Competition $competition): Response
+    {
+    
+        $data = [];
+        $imageData = null;
+        //dd($competition);
+    
+        if ($competition->getImage() !== null) {
+    
+            $imageResource = $competition->getImage();
+            $imageString = stream_get_contents($imageResource);
+            $compressedData = gzcompress($imageString);
+            $imageData = base64_encode($compressedData);
+            $encodedData = urlencode($imageData);
+            $imageUrl =  $encodedData;
+        }
+        $data[] = [
+            'idCompetition' => $competition->getIdCompetition(),
+            'idLivre' => $competition->getIdLivre()->getTitre(),
+            'nom' => $competition->getNom(),
+            'lienCompetition' => $competition->getLienCompetition(),
+            'recompense' => $competition->getRecompense(),
+            'listePaticipants' => $competition->getListePaticipants(),
+            'dateDebut' => $competition->getDateDebut(),
+            'dateFin' => $competition->getDateFin(),
+            'image' => $imageUrl,
+    
+        ];
+      
+        return $this->json($data, 200, ['Content-Type' => 'application/json']);
+    
+    }
+
+
+
     #[Route('/quiz/{idCompetition}', name: 'app_competition_quiz_front', methods: ['GET'])]
     public function quiz(QuestionRepository $repo, $idCompetition, CompetitionRepository $competitionRepo): Response
     {$this->denyAccessUnlessGranted('ROLE_USER');
