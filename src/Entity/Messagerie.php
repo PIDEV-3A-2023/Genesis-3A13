@@ -44,6 +44,11 @@ class Messagerie
      */
     private $idDestinataire;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $rating;
+
     public function getIdMessagerie(): ?int
     {
         return $this->idMessagerie;
@@ -85,5 +90,16 @@ class Messagerie
         return $this;
     }
 
+    
+    public function getRating():  ?int
+    {
+        return $this->rating;
+    }
 
+    public function setRating($rating): self
+    {
+        $this->rating = $rating;
+
+        return $this;
+    }
 }

@@ -4,6 +4,8 @@ namespace App\Entity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\NotNull;
+
 
 /**
  * Reclamation
@@ -42,15 +44,21 @@ class Reclamation
      */
     private $feedback;
 
-    /**
+      /**
      * @var Utilisateur
      *
      * @ORM\ManyToOne(targetEntity="Utilisateur")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="user_id", referencedColumnName="id_utilisateur")
      * })
+     * 
      */
     private $user;
+    
+    /**
+     * @ORM\Column(type="blob", nullable=true)
+     */
+    private $image;
 
     public function getIdReclamation(): ?int
     {
@@ -89,9 +97,17 @@ class Reclamation
     public function setUser(?Utilisateur $user): self
     {
         $this->user = $user;
-
-        return $this;
+  
+    return $this;
     }
 
+    public function getImage()
+    {
+        return $this->image;
+    }
 
+    public function setImage($image)
+    {
+        $this->image = $image;
+    }
 }

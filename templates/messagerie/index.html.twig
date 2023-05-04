@@ -1,4 +1,4 @@
-{% extends 'baseBack.html.twig' %}
+{% extends 'baseFront.html.twig' %}
 
 {% block title %}Messagerie
 {% endblock %}
@@ -18,23 +18,53 @@
         </thead>
         <tbody>
         {% for messagerie in messageries %}
-            <tr>
+                <tr>
+
                 <td>{{ messagerie.idMessagerie }}</td>
                 <td>{{ messagerie.message }}</td>
                 <td>{{ messagerie.dateHeure|date('Y-m-d H:i:s') }}</td>
                 <td>{{ messagerie.idDestinataire.nom}}</td>
-                <td>
-                    <a href="{{ path('app_messagerie_show', {'idMessagerie': messagerie.idMessagerie}) }}">show</a>
-                    <a href="{{ path('app_messagerie_edit', {'idMessagerie': messagerie.idMessagerie}) }}">edit</a>
-                </td>
-            </tr>
+          
+        <td>
+            <a href="{{ path('app_messagerie_show', {'idMessagerie': messagerie.idMessagerie}) }}">show</a>
+            <button class="thumbs-up-btn" data-id="{{ messagerie.idMessagerie }}" data-rating="1">&#128077;</button>
+<button class="thumbs-down-btn" data-id="{{ messagerie.idMessagerie }}" data-rating="0">&#128078;</button>
+
+        </td>
+    </tr>
+    
         {% else %}
             <tr>
                 <td colspan="4">no records found</td>
             </tr>
         {% endfor %}
+
         </tbody>
     </table>
-
-    <a href="{{ path('app_messagerie_new') }}">Create new</a>
+  {% block javascripts %}
+    <script>
+        $(document).ready(function() {
+            $('.thumbs-up-btn, .thumbs-down-btn').on('click', function(e) {
+                e.preventDefault();
+                var button = $(this);
+                var messageId = button.data('id');
+                var rating = button.data('rating');
+                $.ajax({
+                    url: "{{ path('app_messagerie_rate') }}",
+                    method: "POST",
+                    data: {
+                        messageId: messageId,
+                        rating: rating
+                    },
+                    success: function(response) {
+                        console.log(response);
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}
 {% endblock %}

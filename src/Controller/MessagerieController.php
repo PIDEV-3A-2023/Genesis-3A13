@@ -11,6 +11,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use App\Repository\MessagerieRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+
+
 
 #[Route('/messagerie')]
 class MessagerieController extends AbstractController
@@ -34,12 +38,13 @@ class MessagerieController extends AbstractController
         // ...
     }
     #[Route('/', name: 'app_messagerie_index', methods: ['GET'])]
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(EntityManagerInterface $entityManager,MessagerieRepository $messagerieRepository): Response
     {
-        $messageries = $entityManager
-            ->getRepository(Messagerie::class)
-            ->findAll();
+     
+        $messageries = $messagerieRepository
 
+            ->findByUser($this->getUser()->getIdUtilisateur());
+           
         return $this->render('messagerie/index.html.twig', [
             'messageries' => $messageries,
         ]);
@@ -63,7 +68,7 @@ class MessagerieController extends AbstractController
             $entityManager->persist($messagerie);
             $entityManager->flush();
     
-            return $this->redirectToRoute('app_messagerie_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_reclamation_index', [], Response::HTTP_SEE_OTHER);
         }
     
         return $this->renderForm('messagerie/new.html.twig', [
@@ -109,4 +114,27 @@ class MessagerieController extends AbstractController
 
         return $this->redirectToRoute('app_messagerie_index', [], Response::HTTP_SEE_OTHER);
     }
+
+/**
+ * @Route("/messagerie/rate", name="app_messagerie_rate")
+ * @IsGranted("ROLE_USER")
+ */
+public function rateMessage(Request $request, EntityManagerInterface $entityManager)
+{
+    $messageId = $request->request->get('messageId');
+    $rating = $request->request->get('rating');
+
+    $message = $entityManager->getRepository(Messagerie::class)->find($messageId);
+
+    if (!$message) {
+        throw $this->createNotFoundException('The message does not exist');
+    }
+
+    $message->setRating($rating);
+
+    $entityManager->flush();
+
+    return $this->redirectToRoute('app_messagerie_index');
+}
+
 }

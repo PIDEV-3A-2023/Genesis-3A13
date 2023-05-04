@@ -6,6 +6,7 @@ use App\Entity\Reclamation;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class ReclamationType extends AbstractType
 {
@@ -14,6 +15,10 @@ class ReclamationType extends AbstractType
         $builder
             ->add('message')
             ->add('feedback')
+            ->add('image', FileType::class, [
+                'label' => 'Image (optional)',
+                'required' => false,
+            ])
           
         ;
     }
