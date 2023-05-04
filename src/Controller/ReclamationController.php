@@ -34,19 +34,30 @@ class ReclamationController extends AbstractController
         $reclamation = new Reclamation();
         $form = $this->createForm(ReclamationType::class, $reclamation);
         $form->handleRequest($request);
-
+    
         if ($form->isSubmitted() && $form->isValid()) {
+            // Handle the image upload
+            $imageFile = $form->get('image')->getData();
+            if ($imageFile) {
+                $imageData = file_get_contents($imageFile);
+                $reclamation->setImage($imageData);
+            }
+                // Get the current user's ID and set it on the Reclamation entity
+            $reclamation->setUser($this->getUser()->getIdUtilisateur());
+            $entityManager = $this->getDoctrine()->getManager();
+
             $entityManager->persist($reclamation);
             $entityManager->flush();
-
+    
             return $this->redirectToRoute('app_reclamation_index', [], Response::HTTP_SEE_OTHER);
         }
-
+    
         return $this->renderForm('reclamation/new.html.twig', [
             'reclamation' => $reclamation,
             'form' => $form,
         ]);
     }
+    
 
     #[Route('/{idReclamation}', name: 'app_reclamation_show', methods: ['GET'])]
     public function show(Reclamation $reclamation): Response
