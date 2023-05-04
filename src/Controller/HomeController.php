@@ -20,6 +20,8 @@ class HomeController extends AbstractController
 
         $evenements = $repoevent->findAll();
         $nbevenements = count($evenements);
+        $livresnb = $repoevent->findAll();
+        $nblivres = count($livresnb);
         
 
         // Call the event function from EvenementRepository to get the last 3 events
@@ -34,7 +36,7 @@ class HomeController extends AbstractController
             'nbevenements' => $nbevenements,
             'nbutilisateurs' => $nbutilisateurs,
             'livres'=>$livres,
-           
+            'nblivres'=>$nblivres,
             'lastEvents' => $lastEvents, // Pass the last 3 events to the template
             'message' => 'Welcome to my homepage!',
         ]);
