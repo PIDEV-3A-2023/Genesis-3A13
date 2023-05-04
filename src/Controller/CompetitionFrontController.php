@@ -77,7 +77,7 @@ class CompetitionFrontController extends AbstractController
     }
     #[Route('/quiz/{idCompetition}', name: 'app_competition_quiz_front', methods: ['GET'])]
     public function quiz(QuestionRepository $repo, $idCompetition, CompetitionRepository $competitionRepo): Response
-    {
+    {$this->denyAccessUnlessGranted('ROLE_USER');
         $score = 0;
 
         $comp = $idCompetition;
@@ -93,7 +93,7 @@ class CompetitionFrontController extends AbstractController
     }
     #[Route('/quiz/participer/{comp}', name: 'app_competition_participer_front')]
     public function participate(Request $request, QuestionRepository $repo, $comp, UtilisateurRepository $repouser, ResultatQuizRepository $repores, QuizRepository $repoQuiz, competitionRepository $repoComp, Security $security, MailerInterface $mailer): Response
-    {
+    {$this->denyAccessUnlessGranted('ROLE_USER');
         $Client = $security->getUser();
         $idComp = array('idUtilisateur' => $Client);
         $idClient = $repouser->findOneBy($idComp);
