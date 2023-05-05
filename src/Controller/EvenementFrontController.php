@@ -52,7 +52,7 @@ class EvenementFrontController extends AbstractController
         $data = [];
         // Loop through each competition and convert the image data to a base64-encoded string
         foreach ($evenements as $evenement) {
-            $imageData = null;
+            $imageUrl = null;
             if ($evenement->getImage() !== null) {
                 $imageResource = $evenement->getImage();
                 $imageString = stream_get_contents($imageResource);
