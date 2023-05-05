@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use App\Repository\MessagerieRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -38,12 +39,12 @@ class MessagerieController extends AbstractController
         // ...
     }
     #[Route('/', name: 'app_messagerie_index', methods: ['GET'])]
-    public function index(EntityManagerInterface $entityManager,MessagerieRepository $messagerieRepository): Response
+    public function index(EntityManagerInterface $entityManager,MessagerieRepository $messagerieRepository, Security $security): Response
     {
      
         $messageries = $messagerieRepository
 
-            ->findByUser($this->getUser()->getIdUtilisateur());
+            ->findByUser($security->getUser());
            
         return $this->render('messagerie/index.html.twig', [
             'messageries' => $messageries,

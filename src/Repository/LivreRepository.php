@@ -53,7 +53,7 @@ class LivreRepository extends ServiceEntityRepository
 //            ->getResult()
 //        ;
 //    }
-   public function trier(): array
+   public function trier()
    {
        return $this->createQueryBuilder('l')
           
@@ -61,7 +61,7 @@ class LivreRepository extends ServiceEntityRepository
            ->orderBy('l.prix', 'ASC')
            ->setMaxResults(10)
            ->getQuery()
-           ->getResult()
+           
        ;
    }
 

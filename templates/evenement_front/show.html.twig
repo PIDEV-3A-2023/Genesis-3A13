@@ -89,7 +89,7 @@
 							<small>
 
 
-								<button class="btn btn-link text-warning" onclick="showEditForm({{ commentaire.idCommentaire }})">
+								{# <button class="btn btn-link text-warning" onclick="showEditForm({{ commentaire.idCommentaire }})">
 									<i class="fas fa-edit"></i>
 								</button>
 
@@ -97,7 +97,7 @@
 									<textarea id="commentaire-text-{{ commentaire.idCommentaire }}" name="commentaireedit" class="form-control">{{ commentaire.commentaire }}</textarea>
 									<button class="btn btn-warning mt-2" onclick="editCommentaire({{ commentaire.idCommentaire }})">
 										<i class="fas fa-edit"></i>Modifier</button>
-								</div>
+								</div> #}
 								<script>
 									function showEditForm(idCommentaire) { // Afficher le formulaire de modification
 $('#commentaire-form-' + idCommentaire).show();
