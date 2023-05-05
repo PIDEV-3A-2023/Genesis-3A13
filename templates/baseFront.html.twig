@@ -38,8 +38,6 @@
 		rel="stylesheet" href="{{asset('Front/css/responsiveCss.css')}}">
 		<!-- Costom css-->
 		<link rel="stylesheet" href="{{asset('Front/css/style.css')}}">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
 
 	</head>
 	<body>
@@ -97,14 +95,7 @@
 						</li>
 					</ul>
 
-<li class="nav-item">
-							<a class="nav-link" style="color:#D4A373;" {% if app.request.attributes.get('_route') == 'app_messagerie_index'  %}style="color:#00377E;" {% else %}style="color:#D4A373;"{% endif %} href="{{path('app_messagerie_index')}}">
-								<h6>
-									<b>Messages</b>
-								</h6>
-							</a>
-						</li>
-					</ul>
+
 					{% if app.user %}
 						<ul class="d-flex ml-auto navbar-nav">
 						<div class="dropdown nav-item" >
@@ -120,7 +111,8 @@
 						<a  class="nav-link" style="color:#D4A373;" href="{{ path('app_profile_edit',{'idUtilisateur': app.user.idUtilisateur}) }}"><i class="fa fa-user"></i>  Mon Profile</a>
 						<a  class="nav-link" style="color:#D4A373;" href="{{ path('app_fidelite_front') }}"><i class="far fa-id-card"></i>  Fidelité</a>
 						<a  class="nav-link" style="color:#D4A373;" href="{{ path('app_offre_front') }}"><i class="fas fa-percent"></i>  Offre</a>
-									 
+						<a  class="nav-link" style="color:#D4A373;" href="{{ path('app_messagerie_index') }}"><i class="fas fa-inbox"></i> Messages</a>
+ 
 									 <div class="dropdown-divider"></div>		
 						<a  class="nav-link" style="color:#D4A373;" href="{{ path('app_logout') }}"><i class="fas fa-sign-out-alt"></i>  Déconnecter
 						</a>
@@ -203,7 +195,6 @@
 		<script src="{{asset('Front/js/Wow/wow.min.js')}}"></script>
 		<!-- Costom js -->
 		<script src="{{asset('Front/js/script.js')}}"></script>
-		
 
 	</body>
 </html>

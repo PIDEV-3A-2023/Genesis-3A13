@@ -14,10 +14,16 @@ class LivreFrontController extends AbstractController
 {
   
     #[Route('/trier', name: 'app_livre_trier', methods: ['GET'])]
-    public function trier(LivreRepository $livreRepository): Response
+    public function trier(LivreRepository $livreRepository,PaginatorInterface $paginator,Request $request): Response
     {
+        $trie=$livreRepository->trier();
+        $livres = $paginator->paginate(
+            $trie,
+            $request->query->getInt('page', 1), // Current page number, defaults to 1
+            10 // Number of items per page
+        );
         return $this->render('livre_front/index.html.twig', [
-            'livres' => $livreRepository->trier(),
+            'livres' => $livres,
       
         ]); }  
 

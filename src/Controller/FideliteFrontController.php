@@ -19,9 +19,9 @@ class FideliteFrontController extends AbstractController
     #[Route('/ff', name: 'app_fidelite_front')]
     public function index(EntityManagerInterface $entityManager,FideliteRepository $repo): Response
     {
-        $fidelite = $entityManager->getRepository(Fidelite::class)->findOneByIdClient(8);
-        $user = $entityManager->getRepository(Utilisateur::class)->find(8);
-        $totalAchat = $repo->calculateTotalAchatByIdClient(8);
+        $fidelite = $entityManager->getRepository(Fidelite::class)->findOneByIdClient(11);
+        $user = $entityManager->getRepository(Utilisateur::class)->find(11);
+        $totalAchat = $repo->calculateTotalAchatByIdClient(11);
         $totalAchatInt = intval($totalAchat);
 
             $fidelite->setTotalachat($totalAchatInt);
