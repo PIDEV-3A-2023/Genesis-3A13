@@ -28,6 +28,7 @@ use BaconQrCode\Encoder\QrCode;
 use BaconQrCode\Renderer\Image\Png;
 use BaconQrCode\Writer;
 use BaconQrCode\Encoder\Encoder;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 
 
@@ -91,6 +92,39 @@ class EvenementFrontController extends AbstractController
 
         ]);
     }
+    //show json
+    #[Route('/show/{idEvenement}', name: 'app_evenement_show_rest', methods: ['GET'])]
+    public function showRest(Evenement $evenement, CommentaireRepository $repocom): Response
+    {
+        $data = [];
+        $imageData = null;
+        
+
+        if ($evenement->getImage() !== null) {
+
+            $imageResource = $evenement->getImage();
+            $imageString = stream_get_contents($imageResource);
+            $compressedData = gzcompress($imageString);
+            $imageData = base64_encode($compressedData);
+            $encodedData = urlencode($imageData);
+            $imageUrl =  $encodedData;
+        }
+        $data[] = [
+            'idEvenement' => $evenement->getIdEvenement(),
+            'idLivre' => $evenement->getIdLivre()->getTitre(),
+            'nom' => $evenement->getNom(),
+            'lieu' => $evenement->getLieu(),
+            'date' => $evenement->getDate(),
+            'description' => $evenement->getDescription(),
+            'heure'=>$evenement->getHeure(),
+            'nbticket'=>$evenement->getNbTicket(),
+            'image' => $imageUrl,
+
+        ];
+
+        return $this->json($data, 200, ['Content-Type' => 'application/json']);
+
+    }
     #[Route('/commentaire/{idEvenement}', name: 'commentaire', methods: ['GET'])]
     public function commenter(Evenement $evenement, CommentaireRepository $repocom, Request $request, UtilisateurRepository $repouser, Security $security): Response
     {
@@ -112,6 +146,50 @@ class EvenementFrontController extends AbstractController
             'commentaires' => $commentaires,
         ]);
     }
+    ///comment json////////
+    #[Route('/commentaire/get/{idEvenement}', name: 'commentaire_rest', methods: ['GET'])]
+    public function commenterRest(Evenement $evenement, CommentaireRepository $repocom, Request $request, UtilisateurRepository $repouser, Security $security): Response
+    {
+        
+    
+        $commentaires = $repocom->findBy(['idEvenement' => $evenement->getIdEvenement()]);
+    $data=[];
+        foreach ($commentaires as $commentaire) {
+            $data[] = [
+                'idCommentaire' => $commentaire->getIdCommentaire(),
+                'commentaire' => $commentaire->getCommentaire(),
+                'idEvenement' => $commentaire->getIdEvenement()->getNom(),
+                'idClient' => $commentaire->getIdClient()->getIdUtilisateur(),
+            ];
+        }
+    
+        // Return the comment and the updated comment list as a JSON response
+        return $this->json($data);
+    }
+
+    #[Route('/commentaire/neww/{idEvenement}', name: 'commentaire_new', methods: ['GET'])]
+    public function newcommenter(Evenement $evenement, CommentaireRepository $repocom, Request $request, UtilisateurRepository $repouser, Security $security): Response
+    {
+
+        // Extract the required fields from the payload
+        $commentaire = $request->query->get("commentaire");
+        $idClient = 14;
+    
+        // Retrieve the user based on the provided $idClient
+        $client = $repouser->find($idClient);
+       
+    
+        $comm = new Commentaire();
+        $comm->setCommentaire($commentaire);
+        $comm->setIdEvenement($evenement);
+        $comm->setIdClient($client);
+        $repocom->save($comm, true);
+    
+        return $this->json([
+            'success' => 'Commentaire a été créé avec succès!',
+        ]);
+    }
+    /////end comment json/////
     #[Route('/commentaire/delete/{idCommentaire}', name: 'app_commentaire_delete')]
     public function deleteCommentaire(Request $request, Commentaire $commentaire, EntityManagerInterface $entityManager): Response
     {
