@@ -85,7 +85,7 @@
 								
 								<td>{{ evenement.nbTicket }}</td>
 								{% if evenement.image is not null %}
-    <td><img src="data:image/jpeg;base64,{{ evenement.image|blobToBase64 }}" width="50" height="50" class="card-img-top" alt="..."></td>
+    <td><img src="{{asset('/Photos/evenements/' ~ evenement.image)}}" width="50" height="50" class="card-img-top" alt="..."></td>
 {% else %}
     <td><img src="{{asset('Front/images/evenement/quiz.png')}}" width="50" height="50" class="card-img-top" alt="..."></td>
 {% endif %}

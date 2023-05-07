@@ -2,14 +2,10 @@
 
 namespace App\Entity;
 
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 use Symfony\Component\Validator\Constraints as Assert;
-
-
-use App\Repository\EvenementRepository;
-
+use Doctrine\DBAL\Types\Types;
 
 /**
  * Evenement
@@ -33,8 +29,8 @@ class Evenement
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=255, nullable=false)
-     * 
-     */
+     *
+    */
     #[Assert\NotBlank(message: 'nom obligatoire!')]
     #[Assert\Length(max: 255, maxMessage: 'Le nom ne peut pas dépasser {{ limit }} caractères.')]
     #[Assert\Length(min: 5, minMessage: 'Le nom ne peut pas etre inférieure {{ limit }} caractères.')]
@@ -47,7 +43,6 @@ class Evenement
      */
     #[Assert\NotBlank(message: 'date obligatoire!')]
     #[Assert\GreaterThanOrEqual("today", message: 'La date doit être supérieure ou égale à la date d\'aujourd\'hui!')]
-
     private $date;
 
     /**
@@ -56,7 +51,6 @@ class Evenement
      * @ORM\Column(name="heure", type="time", nullable=false)
      */
     #[Assert\NotBlank(message: 'heure obligatoire!')]
-
 
     private $heure;
 
@@ -91,6 +85,13 @@ class Evenement
     private $nbTicket;
 
     /**
+     * @var string|null
+     *
+     * @ORM\Column(name="image", type="string", length=255, nullable=true)
+     */
+    private $image;
+
+    /**
      * @var Utilisateur
      *
      * @ORM\ManyToOne(targetEntity="Utilisateur")
@@ -100,7 +101,6 @@ class Evenement
      */
     #[Assert\NotBlank(message: 'Auteur obligatoire!')]
     private $idAuteur;
-
 
     /**
      * @var Livre
@@ -112,14 +112,6 @@ class Evenement
      */
     #[Assert\NotBlank(message: 'Livre obligatoire!')]
     private $idLivre;
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="image", type="blob", length=0, nullable=true)
-     */
-
-    private $image;
-
     public function getIdEvenement(): ?int
     {
         return $this->idEvenement;
@@ -232,3 +224,5 @@ class Evenement
         return $this;
     }
 }
+
+
