@@ -52,7 +52,11 @@ class CompetitionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $imageFile = $form->get('image')->getData();
             if ($imageFile) {
-                $imageData = file_get_contents($imageFile);
+                $imageData = $competition->getIdCompetition().'.'.$imageFile->guessExtension();
+                $imageFile->move(
+                    $this->getParameter('competitions_directory'),
+                    $imageData
+                );
                 $competition->setImage($imageData);
             }
             $repo->save($competition, true);
@@ -119,7 +123,11 @@ class CompetitionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $imageFile = $form->get('image')->getData();
             if ($imageFile) {
-                $imageData = file_get_contents($imageFile);
+                $imageData = $competition->getIdCompetition().'.'.$imageFile->guessExtension();
+                $imageFile->move(
+                    $this->getParameter('competitions_directory'),
+                    $imageData
+                );
                 $competition->setImage($imageData);
             }
             $entityManager->flush();

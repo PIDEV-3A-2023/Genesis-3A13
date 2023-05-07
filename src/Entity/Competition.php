@@ -85,7 +85,7 @@ class Competition
     /**
      * @var string|null
      *
-     * @ORM\Column(name="image", type="blob", length=0, nullable=true)
+     * @ORM\Column(name="image", type="string", length=255, nullable=true)
      */
     private $image;
 

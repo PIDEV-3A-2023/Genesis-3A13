@@ -20,6 +20,7 @@ use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Serializer\Normalizer\DataUriNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\HttpFoundation\File\File;
 
 #[Route('/competitions')]
 class CompetitionFrontController extends AbstractController
@@ -46,16 +47,8 @@ class CompetitionFrontController extends AbstractController
         $data = [];
         // Loop through each competition and convert the image data to a base64-encoded string
         foreach ($competitions as $competition) {
-            $imageData = null;
-            if ($competition->getImage() !== null) {
 
-                $imageResource = $competition->getImage();
-                $imageString = stream_get_contents($imageResource);
-                $compressedData = gzcompress($imageString);
-                $imageData = base64_encode($compressedData);
-                $encodedData = urlencode($imageData);
-                $imageUrl =  $encodedData;
-            }
+         
             $data[] = [
                 'idCompetition' => $competition->getIdCompetition(),
                 'idLivre' => $competition->getIdLivre()->getTitre(),
@@ -65,7 +58,7 @@ class CompetitionFrontController extends AbstractController
                 'listePaticipants' => $competition->getListePaticipants(),
                 'dateDebut' => $competition->getDateDebut(),
                 'dateFin' => $competition->getDateFin(),
-                'image' => $imageUrl,
+                'image' => $competition->getImage(),
 
             ];
         }
@@ -95,18 +88,7 @@ class CompetitionFrontController extends AbstractController
     {
 
         $data = [];
-        $imageData = null;
-        //dd($competition);
-
-        if ($competition->getImage() !== null) {
-
-            $imageResource = $competition->getImage();
-            $imageString = stream_get_contents($imageResource);
-            $compressedData = gzcompress($imageString);
-            $imageData = base64_encode($compressedData);
-            $encodedData = urlencode($imageData);
-            $imageUrl =  $encodedData;
-        }
+       
         $data[] = [
             'idCompetition' => $competition->getIdCompetition(),
             'idLivre' => $competition->getIdLivre()->getTitre(),
@@ -116,7 +98,7 @@ class CompetitionFrontController extends AbstractController
             'listePaticipants' => $competition->getListePaticipants(),
             'dateDebut' => $competition->getDateDebut()? $competition->getDateDebut()->format('Y-m-d') : null,
             'dateFin' => $competition->getDateFin()? $competition->getDateFin()->format('Y-m-d') : null,
-            'image' => $imageUrl,
+            'image' => $competition->getImage(),
 
         ];
 
