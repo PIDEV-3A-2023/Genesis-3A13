@@ -54,7 +54,7 @@
 
 
 {% if evenement.image is not null %}
-								<img src="data:image/png;base64,{{ evenement.image|blobToBase64 }}" style="border-radius: 10%;padding-top:15px;padding-left:15px;padding-right:15px" class="card-img-top" alt="...">
+								<img src="{{asset('/Photos/evenements/' ~ evenement.image)}}" style="border-radius: 10%;padding-top:15px;padding-left:15px;padding-right:15px" class="card-img-top" alt="...">
 							{% else %}
 								<img src="{{asset('Front/images/competition/quiz.png')}}" class="card-img-top" style="border-radius: 10%;padding-top:15px;padding-left:15px;padding-right:15px" alt="...">
 							{% endif %}
