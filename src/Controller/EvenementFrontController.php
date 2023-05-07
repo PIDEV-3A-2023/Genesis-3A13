@@ -28,8 +28,7 @@ use BaconQrCode\Encoder\QrCode;
 use BaconQrCode\Renderer\Image\Png;
 use BaconQrCode\Writer;
 use BaconQrCode\Encoder\Encoder;
-use Symfony\Component\HttpFoundation\JsonResponse;
-
+use Symfony\Component\HttpFoundation\File\File;
 
 
 
@@ -53,15 +52,26 @@ class EvenementFrontController extends AbstractController
         $data = [];
         // Loop through each competition and convert the image data to a base64-encoded string
         foreach ($evenements as $evenement) {
-            $imageUrl = null;
-            if ($evenement->getImage() !== null) {
+            
+            $image=$evenement->getImage();
+            if ($image) {
+                $imageResource = $this->getParameter('photos_directory').'/'.$image;
+               // $imageResource = $evenement->getImage();
+                $imageFile = new File($imageResource);
+                // $compressedData = gzcompress($imageString);
+                $imageData = base64_encode($imageFile);
+                // $encodedData = urlencode($imageData);
+                // $imageUrl =  $encodedData;
+                $evenement->setImage($imageData);
+            }
+          /*  if ($evenement->getImage() !== null) {
                 $imageResource = $evenement->getImage();
                 $imageString = stream_get_contents($imageResource);
                 $compressedData = gzcompress($imageString);
                 $imageData = base64_encode($compressedData);
                 $encodedData = urlencode($imageData);
                 $imageUrl =  $encodedData;
-            }
+            }*/
             $data[] = [
                 'idEvenement' => $evenement->getIdEvenement(),
                 'idLivre' => $evenement->getIdLivre()->getTitre(),
@@ -71,7 +81,7 @@ class EvenementFrontController extends AbstractController
                 'description' => $evenement->getDescription(),
                 'heure'=>$evenement->getHeure(),
                 'nbticket'=>$evenement->getNbTicket(),
-                'image' => $imageUrl,
+                'image' => $evenement->getImage(),
 
             ];
         }
@@ -99,15 +109,16 @@ class EvenementFrontController extends AbstractController
         $data = [];
         $imageData = null;
         
-
-        if ($evenement->getImage() !== null) {
-
-            $imageResource = $evenement->getImage();
-            $imageString = stream_get_contents($imageResource);
-            $compressedData = gzcompress($imageString);
-            $imageData = base64_encode($compressedData);
-            $encodedData = urlencode($imageData);
-            $imageUrl =  $encodedData;
+        $image=$evenement->getImage();
+        if ($image) {
+            $imageResource = $this->getParameter('photos_directory').'/'.$image;
+           // $imageResource = $evenement->getImage();
+            $imageFile = new File($imageResource);
+            // $compressedData = gzcompress($imageString);
+            $imageData = base64_encode($imageFile);
+            // $encodedData = urlencode($imageData);
+            // $imageUrl =  $encodedData;
+            $evenement->setImage($imageData);
         }
         $data[] = [
             'idEvenement' => $evenement->getIdEvenement(),
@@ -118,7 +129,7 @@ class EvenementFrontController extends AbstractController
             'description' => $evenement->getDescription(),
             'heure'=>$evenement->getHeure(),
             'nbticket'=>$evenement->getNbTicket(),
-            'image' => $imageUrl,
+            'image' => $evenement->getImage(),
 
         ];
 
