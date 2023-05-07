@@ -60,7 +60,7 @@
 					<div class="col-4 justify-content-center">
 						<div class="card border-0 shadow mb-4">
 							{% if competition.image is not null %}
-								<img src="data:image/png;base64,{{ competition.image|blobToBase64 }}" style="border-radius: 10%;padding-top:15px;padding-left:15px;padding-right:15px" class="card-img-top" alt="...">
+								<img src="{{ asset('/Photos/competitions/' ~ competition.image)}}" style="border-radius: 10%;padding-top:15px;padding-left:15px;padding-right:15px" class="card-img-top" alt="...">
 							{% else %}
 								<img src="{{asset('Front/images/competition/quiz.png')}}" class="card-img-top" style="border-radius: 10%;padding-top:15px;padding-left:15px;padding-right:15px" alt="...">
 							{% endif %}

@@ -33,7 +33,7 @@
 			<tr>
 				<th class="text-primary fw-bold">Image</th>
 				{% if competition.image is not null %}
-					<td><img src="data:image/png;base64,{{ competition.image|blobToBase64 }}"  class="card-img-top" alt="..."></td>
+					<td><img src="{{ asset('/Photos/competitions/' ~ competition.image)}}"  class="card-img-top" alt="..."></td>
 				{% else %}
 					<td><img src="{{asset('Front/images/competition/quiz.png')}}"  class="card-img-top" alt="..."></td>
 				{% endif %}
