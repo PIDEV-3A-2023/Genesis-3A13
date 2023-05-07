@@ -53,25 +53,7 @@ class EvenementFrontController extends AbstractController
         // Loop through each competition and convert the image data to a base64-encoded string
         foreach ($evenements as $evenement) {
             
-            $image=$evenement->getImage();
-            if ($image) {
-                $imageResource = $this->getParameter('photos_directory').'/'.$image;
-               // $imageResource = $evenement->getImage();
-                $imageFile = new File($imageResource);
-                // $compressedData = gzcompress($imageString);
-                $imageData = base64_encode($imageFile);
-                // $encodedData = urlencode($imageData);
-                // $imageUrl =  $encodedData;
-                $evenement->setImage($imageData);
-            }
-          /*  if ($evenement->getImage() !== null) {
-                $imageResource = $evenement->getImage();
-                $imageString = stream_get_contents($imageResource);
-                $compressedData = gzcompress($imageString);
-                $imageData = base64_encode($compressedData);
-                $encodedData = urlencode($imageData);
-                $imageUrl =  $encodedData;
-            }*/
+            
             $data[] = [
                 'idEvenement' => $evenement->getIdEvenement(),
                 'idLivre' => $evenement->getIdLivre()->getTitre(),
@@ -107,27 +89,15 @@ class EvenementFrontController extends AbstractController
     public function showRest(Evenement $evenement, CommentaireRepository $repocom): Response
     {
         $data = [];
-        $imageData = null;
         
-        $image=$evenement->getImage();
-        if ($image) {
-            $imageResource = $this->getParameter('photos_directory').'/'.$image;
-           // $imageResource = $evenement->getImage();
-            $imageFile = new File($imageResource);
-            // $compressedData = gzcompress($imageString);
-            $imageData = base64_encode($imageFile);
-            // $encodedData = urlencode($imageData);
-            // $imageUrl =  $encodedData;
-            $evenement->setImage($imageData);
-        }
         $data[] = [
             'idEvenement' => $evenement->getIdEvenement(),
             'idLivre' => $evenement->getIdLivre()->getTitre(),
             'nom' => $evenement->getNom(),
             'lieu' => $evenement->getLieu(),
-            'date' => $evenement->getDate(),
+            'date' => $evenement->getDate()? $evenement->getDate()->format('Y-m-d') : null,
             'description' => $evenement->getDescription(),
-            'heure'=>$evenement->getHeure(),
+            'heure'=>$evenement->getHeure()? $evenement->getHeure()->format('h:i:s') : null,
             'nbticket'=>$evenement->getNbTicket(),
             'image' => $evenement->getImage(),
 

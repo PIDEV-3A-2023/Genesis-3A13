@@ -56,7 +56,8 @@ class EvenementController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $imageFile = $form->get('image')->getData();
             if ($imageFile) {
-                $imageData = uniqid().'.'.$imageFile->guessExtension();
+                $imageData = file_get_contents($imageFile);
+                $imageData = $evenement->getIdEvenement().'.'.$imageFile->guessExtension();
                 $imageFile->move(
                     $this->getParameter('photos_directory'),
                     $imageData
@@ -97,7 +98,13 @@ class EvenementController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $imageFile = $form->get('image')->getData();
             if ($imageFile) {
+
                 $imageData = file_get_contents($imageFile);
+                $imageData = $evenement->getIdEvenement().'.'.$imageFile->guessExtension();
+                $imageFile->move(
+                    $this->getParameter('photos_directory'),
+                    $imageData
+                );
                 $evenement->setImage($imageData);
             }
            
