@@ -215,23 +215,19 @@ class FideliteController extends AbstractController
         ]);
     }
     
-    #[Route('/get', name: 'app_fidelite_front_rest')]
-    public function index_rest(FideliteRepository $repo, BlobExtension $blobExtension): Response
+    #[Route('/get/{idfidelite}', name: 'app_fidelite_show_rest', methods: ['GET'])]
+    public function showRest(Competition $competition): Response
     {
-        $fidelites = $repo->findAll();
         $data = [];
-        foreach ($fidelites as $fidelite) {
-
-         
-            $data[] = [
+        $data[] = [
                 'idFidelite' => $fidelite->getIdFidelite(),
                 'totalAchat' => $fidelite->totalAchat(),
                 'type' => $fidelite->type(),
                 'idClient' => $fidelite->idClient(),
              
             ];
-        }
-        return $this->json($data, 200, ['Content-Type' => 'application/json']);
+        
+            return $this->json($data, 200, ['Content-Type' => 'application/json']);
 
     }
 }
