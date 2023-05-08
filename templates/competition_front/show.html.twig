@@ -57,7 +57,7 @@
 		</div>
 	{% else %}
 		<div style="padding-left:10px;padding-bottom:10px">
-			<button type="button" class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;" {% if app.user.idUtilisateur in competition.listePaticipants|json_encode %} data-toggle="modal" data-target="#modal-notification" {% else %} data-toggle="modal" data-target="#confirmModal" {% endif %}>
+			<button type="button" class="btn btn-primary d-inline-flex align-items-center" style="background-color:#00377E;" {% if app.user.idUtilisateur in competition.listePaticipants|json_encode %} data-toggle="modal" data-target="#modal-notification" {% else %} data-toggle="modal" data-target="#confirmModal{{competition.idCompetition}}" {% endif %}>
 				<i class="fas fa-plus" style="padding-right:3px"></i>
 				Participer
 			</button>
@@ -87,7 +87,7 @@
 
 
 		<!-- Modal Content -->
-		<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+		<div class="modal fade" id="confirmModal{{competition.idCompetition}}" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">

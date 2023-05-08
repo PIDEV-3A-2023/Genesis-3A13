@@ -16,6 +16,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Address;
 use Knp\Component\Pager\PaginatorInterface;
+use Twilio\Rest\Client;
 
 
 #[Route('/evenement')]
@@ -28,6 +29,7 @@ class EvenementController extends AbstractController
             ->getRepository(Evenement::class)
             ->findAll();
         $query = $repo->createQueryBuilder('c')
+        
             ->getQuery();
 
         $evenements = $paginator->paginate(
@@ -48,7 +50,13 @@ class EvenementController extends AbstractController
         $form = $this->createForm(EvenementType::class, $evenement);
         $form->handleRequest($request);
 
+
         if ($form->isSubmitted() && $form->isValid()) {
+            $imageFile = $form->get('image')->getData();
+            if ($imageFile) {
+                $imageData = file_get_contents($imageFile);
+                $evenement->setImage($imageData);
+            }
             $entityManager->persist($evenement);
             $entityManager->flush();
             $this->addFlash('success', 'Evenement ajouté avec succés!');
@@ -59,6 +67,7 @@ class EvenementController extends AbstractController
         return $this->renderForm('evenement/new.html.twig', [
             'evenement' => $evenement,
             'form' => $form,
+            
         ]);
     }
 
@@ -90,20 +99,40 @@ class EvenementController extends AbstractController
     }
 
     #[Route('/{idEvenement}', name: 'app_evenement_delete', methods: ['POST'])]
-    public function delete(UtilisateurRepository $repouser, Request $request, Evenement $evenement, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
-    {
-        if ($this->isCsrfTokenValid('delete' . $evenement->getIdEvenement(), $request->request->get('_token'))) {
-            $clients = $repouser->getUserWithRole('Client');
-            foreach ($clients as $client) {
+public function delete(UtilisateurRepository $repouser, Request $request, Evenement $evenement, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
+{
+    if ($this->isCsrfTokenValid('delete' . $evenement->getIdEvenement(), $request->request->get('_token'))) {
+        $clients = $repouser->getUserWithRole('Client');
+        foreach ($clients as $client) {
 
-                $email = (new Email())
-                    ->from(new Address('maktabti10@gmail.com', 'Maktabti Application'))
-                    ->to($client->getEmail())
-                    ->subject('Evenement annulé!')
-                    ->text(sprintf("Cher Mr/Mme %s %s,\n\nNous sommes vraiment désolé de vous informer que notre evenement %s est annulé. Merci pour votre compréhension.\n\n-- \nMaktabti Application \nNuméro de téléphone : +216 52 329 813 \nAdresse e-mail : maktabti10@gmail.com \nSite web : www.maktabti.com", $client->getNom(), $client->getPrenom(), $evenement->getNom()));
+            $emailMessage = sprintf("Cher Mr/Mme %s %s,\n\nNous sommes vraiment désolé de vous informer que notre evenement %s est annulé. Merci pour votre compréhension.\n\n-- \nMaktabti Application \nNuméro de téléphone : +216 52 329 813 \nAdresse e-mail : maktabti10@gmail.com \nSite web : www.maktabti.com", $client->getNom(), $client->getPrenom(), $evenement->getNom());
 
-                $mailer->send($email);
-            }
+            $email = (new Email())
+                ->from(new Address('maktabti10@gmail.com', 'Maktabti Application'))
+                ->to($client->getEmail())
+                ->subject('Evenement annulé!')
+                ->text($emailMessage);
+
+            $mailer->send($email);
+
+            $phoneNumber = '+21658412527';
+            $sid    = $_ENV['TWILIO_ACCOUNT_SID'];
+            $token  = $_ENV['TWILIO_AUTH_TOKEN'];
+            $twilio = new Client($sid, $token);
+
+            $message = $twilio->messages->create(
+                $phoneNumber, // Numéro de téléphone destinataire
+                array(
+                    'from' => $_ENV['TWILIO_PHONE_NUMBER'], // Votre numéro Twilio
+                    'body' => $emailMessage // Le corps du message SMS
+                )
+            );
+
+        }
+    
+
+
+
             $entityManager->remove($evenement);
             $entityManager->flush();
         }

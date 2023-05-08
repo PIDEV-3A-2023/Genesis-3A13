@@ -81,4 +81,16 @@ class UtilisateurRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+public function findBestUserByParticipations()
+{
+    return $this->createQueryBuilder('u')
+        ->select('u As utilisateur, COUNT(c.idCompetition) AS participations_count')
+        ->leftJoin('App\Entity\competition', 'c', 'WITH', 'c.listePaticipants LIKE CONCAT(\'%[\', u.idUtilisateur, \']%\')')
+        ->groupBy('u.idUtilisateur')
+        ->orderBy('participations_count', 'DESC')
+        ->setMaxResults(1)
+        ->getQuery()
+        ->getOneOrNullResult();
+}
 }

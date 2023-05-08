@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use App\Repository\CompetitionRepository;
+
 /**
  * Competition
  *
@@ -37,11 +37,10 @@ class Competition
     private $recompense;
 
     /**
-     * @var string
+     * @var string|null
      *
      * @ORM\Column(name="liste_paticipants", type="text", length=65535, nullable=true)
      */
-    
     private $listePaticipants;
 
     /**
@@ -84,14 +83,22 @@ class Competition
     private $dateFin;
 
     /**
+     * @var string|null
+     *
+     * @ORM\Column(name="image", type="blob", length=0, nullable=true)
+     */
+    private $image;
+
+    /**
      * @var Livre
      *
      * @ORM\ManyToOne(targetEntity="Livre")
      * @ORM\JoinColumns({
-     * @ORM\JoinColumn(name="id_livre", referencedColumnName="id_livre")
+     *   @ORM\JoinColumn(name="id_livre", referencedColumnName="id_livre")
      * })
      */
-    #[Assert\NotBlank(message: 'Livre est obligatoire!')]
+    
+     #[Assert\NotBlank(message: 'Livre est obligatoire!')]
     private $idLivre;
 
     public function getIdCompetition(): ?int
@@ -182,6 +189,16 @@ class Competition
 
         return $this;
     }
+    public function getImage()
+    {
+        return $this->image;
+    }
 
+    public function setImage($image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
 
 }

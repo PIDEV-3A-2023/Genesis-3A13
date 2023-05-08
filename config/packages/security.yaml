@@ -28,7 +28,10 @@ security:
             custom_authenticator: App\Security\AppAuthenticator
                 # where to redirect after logout
                 # target: app_any_route
-
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 31536000 # 1 year in seconds
+                path: /
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 
@@ -40,7 +43,8 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
-        - { path: ^/2fa, role: IS_AUTHENTICATED_2FA_IN_PROGRESS }
+        #- { path: ^/2fa, role: IS_AUTHENTICATED_2FA_IN_PROGRESS }
+
 
 
 when@test:

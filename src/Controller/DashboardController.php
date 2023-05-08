@@ -30,16 +30,34 @@ class DashboardController extends AbstractController
         $nbcompetitions = count($competitions);
         $chartData = [];
         $categoryData = [];
-        $nom = 'nn';
+        $nom = 'Prix Langlois';
+        $BestUser = $Userrepo->findBestUserByParticipations();
+   
         $chartData = $this->getChartDataForCompetition($nom, $repoResultat);
         $categoryData = $this->categoriesPerBook($repocat);
 
 
         $competitionssemaine =$repocomp->findCompetitionsOpenedThisWeek();
+        $doughnutDataCompetition = $this->doughnutChart($repocomp);
+        $eventsData = $this->chartevent($repoevent);
+        
+
 
     
         $utilisateurs = $Userrepo->findAll();
         $nbutilisateurs = count($utilisateurs);
+
+        $Admins=$Userrepo->getUserWithRole("Administrateur");
+        $nbadmins = count($Admins);
+
+        $Auteurs=$Userrepo->getUserWithRole("Auteur");
+        $nbaauteurs = count($Auteurs);
+
+        $Clients=$Userrepo->getUserWithRole("Client");
+        $nbaclients = count($Clients);
+
+        $doughnutDataUtilisateurs = $this->doughnutChartUsers($Userrepo);
+
 
       $evenements = $repoevent->findAll();
         $nbevenements = count($evenements);
@@ -53,11 +71,15 @@ class DashboardController extends AbstractController
             'competitions' => $competitions,
             'competitionssemaine' => $competitionssemaine,
             'chartData' => json_encode($chartData),
+            'BestUser' => $BestUser,
+            'doughnutDataCompetition' => json_encode($doughnutDataCompetition),
+            'doughnutDataUtilisateurs' => json_encode($doughnutDataUtilisateurs),
             'categoryData' => json_encode($categoryData),
             'nbevenements' => $nbevenements,
             'nblivres' => $nblivres,
             'nbutilisateurs' => $nbutilisateurs,
             'controller_name' => 'DashboardController',
+            'eventsData'=>$eventsData
 
         ]);
     }
@@ -149,6 +171,78 @@ class DashboardController extends AbstractController
         ];
         return $chartData;
     }
+    public function doughnutChart(CompetitionRepository $repository)
+{
+    // Récupérer le nombre de compétitions par mois de l'année en cours
+    $competitionsByMonth = $repository->countByMonth();
+
+    // Convertir les données en format compréhensible par Chart.js
+    $data = [];
+    foreach ($competitionsByMonth as $result) {
+        $data[] = [
+            'label' => strftime('%B', mktime(0, 0, 0, $result['month'], 1)),
+            'value' => $result['nbCompetitions'],
+        ];
+    }
+
+    return $data;
+}
+public function doughnutChartUsers(UtilisateurRepository $repository)
+{
+    // Récupérer le nombre d'utilisateurs pour chaque rôle
+    $Admins=$repository->getUserWithRole("Administrateur");
+    $nbAdmins = count($Admins);
+
+    $Auteurs=$repository->getUserWithRole("Auteur");
+    $nbAuteurs = count($Auteurs);
+
+    $Clients=$repository->getUserWithRole("Client");
+    $nbClients = count($Clients);
+
+    // Convertir les données en format compréhensible par Chart.js
+    $data = [
+        [
+            'label' => 'Administrateurs',
+            'value' => $nbAdmins,
+        ],
+        [
+            'label' => 'Auteurs',
+            'value' => $nbAuteurs,
+        ],
+        [
+            'label' => 'Clients',
+            'value' => $nbClients,
+        ],
+    ];
+
+    return $data;
+}
+
+ 
+
+public function chartevent(EvenementRepository $repository)
+{
+    // Call the function to get the number of events per month for the current year
+    $eventsPerMonth = $repository->countEventsPerMonth();
+
+    // Create an array with the number of events per month to pass to Twig
+    $eventsData = [];
+    $monthLabels = [];
+    for ($month = 1; $month <= 12; $month++) {
+        $monthLabel = date("M", strtotime("2000-$month-01"));
+        $eventsData[$monthLabel] = 0;
+        $monthLabels[] = $monthLabel;
+    }
+
+    foreach ($eventsPerMonth as $month) {
+        $monthLabel = date("M", strtotime($month['month'] . '-01'));
+        $eventsData[$monthLabel] = $month['numEvents'];
+    }
+
+    return $eventsData;
+}
+
+
 
 
 

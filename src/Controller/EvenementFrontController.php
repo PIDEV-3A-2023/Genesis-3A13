@@ -44,6 +44,41 @@ class EvenementFrontController extends AbstractController
             'controller_name' => 'EvenementFrontController',
         ]);
     }
+    ///////////////json get all////////////////
+    #[Route('/get', name: 'app_evenement_front_rest')]
+    public function index_rest(EvenementRepository $repo): Response
+    {
+        $evenements = $repo->findAll();
+        $data = [];
+        // Loop through each competition and convert the image data to a base64-encoded string
+        foreach ($evenements as $evenement) {
+            $imageData = null;
+            if ($evenement->getImage() !== null) {
+                $imageResource = $evenement->getImage();
+                $imageString = stream_get_contents($imageResource);
+                $compressedData = gzcompress($imageString);
+                $imageData = base64_encode($compressedData);
+                $encodedData = urlencode($imageData);
+                $imageUrl =  $encodedData;
+            }
+            $data[] = [
+                'idEvenement' => $evenement->getIdEvenement(),
+                'idLivre' => $evenement->getIdLivre()->getTitre(),
+                'nom' => $evenement->getNom(),
+                'lieu' => $evenement->getLieu(),
+                'date' => $evenement->getDate(),
+                'description' => $evenement->getDescription(),
+                'heure'=>$evenement->getHeure(),
+                'nbticket'=>$evenement->getNbTicket(),
+                'image' => $imageUrl,
+
+            ];
+        }
+
+        // Return the JSON response with the modified competition objects
+        return $this->json($data, 200, ['Content-Type' => 'application/json']);
+    }
+    
     #[Route('/{idEvenement}', name: 'app_evenement_show_front', methods: ['GET'])]
     public function show(Evenement $evenement, CommentaireRepository $repocom): Response
     {
@@ -214,7 +249,7 @@ class EvenementFrontController extends AbstractController
             $evenement->getNom() . " " .
             $ticket->getIdTicket();
         //dd($Client->getNom(),$Client->getPrenom(),$evenement->getIdEvenement(),$evenement->getNom(),$ticket->getIdTicket());
-       
+
         // // Create a new QrCode object
         $qrCode = $qrCodeData;
         $renderer = new Png();
@@ -225,7 +260,7 @@ class EvenementFrontController extends AbstractController
         // // Create a new writer and generate the QR code image
         $writer = new Writer($renderer);
         $qrCodeImage = $writer->writeString($qrCode);
-        $qrCodeDataUri="data:image/png;base64,".base64_encode($qrCodeImage);
+        $qrCodeDataUri = "data:image/png;base64," . base64_encode($qrCodeImage);
 
 
         // Render the ticket template using the generated data

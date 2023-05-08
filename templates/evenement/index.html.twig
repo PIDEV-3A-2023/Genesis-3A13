@@ -69,6 +69,7 @@
 							<th class="border-0">Lieu</th>
 							<th class="border-0">Description</th>
 							<th class="border-0">NbTicket</th>
+							<th class="border-0">Image</th>
 							<th class="border-0 rounded-end">actions</th>
 						</tr>
 					</thead>
@@ -83,6 +84,12 @@
 								<td>{{ evenement.lieu }}</td>
 								<td>{{ evenement.description }}</td>
 								<td>{{ evenement.nbTicket }}</td>
+								{% if evenement.image is not null %}
+    <td><img src="data:image/jpeg;base64,{{ evenement.image|blobToBase64 }}" width="50" height="50" class="card-img-top" alt="..."></td>
+{% else %}
+    <td><img src="{{asset('Front/images/evenement/quiz.png')}}" width="50" height="50" class="card-img-top" alt="..."></td>
+{% endif %}
+
 								<td>
 									<a href="{{ path('app_evenement_show', {'idEvenement': evenement.idEvenement}) }}">
 										<i class="fas fa-info-circle text-info"></i>
