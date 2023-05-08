@@ -18,6 +18,9 @@ use App\Repository\UtilisateurRepository;
 use App\Repository\FideliteRepository;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
+use Symfony\Component\Serializer\Normalizer\DataUriNormalizer;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\HttpFoundation\File\File;
 
 #[Route('/offre')]
 class OffreController extends AbstractController
@@ -169,6 +172,23 @@ class OffreController extends AbstractController
 
   
 
-   
+    #[Route('/get', name: 'app_offre_front_rest')]
+    public function index_rest(OffreRepository $repo, BlobExtension $blobExtension): Response
+    {
+        $offres = $repo->findAll();
+        $data = [];
+        foreach ($offres as $offre) {
 
+         
+            $data[] = [
+                'idOffre' => $offre->getIdOffre(),
+                'idLivre' => $offre->getIdLivre()->getTitre(),
+                'pourcentageSolde' => $offre->getPourcentageSolde(),
+                'prixSolde' => $offre->getPrixSolde(),
+             
+            ];
+        }
+        return $this->json($data, 200, ['Content-Type' => 'application/json']);
+
+    }
 }
