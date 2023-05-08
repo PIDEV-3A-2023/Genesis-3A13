@@ -5,12 +5,17 @@ namespace App\Controller;
 use App\Entity\Utilisateur;
 use App\Form\UtilisateurType;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
+use Symfony\Component\Serializer\SerializerInterface;
 #[Route('/utilisateur')]
 class UtilisateurController extends AbstractController
 {
@@ -114,5 +119,82 @@ class UtilisateurController extends AbstractController
         }
         $this->addFlash('success', 'Utilisateur supprimée avec succés!');
         return $this->redirectToRoute('app_utilisateur_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+
+    #[Route('/registerrest', name: 'app_register_rest', methods: ['POST','GET'])]
+    public function register_rest(Request $request, SerializerInterface $serializer, UserPasswordHasherInterface $userPasswordHasher): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $nom = $request->get('nom');
+        $prenom = $request->get('prenom');
+        $email = $request->get('email');
+        $motDePasse = $request->get('motDePasse');
+        $numTelephone = $request->get('numTelephone');
+        $role = $request->get('role');
+    
+        $user = new Utilisateur();
+        $user->setNom($nom);
+        $user->setPrenom($prenom);
+        $user->setEmail($email);
+        $user->setMotDePasse(
+            $userPasswordHasher->hashPassword(
+                $user,
+                $motDePasse
+            )
+        );
+        $user->setNumTelephone(intval($numTelephone));
+        $user->setRole($role);
+        $participantsArray = json_decode('$user', true); // On utilise json_decode pour convertir la liste de participants en tableau associatif
+        $em->persist($participantsArray);
+        $em->flush();
+        
+        try {
+            $json = $serializer->serialize($user, 'json', ['groups' => 'users']);
+    
+            return new Response($json, 200, [
+                'Content-Type' => 'application/json'
+            ]);
+        } catch (\Exception $ex) {
+            return new Response('Account was not created! ' . $ex->getMessage());
+        }
+    }
+
+    #[Route('/registerrestt', name: 'app_register_restt', methods: ['POST','GET'])]
+    public function register_restt(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager)
+    {
+
+        $nom= $request->query->get("nom");
+        $prenom= $request->query->get("prenom");
+        $email= $request->query->get("email");
+        $motDePasse= $request->query->get("motDePasse");
+        $numTelephone= $request->query->get("numTelephone");
+        $role= $request->query->get("role");
+
+
+        $user=new Utilisateur();
+        $user->setNom($nom);
+        $user->setPrenom($prenom);
+        $user->setEmail($email);
+        $user->setMotDePasse(
+            $userPasswordHasher->hashPassword(
+                $user,
+                $motDePasse
+            )
+            );
+        $user->setNumTelephone(intval($numTelephone));
+        $user->setRole($role);
+        try{
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            return new JsonResponse("Account is crated succesefully!",200);
+
+        }catch(\Exception $ex){
+            return new Response("Account was not created!".$ex->getMessage());
+        }
+
+
+
     }
 }
