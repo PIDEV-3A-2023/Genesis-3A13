@@ -84,5 +84,24 @@ class ApiuserController extends AbstractController
 
     }
 
+
+    #[Route(path: '/updateprofile/{idUtilisateur}', name: 'update', methods: ['GET','POST'])]
+    public function updateProfileMobile($idUtilisateur,NormalizerInterface $Normalizer,Request $request,EntityManagerInterface $entityManager): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+       
+$user = $em->getRepository(Utilisateur::class)->find($idUtilisateur);
+        $user->setNom($request->get('nom'));
+        $user->setEmail($request->get('email'));
+        $user->setPrenom($request->get('prenom'));
+        $user->setNumTelephone(intval($request->get('numTelephone')));
+        $user->setRole($request->get('role'));
+   
+        $em->persist($user);
+        $em->flush();
+            $jsonContent = $Normalizer->normalize($user, 'json',['groups'=>'post:read']);
+            return new Response(json_encode($jsonContent));
+
+    }
     
 }
