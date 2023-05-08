@@ -42,14 +42,8 @@ class SecurityController extends AbstractController
         $em= $this->getDoctrine()->getManager();
         $user= $em->getRepository(Utilisateur::class)->findOneBy(['email'=>$email]);
         if($user){
-            $password =   
-            $userPasswordEncoder->isPasswordValid(
-                    $user[0],
-                    $request->get('motDePasse')
-                    
-                
-            );
-            if($password){
+
+            if(password_verify($password,$user->getMotDePasse())){
                 $serializer= new Serializer([new ObjectNormalizer()]);
                 $formatted=$serializer->Normalize($user);
                 return new JsonResponse($formatted);
