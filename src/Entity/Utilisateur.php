@@ -7,6 +7,7 @@ use Scheb\TwoFactorBundle\Model\Email\TwoFactorInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Utilisateur
@@ -25,6 +26,7 @@ class Utilisateur implements UserInterface , PasswordAuthenticatedUserInterface 
      * @ORM\Column(name="id_utilisateur", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups({"post:read"})
      */
     private $idUtilisateur;
 
@@ -32,6 +34,7 @@ class Utilisateur implements UserInterface , PasswordAuthenticatedUserInterface 
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=255, nullable=false)
+     * @Groups({"post:read"})
      */
     #[Assert\NotBlank(message: 'Nom obligatoire!')]
     private $nom;
@@ -40,6 +43,7 @@ class Utilisateur implements UserInterface , PasswordAuthenticatedUserInterface 
      * @var string
      *
      * @ORM\Column(name="prenom", type="string", length=255, nullable=false)
+     * @Groups({"post:read"})
      */
     #[Assert\NotBlank(message: 'Prénom obligatoire!')]
     private $prenom;
@@ -48,6 +52,7 @@ class Utilisateur implements UserInterface , PasswordAuthenticatedUserInterface 
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255, nullable=false)
+     * @Groups({"post:read"})
      */
     #[Assert\NotBlank(message: 'Email obligatoire!')]
     #[Assert\Email(message: 'Email Invalide!')]
@@ -57,6 +62,7 @@ class Utilisateur implements UserInterface , PasswordAuthenticatedUserInterface 
      * @var string
      *
      * @ORM\Column(name="mot_de_passe", type="string", length=255, nullable=false)
+     * @Groups({"post:read"})
      */
     private $motDePasse;
 
@@ -64,6 +70,7 @@ class Utilisateur implements UserInterface , PasswordAuthenticatedUserInterface 
      * @var int
      *
      * @ORM\Column(name="num_telephone", type="integer", nullable=false)
+     * @Groups({"post:read"})
      */
     #[Assert\NotBlank(message: 'Numéro de téléphone obligatoire!')]
     #[Assert\Length(8)]
@@ -73,6 +80,7 @@ class Utilisateur implements UserInterface , PasswordAuthenticatedUserInterface 
      * @var string
      *
      * @ORM\Column(name="role", type="string", nullable=false)
+     * @Groups({"post:read"})
      */
     #[Assert\NotBlank(message: 'Role obligatoire!')]
     private $role;
@@ -81,6 +89,7 @@ class Utilisateur implements UserInterface , PasswordAuthenticatedUserInterface 
      * @var json|null
      *
      * @ORM\Column(name="roles", type="text", length=0, nullable=true)
+     * @Groups({"post:read"})
      */
     private $roles=[];
 

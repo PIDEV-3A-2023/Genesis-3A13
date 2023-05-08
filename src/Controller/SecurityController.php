@@ -19,8 +19,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Twilio\Serialize;
@@ -29,7 +31,7 @@ class SecurityController extends AbstractController
 {
 
     #[Route(path: '/login_rest', name: 'app_login_rest')]
-    public function login_rest(Request $request)
+    public function login_rest(Request $request,UserPasswordEncoderInterface $userPasswordEncoder,NormalizerInterface $Normalizer,EntityManagerInterface $entityManager)
     {
         // if ($this->getUser()) {
         //     return $this->redirectToRoute('target_path');
@@ -40,7 +42,14 @@ class SecurityController extends AbstractController
         $em= $this->getDoctrine()->getManager();
         $user= $em->getRepository(Utilisateur::class)->findOneBy(['email'=>$email]);
         if($user){
-            if(password_verify($password,$user->getMotDePasse())){
+            $password =   
+            $userPasswordEncoder->isPasswordValid(
+                    $user[0],
+                    $request->get('motDePasse')
+                    
+                
+            );
+            if($password){
                 $serializer= new Serializer([new ObjectNormalizer()]);
                 $formatted=$serializer->Normalize($user);
                 return new JsonResponse($formatted);
