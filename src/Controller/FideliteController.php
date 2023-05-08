@@ -15,7 +15,9 @@ use App\Repository\FideliteRepository;
 use App\Repository\CommandeRepository;
 use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
 use CMEN\GoogleChartsBundle\GoogleCharts\Options\ChartOptions;
-
+use Symfony\Component\Serializer\Normalizer\DataUriNormalizer;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\HttpFoundation\File\File;
 #[Route('/fidelite')]
 class FideliteController extends AbstractController
 {
@@ -213,5 +215,23 @@ class FideliteController extends AbstractController
         ]);
     }
     
-    
+    #[Route('/get', name: 'app_fidelite_front_rest')]
+    public function index_rest(FideliteRepository $repo, BlobExtension $blobExtension): Response
+    {
+        $fidelites = $repo->findAll();
+        $data = [];
+        foreach ($fidelites as $fidelite) {
+
+         
+            $data[] = [
+                'idFidelite' => $fidelite->getIdFidelite(),
+                'totalAchat' => $fidelite->totalAchat(),
+                'type' => $fidelite->type(),
+                'idClient' => $fidelite->idClient(),
+             
+            ];
+        }
+        return $this->json($data, 200, ['Content-Type' => 'application/json']);
+
+    }
 }
