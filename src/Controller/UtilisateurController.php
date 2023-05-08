@@ -122,7 +122,7 @@ class UtilisateurController extends AbstractController
     }
 
 
-    #[Route('/registerrest', name: 'app_register_rest', methods: ['POST','GET'])]
+    /*#[Route('/registerrest', name: 'app_register_rest', methods: ['POST','GET'])]
     public function register_rest(Request $request, SerializerInterface $serializer, UserPasswordHasherInterface $userPasswordHasher): Response
     {
         $em = $this->getDoctrine()->getManager();
@@ -158,7 +158,7 @@ class UtilisateurController extends AbstractController
         } catch (\Exception $ex) {
             return new Response('Account was not created! ' . $ex->getMessage());
         }
-    }
+    }*/
 
     #[Route('/registerrestt', name: 'app_register_restt', methods: ['POST','GET'])]
     public function register_restt(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager)
