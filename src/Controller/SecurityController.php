@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Utilisateur;
 use App\Form\ResetPasswordFormType;
 use App\Form\ResetPasswordRequestFormType;
 use App\Repository\UsersRepository;
@@ -11,6 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Google\GoogleAuthenticatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,34 +21,37 @@ use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Twilio\Serialize;
 
 class SecurityController extends AbstractController
 {
 
-    #[Route(path: '/login_rest', name: 'app_login_rest', methods: ['POST'])]
-    public function login_rest(Request $request,AuthenticationUtils $authenticationUtils): Response
+    #[Route(path: '/login_rest', name: 'app_login_rest')]
+    public function login_rest(Request $request)
     {
         // if ($this->getUser()) {
         //     return $this->redirectToRoute('target_path');
         // }
-        $email = $request->request->get('email');
-        $password = $request->request->get('password');
+        $email = $request->query->get('email');
+        $password = $request->query->get('motDePasse');
         // get the login error if there is one
-        $error = $authenticationUtils->getLastAuthenticationError();
-        // last username entered by the user
-        $lastUsername = $authenticationUtils->getLastUsername();
- 
-        if ($error instanceof AuthenticationException) {
-            return $this->json([
-                'error' => $error->getMessage(),
-            ]);
-        }
+        $em= $this->getDoctrine()->getManager();
+        $user= $em->getRepository(Utilisateur::class)->findOneBy(['email'=>$email]);
+        if($user){
+            if(password_verify($password,$user->getMotDePasse())){
+                $serializer= new Serializer([new ObjectNormalizer()]);
+                $formatted=$serializer->Normalize($user);
+                return new JsonResponse($formatted);
+            }
+            else{
+                return new Response("password invalid");
+            }
+        }else{
+            return new Response("User invalid");
 
-        return $this->json([
-            'success' => 'Logged in successfully!',
-            'email' => $email,
-            'password' => $password,
-        ]);
+        }
     }
 
     #[Route(path: '/login', name: 'app_login')]
