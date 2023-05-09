@@ -18,6 +18,8 @@ use CMEN\GoogleChartsBundle\GoogleCharts\Options\ChartOptions;
 use Symfony\Component\Serializer\Normalizer\DataUriNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\File\File;
+use App\Twig\BlobExtension;
+
 #[Route('/fidelite')]
 class FideliteController extends AbstractController
 {
@@ -214,20 +216,5 @@ class FideliteController extends AbstractController
             'chart' => $chart
         ]);
     }
-    
-    #[Route('/get/{idfidelite}', name: 'app_fidelite_show_rest', methods: ['GET'])]
-    public function showRest(Competition $competition): Response
-    {
-        $data = [];
-        $data[] = [
-                'idFidelite' => $fidelite->getIdFidelite(),
-                'totalAchat' => $fidelite->totalAchat(),
-                'type' => $fidelite->type(),
-                'idClient' => $fidelite->idClient(),
-             
-            ];
-        
-            return $this->json($data, 200, ['Content-Type' => 'application/json']);
-
-    }
+   
 }
