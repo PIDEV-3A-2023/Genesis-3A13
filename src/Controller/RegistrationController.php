@@ -18,7 +18,7 @@ class RegistrationController extends AbstractController
 {
 
     #[Route('/register_rest', name: 'app_register_rest')]
-    public function register_rest(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function register_rest(Request $request, UserPasswordEncoderInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         // Parse JSON request body
         $data = json_decode($request->getContent(), true);
@@ -37,7 +37,7 @@ class RegistrationController extends AbstractController
         }
 
         // Encode the password
-        $user->setMotDePasse($userPasswordHasher->hashPassword($user, $form->get('plainPassword')->getData()));
+        $user->setMotDePasse($userPasswordHasher->encodePassword($user, $form->get('plainPassword')->getData()));
 
         // Persist the new user entity
         $entityManager->persist($user);
@@ -48,7 +48,7 @@ class RegistrationController extends AbstractController
     }
     
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordEncoderInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         $user = new Utilisateur();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -57,7 +57,7 @@ class RegistrationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
             $user->setMotDePasse(
-                $userPasswordHasher->hashPassword(
+                $userPasswordHasher->encodePassword(
                     $user,
                     $form->get('plainPassword')->getData()
                 )

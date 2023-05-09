@@ -127,7 +127,7 @@ class SecurityController extends AbstractController
         Request $request,
         UtilisateurRepository $usersRepository,
         EntityManagerInterface $entityManager,
-        UserPasswordHasherInterface $passwordHasher
+        UserPasswordEncoderInterface $passwordHasher
     ): Response
     {
         // On vérifie si on a ce token dans la base
@@ -141,8 +141,14 @@ class SecurityController extends AbstractController
             if($form->isSubmitted() && $form->isValid()){
                 // On efface le token
                 $user->setResetToken('');
+                $user->setMotDePasse(
+                    $passwordHasher->encodePassword(
+                        $user,
+                        $form->get('password')->getData()
+                    )
+                );
                 $user->setPassword(
-                    $passwordHasher->hashPassword(
+                    $passwordHasher->encodePassword(
                         $user,
                         $form->get('password')->getData()
                     )

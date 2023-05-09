@@ -9,6 +9,8 @@ use App\Entity\Fidelite;
 use App\Repository\FideliteRepository;
 use App\Repository\UtilisateurRepository;
 use App\Entity\Utilisateur;
+use Symfony\Component\Security\Core\Security;
+
 
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -17,11 +19,14 @@ use Doctrine\ORM\EntityManagerInterface;
 class FideliteFrontController extends AbstractController
 {
     #[Route('/ff', name: 'app_fidelite_front')]
-    public function index(EntityManagerInterface $entityManager,FideliteRepository $repo): Response
+    public function index(EntityManagerInterface $entityManager,FideliteRepository $repo,UtilisateurRepository $repouser, Security $security): Response
     {
-        $fidelite = $entityManager->getRepository(Fidelite::class)->findOneByIdClient(11);
-        $user = $entityManager->getRepository(Utilisateur::class)->find(11);
-        $totalAchat = $repo->calculateTotalAchatByIdClient(11);
+        $Client = $security->getUser();
+        $idComp = array('idUtilisateur' => $Client);
+        $idClient = $repouser->findOneBy($idComp);
+        $fidelite = $entityManager->getRepository(Fidelite::class)->findOneByIdClient($idClient->getIdUtilisateur());
+        $user = $entityManager->getRepository(Utilisateur::class)->find($idClient->getIdUtilisateur());
+        $totalAchat = $repo->calculateTotalAchatByIdClient($idClient->getIdUtilisateur());
         $totalAchatInt = intval($totalAchat);
 
             $fidelite->setTotalachat($totalAchatInt);
@@ -52,7 +57,6 @@ class FideliteFrontController extends AbstractController
     public function showOne(Fidelite $fidelite): Response
     {
         $data = [];
-        dd($fidelite);
         $data[] = [
             
                 'idFidelite' => $fidelite->getIdFidelite(),
