@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ReclamationRepository;
 use App\Entity\Utilisateur;
+use Symfony\Component\Finder\Exception\AccessDeniedException;
 
 #[Route('/reclamations')]
 class ReclamationFrontController extends AbstractController
@@ -28,6 +29,8 @@ class ReclamationFrontController extends AbstractController
     #[Route('/new', name: 'app_reclamation_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         $reclamation = new Reclamation();
 
         $form = $this->createForm(ReclamationType::class, $reclamation);
