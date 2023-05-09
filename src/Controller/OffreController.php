@@ -21,6 +21,7 @@ use Symfony\Component\Mime\Email;
 use Symfony\Component\Serializer\Normalizer\DataUriNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\File\File;
+use App\Twig\BlobExtension;
 
 #[Route('/offre')]
 class OffreController extends AbstractController

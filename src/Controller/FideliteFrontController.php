@@ -47,4 +47,21 @@ class FideliteFrontController extends AbstractController
             return 'gold';
         }
     }
+     
+    #[Route('/get/{idClient}', name: 'app_fidelite_show_rest', methods: ['GET'])]
+    public function showOne(Fidelite $fidelite): Response
+    {
+        $data = [];
+        dd($fidelite);
+        $data[] = [
+            
+                'idFidelite' => $fidelite->getIdFidelite(),
+                'totalAchat' => $fidelite->getTotalAchat(),
+                'type' => $fidelite->getType(),
+                'idClient' => $fidelite->getIdClient()->getIdUtilisateur(),           
+            ];
+        
+            return $this->json($data, 200, ['Content-Type' => 'application/json']);
+
+    }
 }
