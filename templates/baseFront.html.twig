@@ -86,6 +86,7 @@
 								</h6>
 							</a>
 						</li>
+						{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
 						<li class="nav-item">
 							<a class="nav-link" style="color:#D4A373;" {% if app.request.attributes.get('_route') == 'app_reclamation_new'  %}style="color:#00377E;" {% else %}style="color:#D4A373;"{% endif %} href="{{path('app_reclamation_new')}}">
 								<h6>
@@ -93,6 +94,8 @@
 								</h6>
 							</a>
 						</li>
+						{% endif %}
+
 					</ul>
 
 
