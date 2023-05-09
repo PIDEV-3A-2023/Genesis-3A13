@@ -103,5 +103,25 @@ $user = $em->getRepository(Utilisateur::class)->find($idUtilisateur);
             return new Response(json_encode($jsonContent));
 
     }
+
+    #[Route(path: '/updatePasswordMobile/{idUtilisateur}', name: 'updatepassword', methods: ['GET','POST'])]
+    public function updatePasswordMobile($idUtilisateur,NormalizerInterface $Normalizer,Request $request,EntityManagerInterface $entityManager,UserPasswordEncoderInterface $userPasswordEncoder): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+       
+$user = $em->getRepository(Utilisateur::class)->find($idUtilisateur);
+
+        $user->setMotDePasse(
+            $userPasswordEncoder->encodePassword(
+                    $user,
+                    $request->get('motDePasse')
+                )
+            );
+        $em->persist($user);
+        $em->flush();
+            $jsonContent = $Normalizer->normalize($user, 'json',['groups'=>'post:read']);
+            return new Response(json_encode($jsonContent));
+
+    }
     
 }
