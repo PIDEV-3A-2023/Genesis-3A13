@@ -36,6 +36,7 @@ class Utilisateur implements UserInterface , PasswordAuthenticatedUserInterface 
      * @ORM\Column(name="nom", type="string", length=255, nullable=false)
      * @Groups({"post:read"})
      */
+    #[Assert\Length(min:4, max:15)]
     #[Assert\NotBlank(message: 'Nom obligatoire!')]
     private $nom;
 
@@ -45,6 +46,7 @@ class Utilisateur implements UserInterface , PasswordAuthenticatedUserInterface 
      * @ORM\Column(name="prenom", type="string", length=255, nullable=false)
      * @Groups({"post:read"})
      */
+    #[Assert\Length(min:4, max:15)]
     #[Assert\NotBlank(message: 'Prénom obligatoire!')]
     private $prenom;
 
@@ -54,6 +56,7 @@ class Utilisateur implements UserInterface , PasswordAuthenticatedUserInterface 
      * @ORM\Column(name="email", type="string", length=255, nullable=false)
      * @Groups({"post:read"})
      */
+    #[Assert\Length(min:4, max:30)]
     #[Assert\NotBlank(message: 'Email obligatoire!')]
     #[Assert\Email(message: 'Email Invalide!')]
     private $email;
@@ -64,6 +67,7 @@ class Utilisateur implements UserInterface , PasswordAuthenticatedUserInterface 
      * @ORM\Column(name="mot_de_passe", type="string", length=255, nullable=false)
      * @Groups({"post:read"})
      */
+    #[Assert\Length(min:4, max:15)]
     private $motDePasse;
 
     /**
