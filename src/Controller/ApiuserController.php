@@ -41,6 +41,7 @@ class ApiuserController extends AbstractController
         $user->setPrenom($request->get('prenom'));
         $user->setNumTelephone(intval($request->get('numTelephone')));
         $user->setRole($request->get('role'));
+        $user->setRoles($request->get('roles'));
         $em->persist($user);
         
         $em->flush();
