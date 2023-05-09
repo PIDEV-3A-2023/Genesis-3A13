@@ -52,7 +52,6 @@ class FideliteFrontController extends AbstractController
     public function showOne(Fidelite $fidelite): Response
     {
         $data = [];
-        dd($fidelite);
         $data[] = [
             
                 'idFidelite' => $fidelite->getIdFidelite(),
