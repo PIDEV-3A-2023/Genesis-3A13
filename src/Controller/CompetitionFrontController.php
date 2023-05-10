@@ -21,6 +21,7 @@ use Symfony\Component\Mime\Address;
 use Symfony\Component\Serializer\Normalizer\DataUriNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 #[Route('/competitions')]
 class CompetitionFrontController extends AbstractController
@@ -259,13 +260,11 @@ class CompetitionFrontController extends AbstractController
         return $this->redirectToRoute('app_competition_front');
     }
 
-    #[Route('/participer/rest/{comp}', name: 'app_competition_participer_front_rest')]
-    public function participateRest(Request $request, QuestionRepository $repo, $comp, UtilisateurRepository $repouser, ResultatQuizRepository $repores, QuizRepository $repoQuiz, competitionRepository $repoComp, Security $security, MailerInterface $mailer): Response
+    #[Route('/participer/rest/{comp}/{idClient}', name: 'app_competition_participer_front_rest')]
+    public function participateRest(Request $request, QuestionRepository $repo, $comp,$idClient, UtilisateurRepository $repouser, ResultatQuizRepository $repores, QuizRepository $repoQuiz, competitionRepository $repoComp, Security $security, MailerInterface $mailer): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_USER');
-        $Client = $security->getUser();
-        $idComp = array('idUtilisateur' => $Client);
-        $idClient = $repouser->findOneBy($idComp);
+        
+        $Client = $repouser->findOneBy(array("idUtilisateur"=>$idClient));
         $questions = $repo->findQuestionsByCompetition($comp);
 
 
@@ -288,27 +287,23 @@ class CompetitionFrontController extends AbstractController
         }
 
         $competition = $repoComp->findOneBy(['idCompetition' => $comp]);
+        $responseData="";
 
         // Check if the user has already participated in the competition
         $participants = $competition->getListePaticipants();
         $participantsArray = json_decode($participants, true); // On utilise json_decode pour convertir la liste de participants en tableau associatif
 
-        if (is_array($participantsArray) && in_array($idClient->getIdUtilisateur(), $participantsArray)) {
-            $this->addFlash('danger', 'Vous avez déjà participé à cette compétition.');
+        if (is_array($participantsArray) && in_array($Client->getIdUtilisateur(), $participantsArray)) {
+            $responseData = ['error' => 'Vous avez déjà participé à cette compétition.'];
         } else if ($answeredQuestions !== count($questions)) {
-            $this->addFlash('danger', 'Veuillez répondre à toutes les questions avant de soumettre le quiz.');
-            return $this->render('competition_front/quiz.html.twig', [
-                'questions' => $questions,
-                'comp' => $comp,
-                'totalQuestions' => count($questions),
-                'score' => $score,
-            ]);
+            $responseData = ['error' => 'Veuillez répondre à toutes les questions avant de soumettre le quiz.'];
+            
         } else {
             $idQuiz = $repoQuiz->findOneBy(['idCompetition' => $comp]);
             $reponseClient = rtrim($reponseClient, ',') . ']';
 
             $resultat = new ResulatQuiz();
-            $resultat->setIdClient($idClient);
+            $resultat->setIdClient($Client);
             $resultat->setIdQuiz($idQuiz);
             $resultat->setScore($score);
             $resultat->setReponseClient($reponseClient);
@@ -351,11 +346,12 @@ class CompetitionFrontController extends AbstractController
 
 
 
-            $this->addFlash('success', 'votre participation est enregistée avec succés !');
+            $responseData = ['success' => 'Votre participation est enregistrée avec succès !'];
         }
+       
+        return new JsonResponse($responseData);
 
-
-        return $this->redirectToRoute('app_competition_front');
+       
     }
 
 
