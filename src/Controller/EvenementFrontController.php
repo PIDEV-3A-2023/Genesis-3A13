@@ -148,22 +148,22 @@ class EvenementFrontController extends AbstractController
         return $this->json($data);
     }
 
-    #[Route('/commentaire/neww/{idEvenement}', name: 'commentaire_new', methods: ['GET'])]
-    public function newcommenter(Evenement $evenement, CommentaireRepository $repocom, Request $request, UtilisateurRepository $repouser, Security $security): Response
+    #[Route('/commentaire/neww/{idEvenement}/{idClient}', name: 'commentaire_new', methods: ['GET'])]
+    public function newcommenter(Evenement $evenement, CommentaireRepository $repocom, Request $request, UtilisateurRepository $repouser, Security $security,$idClient): Response
     {
 
         // Extract the required fields from the payload
         $commentaire = $request->query->get("commentaire");
-        $idClient = 14;
+        
     
         // Retrieve the user based on the provided $idClient
-        $client = $repouser->find($idClient);
+        $Client = $repouser->findOneBy(array("idUtilisateur"=>$idClient));
        
     
         $comm = new Commentaire();
         $comm->setCommentaire($commentaire);
         $comm->setIdEvenement($evenement);
-        $comm->setIdClient($client);
+        $comm->setIdClient($Client);
         $repocom->save($comm, true);
     
         return $this->json([
