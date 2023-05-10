@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ReclamationRepository;
 
+
+
 #[Route('/reclamation')]
 class ReclamationController extends AbstractController
 {
@@ -45,7 +47,7 @@ class ReclamationController extends AbstractController
                 $reclamation->setImage($imageData);
             }
                 // Get the current user's ID and set it on the Reclamation entity
-            $reclamation->setUser($this->getUser()->getIdUtilisateur());
+            $reclamation->setUser($this->getUser());
            
             $entityManager = $this->getDoctrine()->getManager();
 
@@ -118,5 +120,16 @@ class ReclamationController extends AbstractController
     
         return new JsonResponse($data);
     }
+
+    #[Route('/afficheMobile', name: 'app_reclamation_indejson', methods: ['GET'])]
+    public function indexjson(ReclamationRepository $reclamationRepository,NormalizerInterface $normalizer): Response
+    {
+        $rec=$reclamationRepository->findAll() ;
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted= $serializer->normalize($rec);
+        return new JsonResponse($formatted);
+
+    }
+
 
 }
