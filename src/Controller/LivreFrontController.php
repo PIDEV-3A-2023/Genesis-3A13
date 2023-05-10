@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Livre;
 use App\Repository\LivreRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -43,6 +44,57 @@ class LivreFrontController extends AbstractController
             'livres' => $livres,
             'controller_name' => 'LivreFrontController',
         ]);
+    }
+    #[Route('/get', name: 'app_livre_front_rest')]
+    public function indexm(LivreRepository $repo): Response
+    {
+        $livres = $repo->findAll();
+        $data = [];
+        // Loop through each competition and convert the image data to a base64-encoded string
+        foreach ($livres as $livre) {
+
+         
+            $data[] = [
+                'idLivre' => $livre->getIdlivre(),
+                'idcategorie' => $livre->getIdCategorie()->getNom(),
+                'idAuteur' => $livre->getIdAuteur()->getNom()." ".$livre->getIdAuteur()->getPrenom(),
+                'titre' => $livre->getTitre(),
+                'datePub' => $livre->getDatePub()? $livre->getDatePub()->format('Y-m-d') : null,
+                'langue' => $livre->getLangue(),
+                'isbn' => $livre->getisbn(),
+                'nbPages' => $livre->getNbPages(),
+                'resume' => $livre->getresume(),
+                'prix' => $livre->getprix(),
+              //  'image' => $livres->getImage(),
+
+            ];
+        }
+
+        // Return the JSON response with the modified competition objects
+        return $this->json($data, 200, ['Content-Type' => 'application/json']);
+    }
+    #[Route('/get/{idLivre}', name: 'app_livre_show_rest', methods: ['GET'])]
+    public function showRest(Livre $livre): Response
+    {
+
+        $data = [];
+       
+        $data[] = [
+            'idLivre' => $livre->getIdlivre(),
+            'idcategorie' => $livre->getIdCategorie()->getNom(),
+            'idAuteur' => $livre->getIdAuteur()->getNom()." ".$livre->getIdAuteur()->getPrenom(),
+            'titre' => $livre->getTitre(),
+            'datePub' => $livre->getDatePub()? $livre->getDatePub()->format('Y-m-d') : null,
+            'langue' => $livre->getLangue(),
+            'isbn' => $livre->getisbn(),
+            'nbPages' => $livre->getNbPages(),
+            'resume' => $livre->getresume(),
+            'prix' => $livre->getprix(),
+            //'image' => $livre->getImage(),
+
+        ];
+
+        return $this->json($data, 200, ['Content-Type' => 'application/json']);
     }
 
 }
