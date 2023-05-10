@@ -68,9 +68,29 @@
 									{% if error %}
 										<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 									{% endif %}
+									<br>
+									{% for type, messages in app.flashes %}
+										{% for message in messages %}
+											<div class="alert alert-{{ type }} alert-dismissible fade show d-flex align-items-center">
+												{% if type == 'success'%}
+													<i class="fas fa-check-circle" style="padding-right: 10px"></i>
+												{% elseif type == 'danger'%}
+													<i class="fas fa-times-circle" style="padding-right: 10px"></i>
+												{% endif %}
+												<div>
+													{{ message }}
+												</div>
+												<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+											</div>
+										{% endfor %}
+									{% endfor %}
+
+									<br>
 									{% if app.user %}
 										<div class="mb-3">
-											Vous êtes connecté en tant que {{ app.user.username }}, <a href="{{ path('app_logout') }}">Déconnexion</a>
+											Vous êtes connecté en tant que
+											{{ app.user.username }},
+											<a href="{{ path('app_logout') }}">Déconnexion</a>
 										</div>
 									{% endif %}
 									<div class="input-group mb-4">
@@ -91,14 +111,15 @@
 										<input type="password" name="password" id="inputPassword" placeholder="Votre mot de passe" class="form-control" autocomplete="current-password" required>
 									</div>
 									<div class="input-group mb-4">
-									    <label>
-										<input type="checkbox" name="_remember_me"  checked/> Se souvenir de moi
+										<label>
+											<input type="checkbox" name="_remember_me" checked/>
+											Se souvenir de moi
 										</label>
 									</div>
 									<div>
-										
+
 										<a href="{{path('forgotten_password')}}" class="small text-right float-end">Mot de passe oublié ?</a>
-									
+
 									</div>
 									<br><br>
 
@@ -106,19 +127,19 @@
 									type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
 									{#
-																																																        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-																																																        See https://symfony.com/doc/current/security/remember_me.html
-																																																
-																																																        <div class="checkbox mb-3">
-																																																            <label>
-																																																                <input type="checkbox" name="_remember_me"> Remember me
-																																																            </label>
-																																																        </div>
-																																																    #}
-<div class="d-grid">
-									<button type="submit" class="btn btn-primary float-end" style="background-color:#00377E;">Se connecter</button>
+																																																									        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+																																																									        See https://symfony.com/doc/current/security/remember_me.html
+																																																									
+																																																									        <div class="checkbox mb-3">
+																																																									            <label>
+																																																									                <input type="checkbox" name="_remember_me"> Remember me
+																																																									            </label>
+																																																									        </div>
+																																																									    #}
+									<div class="d-grid">
+										<button type="submit" class="btn btn-primary float-end" style="background-color:#00377E;">Se connecter</button>
 
-</div>
+									</div>
 								</form>
 								<br><br>
 								<div class="d-flex justify-content-center align-items-center mt-4">
@@ -126,16 +147,17 @@
 										Vous n'avez pas de compte ?
 										<a href="{{path('app_register')}}" class="fw-bold">Créer un compte</a>
 									</span>
-							
+
 								</div>
-																
-                                <br>
+
+								<br>
 								<!-- Footer-->
 								<footer class="text-center">
 									<div class="container">
 										<div class="row">
 											<div class="col-md-12">
-												<p> &copy; 2023
+												<p>
+													&copy; 2023
 													<img src="{{asset('Front/images/logo/maktabti.png')}}" height="30" width="60">
 
 													| made with
