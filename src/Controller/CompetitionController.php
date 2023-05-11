@@ -52,7 +52,7 @@ class CompetitionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $imageFile = $form->get('image')->getData();
             if ($imageFile) {
-                $imageData = $competition->getIdCompetition().'.'.$imageFile->guessExtension();
+                $imageData = $competition->getNom().'.'.$imageFile->guessExtension();
                 $imageFile->move(
                     $this->getParameter('competitions_directory'),
                     $imageData
@@ -123,7 +123,7 @@ class CompetitionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $imageFile = $form->get('image')->getData();
             if ($imageFile) {
-                $imageData = $competition->getIdCompetition().'.'.$imageFile->guessExtension();
+                $imageData = $competition->getNom().'.'.$imageFile->guessExtension();
                 $imageFile->move(
                     $this->getParameter('competitions_directory'),
                     $imageData
