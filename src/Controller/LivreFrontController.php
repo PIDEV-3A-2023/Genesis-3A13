@@ -96,5 +96,32 @@ class LivreFrontController extends AbstractController
 
         return $this->json($data, 200, ['Content-Type' => 'application/json']);
     }
+    #[Route('/lastlivres', name: 'app_livre_last', methods: ['GET'])]
+    public function lastlivres(LivreRepository $livreRepository): Response
+    {
+        $livres=$livreRepository->lastlivres();
+        $data = [];
+        foreach ($livres as $livre) {
+
+         
+            $data[] = [
+                'idLivre' => $livre->getIdlivre(),
+                'idcategorie' => $livre->getIdCategorie()->getNom(),
+                'idAuteur' => $livre->getIdAuteur()->getNom()." ".$livre->getIdAuteur()->getPrenom(),
+                'titre' => $livre->getTitre(),
+                'datePub' => $livre->getDatePub()? $livre->getDatePub()->format('Y-m-d') : null,
+                'langue' => $livre->getLangue(),
+                'isbn' => $livre->getisbn(),
+                'nbPages' => $livre->getNbPages(),
+                'resume' => $livre->getresume(),
+                'prix' => $livre->getprix(),
+              //  'image' => $livres->getImage(),
+
+            ];
+        }
+       
+        return $this->json($data); 
+    }  
+    
 
 }
