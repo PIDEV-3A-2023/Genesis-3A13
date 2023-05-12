@@ -85,4 +85,15 @@ class LivreRepository extends ServiceEntityRepository
     return $events;
 }
 
+public function lastlivres()
+{
+    $events = $this->createQueryBuilder('l')
+        ->orderBy('l.idLivre', 'DESC')
+        ->setMaxResults(3)
+        ->getQuery()
+        ->getResult();
+
+    return $events;
+}
+
 }
