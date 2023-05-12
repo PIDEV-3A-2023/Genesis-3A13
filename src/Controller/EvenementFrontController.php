@@ -29,6 +29,7 @@ use BaconQrCode\Renderer\Image\Png;
 use BaconQrCode\Writer;
 use BaconQrCode\Encoder\Encoder;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 
 
@@ -52,8 +53,8 @@ class EvenementFrontController extends AbstractController
         $data = [];
         // Loop through each competition and convert the image data to a base64-encoded string
         foreach ($evenements as $evenement) {
-            
-            
+
+
             $data[] = [
                 'idEvenement' => $evenement->getIdEvenement(),
                 'idLivre' => $evenement->getIdLivre()->getTitre(),
@@ -61,8 +62,8 @@ class EvenementFrontController extends AbstractController
                 'lieu' => $evenement->getLieu(),
                 'date' => $evenement->getDate(),
                 'description' => $evenement->getDescription(),
-                'heure'=>$evenement->getHeure(),
-                'nbticket'=>$evenement->getNbTicket(),
+                'heure' => $evenement->getHeure(),
+                'nbticket' => $evenement->getNbTicket(),
                 'image' => $evenement->getImage(),
 
             ];
@@ -71,7 +72,7 @@ class EvenementFrontController extends AbstractController
         // Return the JSON response with the modified competition objects
         return $this->json($data, 200, ['Content-Type' => 'application/json']);
     }
-    
+
     #[Route('/{idEvenement}', name: 'app_evenement_show_front', methods: ['GET'])]
     public function show(Evenement $evenement, CommentaireRepository $repocom): Response
     {
@@ -89,22 +90,21 @@ class EvenementFrontController extends AbstractController
     public function showRest(Evenement $evenement, CommentaireRepository $repocom): Response
     {
         $data = [];
-        
+
         $data[] = [
             'idEvenement' => $evenement->getIdEvenement(),
             'idLivre' => $evenement->getIdLivre()->getTitre(),
             'nom' => $evenement->getNom(),
             'lieu' => $evenement->getLieu(),
-            'date' => $evenement->getDate()? $evenement->getDate()->format('Y-m-d') : null,
+            'date' => $evenement->getDate() ? $evenement->getDate()->format('Y-m-d') : null,
             'description' => $evenement->getDescription(),
-            'heure'=>$evenement->getHeure()? $evenement->getHeure()->format('h:i:s') : null,
-            'nbticket'=>$evenement->getNbTicket(),
+            'heure' => $evenement->getHeure() ? $evenement->getHeure()->format('h:i:s') : null,
+            'nbticket' => $evenement->getNbTicket(),
             'image' => $evenement->getImage(),
 
         ];
 
         return $this->json($data, 200, ['Content-Type' => 'application/json']);
-
     }
     #[Route('/commentaire/{idEvenement}', name: 'commentaire', methods: ['GET'])]
     public function commenter(Evenement $evenement, CommentaireRepository $repocom, Request $request, UtilisateurRepository $repouser, Security $security): Response
@@ -129,43 +129,44 @@ class EvenementFrontController extends AbstractController
     }
     ///comment json////////
     #[Route('/commentaire/get/{idEvenement}', name: 'commentaire_rest', methods: ['GET'])]
-    public function commenterRest(Evenement $evenement, CommentaireRepository $repocom, Request $request, UtilisateurRepository $repouser, Security $security): Response
+    public function commenterRest(Evenement $evenement, CommentaireRepository $repocom): Response
     {
-        
-    
+
+
         $commentaires = $repocom->findBy(['idEvenement' => $evenement->getIdEvenement()]);
-    $data=[];
+        $data = [];
         foreach ($commentaires as $commentaire) {
             $data[] = [
                 'idCommentaire' => $commentaire->getIdCommentaire(),
                 'commentaire' => $commentaire->getCommentaire(),
                 'idEvenement' => $commentaire->getIdEvenement()->getNom(),
                 'idClient' => $commentaire->getIdClient()->getIdUtilisateur(),
+                'nomClient' => $commentaire->getIdClient()->getNom() . " " . $commentaire->getIdClient()->getPrenom(),
             ];
         }
-    
+
         // Return the comment and the updated comment list as a JSON response
         return $this->json($data);
     }
 
     #[Route('/commentaire/neww/{idEvenement}/{idClient}', name: 'commentaire_new', methods: ['GET'])]
-    public function newcommenter(Evenement $evenement, CommentaireRepository $repocom, Request $request, UtilisateurRepository $repouser, Security $security,$idClient): Response
+    public function newcommenter(Evenement $evenement, CommentaireRepository $repocom, Request $request, UtilisateurRepository $repouser, Security $security, $idClient): Response
     {
 
         // Extract the required fields from the payload
         $commentaire = $request->query->get("commentaire");
-        
-    
+
+
         // Retrieve the user based on the provided $idClient
-        $Client = $repouser->findOneBy(array("idUtilisateur"=>$idClient));
-       
-    
+        $Client = $repouser->findOneBy(array("idUtilisateur" => $idClient));
+
+
         $comm = new Commentaire();
         $comm->setCommentaire($commentaire);
         $comm->setIdEvenement($evenement);
         $comm->setIdClient($Client);
         $repocom->save($comm, true);
-    
+
         return $this->json([
             'success' => 'Commentaire a été créé avec succès!',
         ]);
@@ -274,6 +275,65 @@ class EvenementFrontController extends AbstractController
 
         //return $this->render('evenement_front/index.html.twig', ['evenements' => $evenements]);
     }
+    //////////json Reservation///////////
+    #[Route('/ajouterreservation/rest/{idEvenement}/{idClient}', name: 'reservationajout')]
+    public function ajoutreservationRest(Security $security, EvenementRepository $repo, $idEvenement, Request $request, ReservationRepository $resrepo, UtilisateurRepository $repouser, TicketRepository $repoticket, MailerInterface $mailer, $idClient)
+    {
+        $ticket = new Ticket();
+        $ticket->setType('VIP');
+        $ticket->setPrix(100);
+        $repoticket->save($ticket, true);
+
+        $evenement = $repo->findOneBy(array('idEvenement' => $idEvenement));
+        if ($evenement->getNbTicket() > 0 && $request->get('nbrTickets') < $evenement->getNbTicket()) {
+            $nbticket = $evenement->getNbTicket() - $request->get('nbrTickets');
+
+            $reservation = new Reservation();
+            $evenement->setnbticket($nbticket);
+            $repo->save($evenement, true);
+
+            $reservation->setIdEvenement($evenement);
+            $reservation->setEtat('reserver');
+            $reservation->setIdTicket($ticket);
+            $resrepo->save($reservation, true);
+            // Send an email of confirmation to the connected user
+
+            $idRes = array('idUtilisateur' => $idClient);
+            $Client = $repouser->findOneBy($idRes);
+            $email = (new Email())
+                ->from(new Address('maktabti10@gmail.com', 'Maktabti Application'))
+                ->to($Client->getEmail())
+                ->subject("Confirmation de réservation pour l'événement " . $evenement->getNom())
+                ->text(sprintf("Bonjour " . $Client->getNom() . " " . $Client->getPrenom() . ",\n" .
+                    "\n" .
+                    "Nous vous remercions de votre réservation pour l'événement " . $evenement->getNom() . " , qui aura lieu le " . $evenement->getDate()->format('Y-m-d') . " " . $evenement->getHeure()->format('H:i:s') . " à " . $evenement->getLieu() . ". Nous sommes ravis de vous accueillir parmi nous et de vous offrir une expérience mémorable.\n" .
+                    "\n" .
+                    "Votre réservation a bien été enregistrée, et nous confirmons par la présente que votre place est réservée pour l'événement. Nous vous rappelons que le paiement sera exigé lors de votre arrivée à l'événement.\n" .
+                    "\n" . "Vous avez réservé " . $request->get('nbrTickets') . " places pour l'événement.\n" . "\n" .
+                    "Si vous avez des questions ou des préoccupations, n'hésitez pas à nous contacter .\n" .
+                    "\n" .
+                    "Nous avons hâte de vous voir à l'événement !\n" .
+                    "\n" .
+                    "Cordialement," . "\n\n-- \nMaktabti Application \nNuméro de téléphone : +216 52 329 813 \nAdresse e-mail : maktabti10@gmail.com \nSite web : www.maktabti.com"));
+
+
+            $mailer->send($email);
+
+
+
+            $data = [
+                'message' => 'Reservation ajouter avec succés !'
+            ];
+        } else {
+            $data = [
+                'message' => 'Tickets hors stock!'
+            ];
+        }
+        return new JsonResponse($data);
+    }
+
+
+    //////////End Json reservation//////
 
 
     public function reserveTicket(Evenement $evenement, Ticket $ticket, Utilisateur $Client, int $nbticket)
