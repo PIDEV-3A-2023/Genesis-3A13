@@ -275,7 +275,7 @@ class CompetitionFrontController extends AbstractController
 
 
         foreach ($questions as $question) {
-            $userAnswer = $request->get('question_' . $question->getIdQuestion());
+            $userAnswer =$request->get('question_' . $question->getIdQuestion());
             $correctAnswer = $question->getReponseCorrect();
             $reponseClient .=  $userAnswer . ',';
             if ($userAnswer === $correctAnswer) {
@@ -294,9 +294,11 @@ class CompetitionFrontController extends AbstractController
         $participantsArray = json_decode($participants, true); // On utilise json_decode pour convertir la liste de participants en tableau associatif
 
         if (is_array($participantsArray) && in_array($Client->getIdUtilisateur(), $participantsArray)) {
-            $responseData = ['error' => 'Vous avez déjà participé à cette compétition.'];
+            $responseData = ['message' => 'Vous avez déjà participé à cette compétition.'];
+           // return new JsonResponse($responseData,JsonResponse::HTTP_BAD_REQUEST);
         } else if ($answeredQuestions !== count($questions)) {
-            $responseData = ['error' => 'Veuillez répondre à toutes les questions avant de soumettre le quiz.'];
+            $responseData = ['message' => 'Veuillez répondre à toutes les questions avant de soumettre le quiz.'];
+            //return new JsonResponse($responseData,JsonResponse::HTTP_BAD_REQUEST);
             
         } else {
             $idQuiz = $repoQuiz->findOneBy(['idCompetition' => $comp]);
@@ -317,7 +319,7 @@ class CompetitionFrontController extends AbstractController
 
 
 
-            $participantsArray = '[' . $idClient->getIdUtilisateur() . ']' . '' . $participants;
+            $participantsArray = '[' . $Client->getIdUtilisateur() . ']' . '' . $participants;
 
 
             // Update the competition with the new list of participants
@@ -326,9 +328,9 @@ class CompetitionFrontController extends AbstractController
 
             $email = (new Email())
                 ->from(new Address('maktabti10@gmail.com', 'Maktabti Application'))
-                ->to($idClient->getEmail())
+                ->to($Client->getEmail())
                 ->subject("Confirmation de participation a la compétition : " . $competition->getNom())
-                ->text("Cher/Chère " . $idClient->getNom() . " " . $idClient->getPrenom() . ",\n" .
+                ->text("Cher/Chère " . $Client->getNom() . " " . $Client->getPrenom() . ",\n" .
                     "\n" .
                     "Nous tenons à vous remercier d'avoir participé à notre compétition. "
                     . "Nous sommes ravis que vous ayez décidé de participer et nous espérons que vous avez trouvé l'expérience enrichissante.\n" .
@@ -346,12 +348,10 @@ class CompetitionFrontController extends AbstractController
 
 
 
-            $responseData = ['success' => 'Votre participation est enregistrée avec succès !'];
+            $responseData = ['message' => 'Votre participation est enregistrée avec succès !'];
+            
         }
-       
         return new JsonResponse($responseData);
-
-       
     }
 
 
