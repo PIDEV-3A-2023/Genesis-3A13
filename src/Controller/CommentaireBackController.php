@@ -8,6 +8,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Entity\Commentaire;
 
 #[Route('/commentaire')]
 class CommentaireBackController extends AbstractController
@@ -37,4 +39,13 @@ class CommentaireBackController extends AbstractController
             'commentaires' => $commentaires,
         ]);
     }
+    #[Route('/delete/{idCommentaire}', name: 'app_commentaire_delete_rest')]
+public function deleteRest(Request $request, Commentaire $commentaire, CommentaireRepository $commentaireRepository): JsonResponse
+{
+
+    $commentaireRepository->remove($commentaire, true);
+
+    return new JsonResponse(['message' => 'Commentaire deleted successfully'], Response::HTTP_OK);
+}
+
 }
